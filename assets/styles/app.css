@@ -55,6 +55,10 @@ a {
   color: white;
 }
 
+.object-none {
+  object-fit: none;
+}
+
 /* ul {
   text-align: center;
 }

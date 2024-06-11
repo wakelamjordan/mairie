@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+        }
+        .content {
+            padding: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            color: #777;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>
+                    {{ subject }}
+                </h1>
+            </div>
+            <div class="content">
+                <p>
+                    Dear
+                    {{ user.lastname }}
+                    ,
+                </p>
+                <p>
+                    {{ introduction }}
+                </p>
+                <p>
+                    {{ main_message }}
+                </p>
+                <p>
+                    {{ conclusion }}
+                </p>
+                <p>
+                    <a href="{{ action_link }}" class="button">
+                        {{ action_text }}
+                    </a>
+                </p>
+                <p>
+                    Best regards,
+                </p>
+                <p>
+                    The Municipality Team
+                </p>
+            </div>
+            <div class="footer">
+                <p>
+                    &copy;
+                    {{ "now"|date("Y") }}
+                    Your Municipality. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
+
+{#
+        $user = // Récupérer l'utilisateur
+        $subject = "Your Monthly Newsletter";
+        $introduction = "We are excited to bring you the latest updates from our municipality.";
+        $main_message = "In this issue, we cover the upcoming community events, recent projects, and much more.";
+        $conclusion = "Thank you for being a valued member of our community.";
+        $action_link = "https://your-municipality-website.com/news";
+        $action_text = "Read More";#}

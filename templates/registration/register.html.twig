@@ -1,0 +1,33 @@
+{% extends './_part/_modeleFormBg.html.twig' %}
+{% block form %}
+
+    <div class="w-75">
+
+        <div class="">
+            {% for flash_error in app.flashes('verify_email_error') %}
+                <div class="alert alert-danger" role="alert">
+                    {{ flash_error }}
+                </div>
+            {% endfor %}
+            <h1>
+                Inscription
+            </h1>
+            {% if email is defined %}
+                <span class='fs-3'>
+                    {{ email }}
+                </span>
+            {% endif %}
+
+            {{ form_errors(registrationForm) }}
+
+            {{ form_start(registrationForm) }}
+            {# {{ form_row(registrationForm.email) }} #}
+            {{ form_rest(registrationForm) }}
+            <button type="submit" class="btn btn-primary">
+                {{ buttonLabel }}
+            </button>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+
+{% endblock %}

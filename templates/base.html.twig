@@ -2,12 +2,15 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <title>
             {% block title %}
                 Welcome!
             {% endblock %}
         </title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {% include './_part/_favicon.html.twig' %}
+
         {% include './_part/link.html.twig' %}
         {% block stylesheets %}{% endblock %}
         {{ encore_entry_link_tags('app') }}
@@ -26,12 +29,12 @@
             </div>
             <div class="bg-60 container px-0">
 
-                <div class="mx-auto w-100  position-sticky top-0">
+                <div class="mx-auto w-100  position-sticky top-0" style="z-index: 99;">
 
                     {% include './_part/navbar.html.twig' %}
                 </div>
 
-                <div class="mx-auto w-100 px-3 px-md-4 px-lg-5 bg-60">
+                <div class="mx-auto w-100 bg-60">
 
                     <div class="min-vh-100">
 
