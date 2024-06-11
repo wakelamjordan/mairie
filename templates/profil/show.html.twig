@@ -6,25 +6,29 @@
 
 {% block body %}
 <div class="row">
-<div class="col"></div>
+    <div class="col-12 col-lg-4 m-3 px-4 d-grid gap-3">
+        <h1>
+            Profil
+        </h1>
+        <h2>
+            {{ user.email }}
+        </h2>
+
+        {{ form_start(profilForm) }}
+        {{ form_row(profilForm.lastname,{'attr': {'disabled': true }}
+        ) }}
+        {{ form_row(profilForm.firstname,{'attr': {'disabled': true }}
+        ) }}
+        {{ form_row(profilForm.birthAt,{'attr': {'disabled': true }}
+        ) }}
+        {{ form_end(profilForm,{'render_rest':false}) }}
+
+        <a href="{{ path('app_profil_edit', {'id': user.id}) }}">
+            edit
+        </a>
+    </div>
+<div class="col-12 bg-dark">dd</div>
 </div>
-    <h1>
-        Profil
-    </h1>
-    <h2>
-        {{ user.email }}
-    </h2>
 
-    {{ form_start(profilForm) }}
-    {{ form_row(profilForm.lastname,{'attr': {'disabled': true }})}}
-    {{ form_row(profilForm.firstname,{'attr': {'disabled': true }}) }}
-    {{ form_row(profilForm.birthAt,{'attr': {'disabled': true }}) }}
-    {{ form_end(profilForm,{'render_rest':false}) }}
-
-
-    <a href="{{ path('app_profil_edit', {'id': user.id}) }}">
-        edit
-    </a>
-
-    {% endblock %}
+{% endblock %}
 {# {{ include('profil/_delete_form.html.twig') }} #}
