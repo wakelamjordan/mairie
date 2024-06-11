@@ -7,24 +7,16 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TestType extends AbstractType
+class ProfilType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('email')
-            ->add('roles')
             ->add('password')
-            ->add('isVerified')
             ->add('lastname')
             ->add('firstname')
             ->add('birthAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('loginAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('createdAt', null, [
                 'widget' => 'single_text',
             ])
         ;

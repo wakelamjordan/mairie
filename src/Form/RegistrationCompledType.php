@@ -10,6 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
@@ -89,6 +91,20 @@ class RegistrationCompledType extends AbstractType
             // autres champs...
             ->add('birthAt', null, [
                 'widget' => 'single_text',
+            ])
+            ->add('terms', HiddenType::class, [
+                'label' => false,
+
+                'mapped' => false,
+                'constraints' => [
+                    new Assert\IsTrue([
+                        'message' => 'Vous devez accepter les termes et conditions.',
+                    ]),
+                ],
+                'attr' => [
+                    'hidden' => true,
+                    'checked' => true,
+                ],
             ]);
     }
 

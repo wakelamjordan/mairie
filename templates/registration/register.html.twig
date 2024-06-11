@@ -22,12 +22,28 @@
 
             {{ form_start(registrationForm) }}
             {# {{ form_row(registrationForm.email) }} #}
+
+            {% if registrationForm.terms is defined %}
+                <!-- Modal -->
+            {% include './_part/_modal_mention.html.twig' %}
+            {% endif %}
             {{ form_rest(registrationForm) }}
-            <button type="submit" class="btn btn-primary">
-                {{ buttonLabel }}
-            </button>
+            
+            {% if registrationForm.terms is defined %}
+            <!-- Button trigger modal -->
+            
+            {% include './_part/_button_modal.html.twig' %}
+
+            {# data-bs-target="#exampleModal"> #}
+            {% endif %}
+
+            {% if registrationForm.terms is not defined %}
+                <button type="submit" class="btn btn-primary">
+                    {{ buttonLabel }}
+                </button>
+            {% endif %}
+
             {{ form_end(registrationForm) }}
         </div>
     </div>
-
 {% endblock %}

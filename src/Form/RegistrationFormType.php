@@ -43,14 +43,7 @@ class RegistrationFormType extends AbstractType
         //     ],
         // ])
         // // Champ terms avec type CheckboxType et contraintes
-        // ->add('terms', CheckboxType::class, [
-        //     'mapped' => false,
-        //     'constraints' => [
-        //         new Assert\IsTrue([
-        //             'message' => 'Vous devez accepter les termes et conditions.',
-        //         ]),
-        //     ],
-        // ]);
+;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

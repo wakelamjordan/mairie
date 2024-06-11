@@ -77,16 +77,6 @@ class UserType extends AbstractType
             ->add('birthAt', null, [
                 'widget' => 'single_text',
             ])
-            // Champ loginAt avec type DateTimeType pour la date de connexion
-            ->add('loginAt', DateTimeType::class, [
-                'widget' => 'single_text',
-                'required' => false,
-                'constraints' => [
-                    new Assert\DateTime([
-                        'message' => 'Veuillez entrer une date valide.',
-                    ]),
-                ],
-            ])
             // Champ createdAt avec type DateTimeType pour la date de création
             ->add('createdAt', DateTimeType::class, [
                 'widget' => 'single_text',

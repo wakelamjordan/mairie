@@ -5,6 +5,7 @@ namespace App\Entity;
 use DateType;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -46,26 +47,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50)]
     private ?string $firstname = null;
 
-    #[ORM\Column(type: 'date', nullable: true)]
-    private ?DateTimeInterface $birthAt = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $loginAt = null;
+    // #[ORM\Column(nullable: true)]
+    // private ?\DateTimeImmutable $loginAt = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $birthAt = null;
+
     public function __construct()
     {
         if ($this->createdAt === null) {
-            $this->setCreatedAt(new \DateTimeImmutable);
+            $this->setCreatedAt(new DateTimeImmutable);
         }
+
+        // $this->loginAt = (new DateTimeImmutable);
     }
 
-    public function PrepPersist()
-    {
-        $this->setLoginAt(new DateTimeImmutable);
-    }
+    // public function PrepUpdate()
+    // {
+    //     $this->loginAt = new DateTimeImmutable;
+    // }
 
     public function getId(): ?int
     {
@@ -177,31 +180,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    // public function getLoginAt(): ?\DateTimeImmutable
+    // {
+    //     return $this->loginAt;
+    // }
 
-    public function getBirthAt(): ?DateTimeImmutable
-    {
-        return $this->birthAt;
-    }
+    // public function setLoginAt(?\DateTimeImmutable $loginAt): static
+    // {
+    //     $this->loginAt = $loginAt;
 
-    public function setBirthAt(?DateTimeImmutable $birthAt): static
-    {
-        $this->birthAt = $birthAt;
-
-        return $this;
-    }
-
-
-    public function getLoginAt(): ?\DateTimeImmutable
-    {
-        return $this->loginAt;
-    }
-
-    public function setLoginAt(?\DateTimeImmutable $loginAt): static
-    {
-        $this->loginAt = $loginAt;
-
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -211,6 +200,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getBirthAt(): ?\DateTimeInterface
+    {
+        return $this->birthAt;
+    }
+
+    public function setBirthAt(?\DateTimeInterface $birthAt): static
+    {
+        $this->birthAt = $birthAt;
 
         return $this;
     }

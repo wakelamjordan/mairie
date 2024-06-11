@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    User
+{% endblock %}
+
+{% block body %}
+<div class="row">
+<div class="col"></div>
+</div>
+    <h1>
+        Profil
+    </h1>
+    <h2>
+        {{ user.email }}
+    </h2>
+
+    {{ form_start(profilForm) }}
+    {{ form_row(profilForm.lastname,{'attr': {'disabled': true }})}}
+    {{ form_row(profilForm.firstname,{'attr': {'disabled': true }}) }}
+    {{ form_row(profilForm.birthAt,{'attr': {'disabled': true }}) }}
+    {{ form_end(profilForm,{'render_rest':false}) }}
+
+
+    <a href="{{ path('app_profil_edit', {'id': user.id}) }}">
+        edit
+    </a>
+
+    {% endblock %}
+{# {{ include('profil/_delete_form.html.twig') }} #}

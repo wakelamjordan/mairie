@@ -22,12 +22,12 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
 
-    public function __construct(private EmailVerifier $emailVerifier, private MyFct $myfct)
+    public function __construct(private EmailVerifier $emailVerifier, private MyFct $myfct, private  UserPasswordHasherInterface $userPasswordHasher)
     {
     }
 
     #[Route('/register', name: 'app_register')]
-    public function registerCustom(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function registerCustom(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -40,7 +40,7 @@ class RegistrationController extends AbstractController
             // encode the plain password
             $user
                 ->setPassword(
-                    $userPasswordHasher->hashPassword(
+                    $this->userPasswordHasher->hashPassword(
                         $user,
                         $this->myfct->generateRandomSantence()
                     )
@@ -106,7 +106,13 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $user->setLoginAt(new \DateTimeImmutable());
+            $user
+                ->setPassword(
+                    $this->userPasswordHasher->hashPassword(
+                        $user,
+                        $user->getPassword()
+                    )
+                );
 
             $entityManager->persist($user);
             $entityManager->flush();
