@@ -1,0 +1,13 @@
+# Activer la réécriture d'URL
+RewriteEngine On
+
+# Si la requête est déjà pour un fichier existant ou un répertoire, ne rien faire
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Rediriger toutes les autres requêtes vers index.php, en conservant les paramètres de requête
+RewriteRule ^(.*)$ public/$1 [QSA,L]
+
+# Réécrire les URL pour pointer vers le dossier public
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*)$ public/$1 [QSA,L]

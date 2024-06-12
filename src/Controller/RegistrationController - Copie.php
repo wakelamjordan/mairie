@@ -74,11 +74,14 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/verify/email', name: 'app_verify_email', methods: ['GET', 'POST'])]
+    #[Route('/verify/email', name: 'app_verify_email', methods: ['GET'])]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         $id = $request->query->get('id');
-
+        dd(
+            $id,
+            $request->query->all()
+        );
 
         if (null === $id) {
             return $this->redirectToRoute('app_home');
@@ -90,7 +93,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        $user = $entityManager->getRepository(User::class)->find($id);
+        // $user = $entityManager->getRepository(User::class)->find($id);
 
 
         // validate email confirmation link, sets User::isVerified=true and persists

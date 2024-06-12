@@ -2,7 +2,10 @@
 framework:
   secret: "%env(APP_SECRET)%"
   #csrf_protection: true
-
+  assets:
+    base_urls:
+      http: "https://127.0.0.1/public"
+      ssl: "https://127.0.0.1/public"
   # Note that the session will be started ONLY if you read or write from it.
   session: true
 
