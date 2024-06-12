@@ -26,29 +26,34 @@
   --dark--inner--30--color: #c32727; */
 }
 /* Désactive tous les styles des liens et les met en noir */
+/* Styles au survol des liens */
+a:hover {
+  color: #2a2f34; /* Couleur du texte au survol */
+  /* text-decoration: underline; Soulignement au survol */
+  cursor: pointer; /* Curseur de la souris en forme de main */
+}
 a {
-    text-decoration: none;  /* Supprime les soulignements */
-    color: black;           /* Change la couleur du texte en noir */
-    font-weight: normal;    /* Réinitialise le poids de la police */
-    font-style: normal;     /* Réinitialise le style de la police */
-    background-color: transparent; /* Réinitialise la couleur de fond */
-    border: none;           /* Supprime toute bordure */
-    padding: 0;             /* Supprime les marges internes */
-    margin: 0;              /* Supprime les marges */
-    text-shadow: none;      /* Supprime toute ombre de texte */
-    text-transform: none;   /* Réinitialise la transformation du texte */
-    box-shadow: none;       /* Supprime toute ombre de boîte */
-    outline: none;          /* Supprime le contour */
+  text-decoration: none; /* Supprime les soulignements */
+  color: black; /* Change la couleur du texte en noir */
+  font-weight: normal; /* Réinitialise le poids de la police */
+  font-style: normal; /* Réinitialise le style de la police */
+  background-color: transparent; /* Réinitialise la couleur de fond */
+  border: none; /* Supprime toute bordure */
+  padding: 0; /* Supprime les marges internes */
+  margin: 0; /* Supprime les marges */
+  text-shadow: none; /* Supprime toute ombre de texte */
+  text-transform: none; /* Réinitialise la transformation du texte */
+  box-shadow: none; /* Supprime toute ombre de boîte */
+  outline: none; /* Supprime le contour */
 }
 
-
-.bg-page{
+.bg-page {
   background-color: var(--light--screen--color);
 }
-.bg-60{
+.bg-60 {
   background-color: var(--light--60--color);
 }
-.bg-30{
+.bg-30 {
   background-color: var(--light--30--color);
 }
 a {

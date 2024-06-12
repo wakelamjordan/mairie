@@ -126,7 +126,19 @@ class MyFct extends AbstractController
 
     public function checkLapsTimeRequest(User $user): bool
     {
-        $listRequest = $user->getListRequest();
+        $listRequests = $user->getListRequests();
+        $listRequest = '';
+        $maxId = 0;
+
+        foreach ($listRequests as $r) {
+            $rId = $r->getId();
+
+            // Comparaison pour trouver l'ID le plus élevé
+            if ($rId > $maxId) {
+                $maxId = $rId;
+                $listRequest = $r;
+            }
+        }
         if ($listRequest) {
             $emailConfirmationDate = $listRequest->getRequestAt();
 
@@ -148,7 +160,19 @@ class MyFct extends AbstractController
     // }
     public function checkCorrespondanceRequest(User $user, Request $request): bool
     {
-        $listRequest = $user->getListRequest();
+        $listRequests = $user->getListRequests();
+        $listRequest = '';
+        $maxId = 0;
+
+        foreach ($listRequests as $r) {
+            $rId = $r->getId();
+
+            // Comparaison pour trouver l'ID le plus élevé
+            if ($rId > $maxId) {
+                $maxId = $rId;
+                $listRequest = $r;
+            }
+        }
 
         if (!$listRequest) {
             $this->addFlash('error', 'Liens invalide.');
@@ -162,4 +186,29 @@ class MyFct extends AbstractController
 
         return true;
     }
+
+
+        //     $user = [
+        //     'firstname' => 'Jean',
+        //     'lastname' => 'Dupont'
+        // ];
+
+        // // Générer l'URL de confirmation (exemple)
+        // $confirmationUrl = 'https://votre-site.com/confirm/delete?token=XYZ';
+
+        // // Rendre le contenu HTML avec Twig
+        // $htmlContent = $twig->render('email/confirmation.html.twig', [
+        //     'user' => $user,
+        //     'confirmationUrl' => $confirmationUrl
+        // ]);
+
+        // // Créer l'e-mail
+        // $email = (new Email())
+        //     ->from('votre_email@example.com')
+        //     ->to('destinataire@example.com')
+        //     ->subject('Confirmez la suppression de votre compte')
+        //     ->html($htmlContent);
+
+        // // Envoyer l'e-mail
+        // $mailer->send($email);
 }

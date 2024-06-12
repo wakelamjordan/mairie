@@ -125,7 +125,7 @@
         </div>
         <div class=" d-md-none">
 
-            {% if app.user %}
+            {% if app.user.userIdentifier is defined %}
                 <button onclick="window.location.href='{{ path('app_logout') }}'" class="btn btn-warning">
                     <i class="fas fa-door-open me-3"></i>
 

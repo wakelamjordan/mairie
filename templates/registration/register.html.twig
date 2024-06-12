@@ -47,15 +47,19 @@
         </div>
     </div>
     <script>
-const form = document.getElementById('{{ registrationForm.vars.id }}');
-        // Listen for keydown events on the form
-        form.addEventListener('keydown', function(event) {
-            // Check if the pressed key is Enter
-            if (event.key === 13) {
-                // Prevent the default form submission
-                event.preventDefault();
-            }
-        });
+// Sélection de tous les formulaires sur la page
+const forms = document.querySelectorAll('form');
+
+// Ajout d'un écouteur d'événement keypress à chaque formulaire
+forms.forEach(form => {
+  form.addEventListener('keypress', function(e) {
+    // Vérification si la touche pressée est la touche "Entrée" (code 13)
+    if (e.which === 13 || e.keyCode === 13) {
+      e.preventDefault(); // Empêcher le comportement par défaut (soumission du formulaire)
+      return false; // Empêcher la propagation de l'événement
+    }
+  });
+});
     </script>
 
 {% endblock %}

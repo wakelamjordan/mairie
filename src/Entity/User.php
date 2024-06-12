@@ -58,15 +58,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthAt = null;
 
-    #[ORM\OneToOne(mappedBy: 'user')]
-    private ?ListRequest $listRequest = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $newMail = null;
+
+    /**
+     * @var Collection<int, ListRequest>
+     */
+    #[ORM\OneToMany(targetEntity: ListRequest::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $listRequests;
 
     public function __construct()
     {
         if ($this->createdAt === null) {
             $this->setCreatedAt(new DateTimeImmutable);
         }
-        $this->initiateRequest = new ArrayCollection();
+        $this->listRequests = new ArrayCollection();
     }
 
     // public function PrepUpdate()
@@ -220,19 +226,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getListRequest(): ?ListRequest
+    public function getNewMail(): ?string
     {
-        return $this->listRequest;
+        return $this->newMail;
     }
 
-    public function setListRequest(ListRequest $listRequest): static
+    public function setNewMail(?string $newMail): static
     {
-        // set the owning side of the relation if necessary
-        if ($listRequest->getUser() !== $this) {
-            $listRequest->setUser($this);
-        }
-
-        $this->listRequest = $listRequest;
+        $this->newMail = $newMail;
 
         return $this;
     }
@@ -240,27 +241,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, ListRequest>
      */
-    public function getInitiateRequest(): Collection
+    public function getListRequests(): Collection
     {
-        return $this->initiateRequest;
+        return $this->listRequests;
     }
 
-    public function addInitiateRequest(ListRequest $initiateRequest): static
+    public function addListRequest(ListRequest $listRequest): static
     {
-        if (!$this->initiateRequest->contains($initiateRequest)) {
-            $this->initiateRequest->add($initiateRequest);
-            $initiateRequest->setInitiator($this);
+        if (!$this->listRequests->contains($listRequest)) {
+            $this->listRequests->add($listRequest);
+            $listRequest->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeInitiateRequest(ListRequest $initiateRequest): static
+    public function removeListRequest(ListRequest $listRequest): static
     {
-        if ($this->initiateRequest->removeElement($initiateRequest)) {
+        if ($this->listRequests->removeElement($listRequest)) {
             // set the owning side to null (unless already changed)
-            if ($initiateRequest->getInitiator() === $this) {
-                $initiateRequest->setInitiator(null);
+            if ($listRequest->getUser() === $this) {
+                $listRequest->setUser(null);
             }
         }
 

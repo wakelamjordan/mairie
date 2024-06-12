@@ -35,6 +35,46 @@ class EmailVerifier
         );
 
 
+
+        $context = $email->getContext();
+        $context['signedUrl'] = $signatureComponents->getSignedUrl();
+        $context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey();
+        $context['expiresAtMessageData'] = $signatureComponents->getExpirationMessageData();
+
+        $email->context($context);
+
+        // ------------------------------------------------------------------------------
+        // unicité
+        $signature = $this->myfct->getParamUrl($signatureComponents->getSignedUrl(), 'signature');
+        // $parsed_url = parse_url($signatureComponents->getSignedUrl());
+        // $query = $parsed_url['query'] ?? '';
+
+        // // Décompose la chaîne de requête en un tableau associatif
+        // parse_str($query, $params);
+
+
+
+        $listRequest = new ListRequest;
+        $listRequest
+            ->setUser($user)
+            ->setParam($signature);
+        $this->entityManager->persist($listRequest);
+        $this->entityManager->flush();
+        // ------------------------------------------------------------------------------
+
+        $this->mailer->send($email);
+    }
+    public function sendTest(string $verifyEmailRouteName, User $user, TemplatedEmail $email): void
+    {
+        dd('test');
+        $signatureComponents = $this->verifyEmailHelper->generateSignature(
+            $verifyEmailRouteName,
+            (string) $user->getId(),
+            $user->getEmail(),
+            ['id' => $user->getId()]
+        );
+
+
         $context = $email->getContext();
         $context['signedUrl'] = $signatureComponents->getSignedUrl();
         $context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey();

@@ -29,10 +29,17 @@ class ListRequest
     #[ORM\Column]
     private ?\DateTimeImmutable $requestAt = null;
 
-    // #[ORM\OneToOne(inversedBy: 'listRequest', cascade: ['persist', 'remove'])]
-    #[ORM\OneToOne(inversedBy: 'listRequest')]
+    #[ORM\ManyToOne(inversedBy: 'listRequests')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+
+
+    // #[ORM\OneToOne(inversedBy: 'listRequest')]
+    // #[ORM\OneToOne(inversedBy: 'listRequest', cascade: ['persist', 'remove'])]
+    // #[ORM\OneToOne(inversedBy: 'listRequest', cascade: ['persist'])]
+    // #[ORM\JoinColumn(nullable: false)]
+    // private ?User $user = null;
 
     // #[ORM\ManyToOne(inversedBy: 'uuu')]
     // #[ORM\JoinColumn(nullable: false)]
@@ -98,12 +105,24 @@ class ListRequest
         return $this;
     }
 
+    // public function getUser(): ?User
+    // {
+    //     return $this->user;
+    // }
+
+    // public function setUser(User $user): static
+    // {
+    //     $this->user = $user;
+
+    //     return $this;
+    // }
+
     public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(User $user): static
+    public function setUser(?User $user): static
     {
         $this->user = $user;
 
