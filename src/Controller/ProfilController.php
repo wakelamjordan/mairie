@@ -5,13 +5,13 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Service\MyFct;
+use DateTimeImmutable;
 use App\Form\User1Type;
 use App\Form\ProfilType;
 use App\Entity\ListRequest;
 use App\Security\EmailVerifier;
 use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
-use App\Form\RegistrationCompledType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -22,14 +22,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 #[Route('/profil')]
+#[IsGranted('ROLE_USER')]
 class ProfilController extends AbstractController
 {
     public function __construct(
         private EmailVerifier $emailVerifier,
-        private MyFct $myfct,
+        private MyFct $myFct,
         private  UserPasswordHasherInterface $userPasswordHasher,
         private VerifyEmailHelperInterface $verifyEmailHelper
     ) {
@@ -42,6 +44,11 @@ class ProfilController extends AbstractController
 
         if (!$user) {
             return $this->redirectToRoute('app_home');
+        }
+
+        if (!$this->myFct->checkLapsTimeRequest($user)) {
+            $this->addFlash('error', 'Votre dernière requête date de moins de 30 minutes, réessayer plus tard.');
+            return $this->redirectToRoute('app_profil_show');
         }
         // $user = $security->getUser();
         // $form = $this->createForm(ProfilType::class, $user);
@@ -60,16 +67,9 @@ class ProfilController extends AbstractController
                 ->htmlTemplate('email/edit_request.html.twig')
                 ->context(['user' => $user])
         );
-
-        $this->redirectToRoute('app_home');
+        $this->addFlash('success', 'Un mail avec un lien vous a été envoyé, pour modifier vos informations clickez dessus.');
+        return $this->redirectToRoute('app_profil_show');
     }
-    // #[Route('/', name: 'app_profil_index', methods: ['GET'])]
-    // public function index(UserRepository $userRepository): Response
-    // {
-    //     return $this->render('profil/index.html.twig', [
-    //         'users' => $userRepository->findAll(),
-    //     ]);
-    // }
 
     #[Route('/new', name: 'app_profil_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -95,15 +95,19 @@ class ProfilController extends AbstractController
     public function show(Security $security): Response
     {
         $user = $security->getUser();
+        if (!$user) {
+            $this->addFlash('error', 'Vous n\'avez pas accès');
+            return $this->render('profil/show.html.twig', [
+                'profilForm' => $form,
+                'user' => $user,
+            ]);
+        }
         $form = $this->createForm(ProfilType::class, $user);
         return $this->render('profil/show.html.twig', [
             'profilForm' => $form,
             'user' => $user,
         ]);
     }
-
-
-
 
     #[Route('/edit/verify', name: 'app_profil_verify_to_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, TranslatorInterface $translator, UserRepository $userRepository, EntityManagerInterface $entityManager)
@@ -112,12 +116,18 @@ class ProfilController extends AbstractController
         $id = $request->query->get('id');
 
         if (null === $id) {
+            $this->addFlash('error', $translator->trans('Lien non valide.'));
             return $this->redirectToRoute('app_home');
         }
 
         $user = $userRepository->find($id);
 
         if (null === $user) {
+            $this->addFlash('error', $translator->trans('Lien non valide.'));
+            return $this->redirectToRoute('app_home');
+        }
+
+        if (!$this->myFct->checkCorrespondanceRequest($user, $request)) {
             return $this->redirectToRoute('app_home');
         }
 
@@ -129,8 +139,7 @@ class ProfilController extends AbstractController
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
-
+            $this->addFlash('error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
             return $this->redirectToRoute('app_home');
         }
 
@@ -161,6 +170,7 @@ class ProfilController extends AbstractController
                         $user->getPassword()
                     )
                 );
+            // -----------------------------------------------------
             dd();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -172,7 +182,7 @@ class ProfilController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        // $this->myfct->getError($form);
+        // $this->myFct->getError($form);
 
         // dd($id, $user, $form->getData());
         return $this->render('profil/edit.html.twig', [

@@ -1,0 +1,48 @@
+{# templates/_flash_messages.html.twig #}
+
+{# Affichage des messages flash de succès #}
+{# templates/_flash_messages.html.twig #}
+
+{# Affichage des messages flash de succès #}
+{% for flashMessage in app.flashes('success') %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ flashMessage }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+
+{# Affichage des messages flash d'erreur #}
+{% for flashMessage in app.flashes('error') %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ flashMessage }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+
+{# JavaScript pour faire disparaître les messages après 5 secondes #}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Sélectionner tous les éléments d'alerte
+        const alerts = document.querySelectorAll('.alert');
+
+        // Parcourir les alertes et les faire disparaître après 5 secondes
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                // Ajouter la classe 'fade' pour déclencher l'animation de disparition
+                alert.classList.remove('show');
+                alert.classList.add('fade');
+                
+                // Après la transition, masquer complètement l'élément
+                setTimeout(() => {
+                    alert.style.display = 'none';
+                }, 500); // Attendre la fin de l'animation Bootstrap (500ms par défaut)
+            }, 5000); // Délai avant la disparition (5000ms = 5s)
+        });
+    });
+</script>
+
+{# // Exemple d'ajout d'un message flash de succès
+$this->addFlash('success', 'Opération réussie !');
+
+// Exemple d'ajout d'un message flash d'erreur
+$this->addFlash('error', 'Une erreur est survenue.'); #}

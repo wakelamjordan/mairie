@@ -25,14 +25,14 @@
 
             {% if registrationForm.terms is defined %}
                 <!-- Modal -->
-            {% include './_part/_modal_mention.html.twig' %}
+                {% include './_part/_modal_mention.html.twig' %}
             {% endif %}
             {{ form_rest(registrationForm) }}
-            
+
             {% if registrationForm.terms is defined %}
-            <!-- Button trigger modal -->
-            
-            {% include './_part/_button_modal.html.twig' %}
+                <!-- Button trigger modal -->
+
+                {% include './_part/_button_modal.html.twig' %}
 
             {# data-bs-target="#exampleModal"> #}
             {% endif %}
@@ -46,4 +46,16 @@
             {{ form_end(registrationForm) }}
         </div>
     </div>
+    <script>
+const form = document.getElementById('{{ registrationForm.vars.id }}');
+        // Listen for keydown events on the form
+        form.addEventListener('keydown', function(event) {
+            // Check if the pressed key is Enter
+            if (event.key === 13) {
+                // Prevent the default form submission
+                event.preventDefault();
+            }
+        });
+    </script>
+
 {% endblock %}

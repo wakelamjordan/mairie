@@ -29,9 +29,11 @@
             </div>
             <div class="bg-60 container px-0">
 
-                <div class="mx-auto w-100  position-sticky top-0" style="z-index: 99;">
-
+                <div class="mx-auto w-100  position-sticky" style="z-index: 99;">
                     {% include './_part/navbar.html.twig' %}
+                    <div class="position-absolute container">
+                        {% include './_part/_flashbag.html.twig' %}
+                    </div>
                 </div>
 
                 <div class="mx-auto w-100 bg-60">

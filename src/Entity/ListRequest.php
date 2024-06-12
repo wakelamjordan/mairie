@@ -18,16 +18,25 @@ class ListRequest
     private ?string $param = null;
 
     // #[ORM\OneToOne(cascade: ['persist'])]
-    #[ORM\OneToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    // #[ORM\OneToOne]
+    // #[ORM\JoinColumn(nullable: false)]
+    // private ?User $user = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn()]
-    private ?User $initiator = null;
+    // #[ORM\ManyToOne]
+    // #[ORM\JoinColumn()]
+    // private ?User $initiator = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $requestAt = null;
+
+    // #[ORM\OneToOne(inversedBy: 'listRequest', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'listRequest')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    // #[ORM\ManyToOne(inversedBy: 'uuu')]
+    // #[ORM\JoinColumn(nullable: false)]
+    // private ?user $initiator = null;
 
     public function __construct()
     {
@@ -53,29 +62,29 @@ class ListRequest
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
+    // public function getUser(): ?User
+    // {
+    //     return $this->user;
+    // }
 
-    public function setUser(User $user): static
-    {
-        $this->user = $user;
+    // public function setUser(User $user): static
+    // {
+    //     $this->user = $user;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function getInitiator(): ?User
-    {
-        return $this->initiator;
-    }
+    // public function getInitiator(): ?User
+    // {
+    //     return $this->initiator;
+    // }
 
-    public function setInitiator(?User $initiator): static
-    {
-        $this->initiator = $initiator;
+    // public function setInitiator(?User $initiator): static
+    // {
+    //     $this->initiator = $initiator;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getRequestAt(): ?\DateTimeImmutable
     {
@@ -85,6 +94,18 @@ class ListRequest
     public function setRequestAt(\DateTimeImmutable $requestAt): static
     {
         $this->requestAt = $requestAt;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

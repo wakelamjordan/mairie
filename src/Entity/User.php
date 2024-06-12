@@ -5,6 +5,8 @@ namespace App\Entity;
 use DateType;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
@@ -56,13 +58,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthAt = null;
 
+    #[ORM\OneToOne(mappedBy: 'user')]
+    private ?ListRequest $listRequest = null;
+
     public function __construct()
     {
         if ($this->createdAt === null) {
             $this->setCreatedAt(new DateTimeImmutable);
         }
-
-        // $this->loginAt = (new DateTimeImmutable);
+        $this->initiateRequest = new ArrayCollection();
     }
 
     // public function PrepUpdate()
@@ -212,6 +216,53 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBirthAt(?\DateTimeInterface $birthAt): static
     {
         $this->birthAt = $birthAt;
+
+        return $this;
+    }
+
+    public function getListRequest(): ?ListRequest
+    {
+        return $this->listRequest;
+    }
+
+    public function setListRequest(ListRequest $listRequest): static
+    {
+        // set the owning side of the relation if necessary
+        if ($listRequest->getUser() !== $this) {
+            $listRequest->setUser($this);
+        }
+
+        $this->listRequest = $listRequest;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ListRequest>
+     */
+    public function getInitiateRequest(): Collection
+    {
+        return $this->initiateRequest;
+    }
+
+    public function addInitiateRequest(ListRequest $initiateRequest): static
+    {
+        if (!$this->initiateRequest->contains($initiateRequest)) {
+            $this->initiateRequest->add($initiateRequest);
+            $initiateRequest->setInitiator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInitiateRequest(ListRequest $initiateRequest): static
+    {
+        if ($this->initiateRequest->removeElement($initiateRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($initiateRequest->getInitiator() === $this) {
+                $initiateRequest->setInitiator(null);
+            }
+        }
 
         return $this;
     }

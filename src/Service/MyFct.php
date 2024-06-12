@@ -5,8 +5,12 @@ namespace App\Service;
 use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class MyFct
+class MyFct extends AbstractController
 {
     private string $url;
     private string $paramRequired;
@@ -118,5 +122,44 @@ class MyFct
         dd($errors, $form->getData());
 
         // $this->myfct->getError($form);
+    }
+
+    public function checkLapsTimeRequest(User $user): bool
+    {
+        $listRequest = $user->getListRequest();
+        if ($listRequest) {
+            $emailConfirmationDate = $listRequest->getRequestAt();
+
+            if ($emailConfirmationDate->modify('+30 minutes') > new DateTimeImmutable()) {
+                return false;
+            } else {
+                $this->entityManagerInterface->remove($listRequest);
+                $this->entityManagerInterface->flush();
+            }
+        }
+        // dd($emailConfirmationDate->modify('+30 minutes') > new DateTimeImmutable());
+
+        return true;
+    }
+
+
+    // if (!$this->myFct->checkCorrespondanceRequest($user, $request)) {
+    //     return $this->redirectToRoute('app_home');
+    // }
+    public function checkCorrespondanceRequest(User $user, Request $request): bool
+    {
+        $listRequest = $user->getListRequest();
+
+        if (!$listRequest) {
+            $this->addFlash('error', 'Liens invalide.');
+            return false;
+        }
+
+        if ($request->query->get('signature') !== $listRequest->getParam()) {
+            $this->addFlash('error', 'Liens invalide.');
+            return false;
+        }
+
+        return true;
     }
 }

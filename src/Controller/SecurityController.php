@@ -44,4 +44,16 @@ class SecurityController extends AbstractController
     //     $e->flush();
     //     return $this->redirectToRoute('app_home');
     // }
+    #[Route('/login/success', name: 'app_login_success')]
+    public function onLoginSuccess(): Response
+    {
+        // Vérifie si l'utilisateur est connecté pour ajouter le flashbag
+        if ($this->getUser()) {
+            $user = $this->getUser();
+            $this->addFlash('success', $user->getUserIdentifier() . ' connecté.');
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->redirectToRoute('app_home');
+    }
 }

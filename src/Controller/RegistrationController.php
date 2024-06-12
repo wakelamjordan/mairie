@@ -25,8 +25,12 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
 
-    public function __construct(private EmailVerifier $emailVerifier, private MyFct $myfct, private  UserPasswordHasherInterface $userPasswordHasher, private VerifyEmailHelperInterface $verifyEmailHelper)
-    {
+    public function __construct(
+        private EmailVerifier $emailVerifier,
+        private MyFct $myFct,
+        private  UserPasswordHasherInterface $userPasswordHasher,
+        private VerifyEmailHelperInterface $verifyEmailHelper
+    ) {
     }
 
     #[Route('/register', name: 'app_register')]
@@ -45,11 +49,11 @@ class RegistrationController extends AbstractController
                 ->setPassword(
                     $this->userPasswordHasher->hashPassword(
                         $user,
-                        $this->myfct->generateRandomSantence()
+                        $this->myFct->generateRandomSantence()
                     )
                 )
-                ->setLastname($this->myfct->generateRandomName())
-                ->setFirstname($this->myfct->generateRandomName());
+                ->setLastname($this->myFct->generateRandomName())
+                ->setFirstname($this->myFct->generateRandomName());
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -66,7 +70,7 @@ class RegistrationController extends AbstractController
                     ->context(['user' => $user])
             );
 
-            // do anything else you need here, like send an email
+            $this->addFlash('success', 'Mail d\'inscription envoyé à ' . $user->getEmail());
 
             return $this->redirectToRoute('app_register');
         }
@@ -96,15 +100,18 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
+        if (!$this->myFct->checkCorrespondanceRequest($user, $request)) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(RegistrationCompledType::class, $user);
 
         $form->handleRequest($request);
-        // validate email confirmation link, sets User::isVerified=true and persists
+
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
-
+            $this->addFlash('error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
             return $this->redirectToRoute('app_home');
         }
 
@@ -121,8 +128,6 @@ class RegistrationController extends AbstractController
                 return $this->redirectToRoute('app_home');
             }
 
-            // dd($listRequest[0]->getParam() !== $request->query->all()['signature'], $listRequest[0]->getParam(), $request->query->all()['signature']);
-
             $entityManager->remove($listRequest[0]);
         }
 
@@ -138,8 +143,8 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-
-            $this->addFlash('success', 'Your email address has been verified.');
+            $this->addFlash('success', 'Inscription réussite vous pouvez vous connecter avec l\'addresse mail ' . $user->getEmail());
+            // $this->addFlash('success', 'Your email address has been verified.');
 
 
             return $this->redirectToRoute('app_login');

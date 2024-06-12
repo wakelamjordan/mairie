@@ -3,6 +3,8 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Service\MyFct;
+
 use App\Entity\ListRequest;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -18,7 +20,8 @@ class EmailVerifier
         private VerifyEmailHelperInterface $verifyEmailHelper,
         private MailerInterface $mailer,
         private EntityManagerInterface $entityManager,
-        private Security $security
+        private Security $security,
+        private MyFct $myfct,
     ) {
     }
 
@@ -41,21 +44,19 @@ class EmailVerifier
 
         // ------------------------------------------------------------------------------
         // unicité
+        $signature = $this->myfct->getParamUrl($signatureComponents->getSignedUrl(), 'signature');
+        // $parsed_url = parse_url($signatureComponents->getSignedUrl());
+        // $query = $parsed_url['query'] ?? '';
 
-        $parsed_url = parse_url($signatureComponents->getSignedUrl());
-        $query = $parsed_url['query'] ?? '';
-
-        // Décompose la chaîne de requête en un tableau associatif
-        parse_str($query, $params);
+        // // Décompose la chaîne de requête en un tableau associatif
+        // parse_str($query, $params);
 
 
 
         $listRequest = new ListRequest;
         $listRequest
-            ->setInitiator($this->security->getUser())
             ->setUser($user)
-            ->setParam($params['signature']);
-
+            ->setParam($signature);
         $this->entityManager->persist($listRequest);
         $this->entityManager->flush();
         // ------------------------------------------------------------------------------
