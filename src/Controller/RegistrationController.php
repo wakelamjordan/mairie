@@ -4,17 +4,20 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Service\MyFct;
+use App\Entity\ListRequest;
 use App\Security\EmailVerifier;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
 use App\Form\RegistrationCompledType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
@@ -22,7 +25,7 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
 
-    public function __construct(private EmailVerifier $emailVerifier, private MyFct $myfct, private  UserPasswordHasherInterface $userPasswordHasher)
+    public function __construct(private EmailVerifier $emailVerifier, private MyFct $myfct, private  UserPasswordHasherInterface $userPasswordHasher, private VerifyEmailHelperInterface $verifyEmailHelper)
     {
     }
 
@@ -77,8 +80,11 @@ class RegistrationController extends AbstractController
     #[Route('/verify/email', name: 'app_verify_email', methods: ['GET', 'POST'])]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
-        $id = $request->query->get('id');
 
+
+
+        // if ($request->isMethod('GET')) {
+        $id = $request->query->get('id');
 
         if (null === $id) {
             return $this->redirectToRoute('app_home');
@@ -90,9 +96,9 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        $user = $entityManager->getRepository(User::class)->find($id);
+        $form = $this->createForm(RegistrationCompledType::class, $user);
 
-
+        $form->handleRequest($request);
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
@@ -102,12 +108,25 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        $form = $this->createForm(RegistrationCompledType::class, $user);
 
-        $form->handleRequest($request);
+        if ($request->isMethod('POST')) {
+            $id = $request->query->get('id');
+            $listRequest = $entityManager->getRepository(ListRequest::class)->findBy(['user' => $id]);
+
+            if (!$listRequest) {
+                return $this->redirectToRoute('app_home');
+            }
+
+            if ($listRequest[0]->getParam() !== $request->query->all()['signature']) {
+                return $this->redirectToRoute('app_home');
+            }
+
+            // dd($listRequest[0]->getParam() !== $request->query->all()['signature'], $listRequest[0]->getParam(), $request->query->all()['signature']);
+
+            $entityManager->remove($listRequest[0]);
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user
                 ->setPassword(
                     $this->userPasswordHasher->hashPassword(
