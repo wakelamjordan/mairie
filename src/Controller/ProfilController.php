@@ -75,26 +75,6 @@ class ProfilController extends AbstractController
         return $this->redirectToRoute('app_profil_show');
     }
 
-    #[Route('/new', name: 'app_profil_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $user = new User();
-        $form = $this->createForm(User1Type::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_profil_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('profil/new.html.twig', [
-            'user' => $user,
-            'form' => $form,
-        ]);
-    }
-
     #[Route('', name: 'app_profil_show', methods: ['GET', 'POST'])]
     public function show(Security $security): Response
     {
@@ -113,7 +93,6 @@ class ProfilController extends AbstractController
     #[Route('/edit/verify', name: 'app_profil_verify_to_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, TranslatorInterface $translator, UserRepository $userRepository, EntityManagerInterface $entityManager)
     {
-        // if ($request->isMethod('GET')) {
         $id = $request->query->get('id');
 
         if (null === $id) {
@@ -136,7 +115,6 @@ class ProfilController extends AbstractController
 
         $form->handleRequest($request);
 
-        // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->verifyEmailHelper->validateEmailConfirmationFromRequest(
                 $request,
@@ -162,60 +140,34 @@ class ProfilController extends AbstractController
                 return $this->redirectToRoute('app_home');
             }
 
-            // dd($listRequest[0]->getParam() !== $request->query->all()['signature'], $listRequest[0]->getParam(), $request->query->all()['signature']);
-
             $entityManager->remove($listRequest[0]);
             $entityManager->flush();
         }
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $user
-            //     ->setPassword(
-            //         $this->userPasswordHasher->hashPassword(
-            //             $user,
-            //             $user->getPassword()
-            //         )
+            // $emailInForm = $request->request->all()['profil']['email'];
+            // $emailActual = $this->getUser()->getUserIdentifier();
+
+            // if ($emailInForm !== $emailActual) {
+
+            //     $user
+            //         ->setNewmail($emailInForm)
+            //         ->setVerified(false);
+
+            //     $this->emailVerifier->sendEmailConfirmation(
+            //         'app_profil_change_verified',
+            //         $user,
+            //         (new TemplatedEmail())
+            //             ->from(new Address('mairie@gmail.com', 'mairie'))
+            //             ->to($emailInForm)
+            //             ->subject('Please Confirm your Email')
+            //             ->htmlTemplate('email/confirmation_email.html.twig')
+            //             ->context(['id' => $user->getId(), 'user' => $user])
+
             //     );
-
-            $emailInForm = $request->request->all()['profil']['email'];
-            $emailActual = $this->getUser()->getUserIdentifier();
-            // $password = $user->getPassword();
-            // $password = $request->request->all()['profil']['password']['first'];
-
-
-
-
-
-            // dd($emailInForm, $emailActual, ($emailActual === $emailInForm), $request->request->all()['profil']['password']['first']);
-            // -----------------------------------------------------
-            // dd($user, $form->getData(), $request->query->all());
-
-
-            if ($emailInForm !== $emailActual) {
-
-                $user
-                    // ->setEmail($emailInForm)
-                    ->setNewmail($emailInForm)
-                    ->setVerified(false);
-
-                // $user->setEmail($emailActual);
-
-
-                $this->emailVerifier->sendEmailConfirmation(
-                    'app_profil_change_verified',
-                    $user,
-                    (new TemplatedEmail())
-                        ->from(new Address('mairie@gmail.com', 'mairie'))
-                        ->to($emailInForm)
-                        ->subject('Please Confirm your Email')
-                        ->htmlTemplate('email/confirmation_email.html.twig')
-                        ->context(['id' => $user->getId(), 'user' => $user])
-
-                );
-                $this->addFlash('success', 'Un mail de confirmation vous a été envoyé à l\'addresse ' . $user->getNewMail());
-            }
-            // dd($user, $request->request->all()['profil']['email']);
+            //     $this->addFlash('success', 'Un mail de confirmation vous a été envoyé à l\'addresse ' . $user->getNewMail());
+            // }
 
             if ($request->request->all()['profil']['password']['first']) {
                 $password = $request->request->all()['profil']['password']['first'];
@@ -233,58 +185,20 @@ class ProfilController extends AbstractController
 
             return $this->redirectToRoute('app_profil_show');
         }
-
-        // $this->myFct->getError($form);
-
-        // dd($id, $user, $form->getData());
         return $this->render('profil/edit.html.twig', [
             'form' => $form,
             'email' => $user->getEmail(),
             'user' => $user,
             'button_label' => 'Valider',
         ]);
-
-
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
-
-
-        // $form = $this->createForm(UserType::class, $user);
-        // $form->handleRequest($request);
-
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $entityManager->flush();
-
-        //     return $this->redirectToRoute('app_profil_index', [], Response::HTTP_SEE_OTHER);
-        // }
-
-        // return $this->render('profil/edit.html.twig', [
-        //     'user' => $user,
-        //     'form' => $form,
-        // ]);
     }
 
     #[Route('/delete_request/{id}', name: 'app_profil_delete_request', methods: ['GET'])]
     public function deleteRequest(Request $request, User $user, EntityManagerInterface $entityManager): JsonResponse
     {
-
-        // dd($user);
-
-
         if (!$user) {
             return $this->redirectToRoute('app_home');
         }
-
-        // if (!$this->myFct->checkLapsTimeRequest($user)) {
-        //     $this->addFlash('error', 'Votre dernière requête date de moins de 30 minutes, réessayer plus tard.');
-        //     return $this->redirectToRoute('app_profil_show');
-        // }
-        // $user = $security->getUser();
-        // $form = $this->createForm(ProfilType::class, $user);
-        // return $this->render('profil/show.html.twig', [
-        //     'profilForm' => $form,
-        //     'user' => $user,
-        // ]);
-
         $this->emailVerifier->sendEmailConfirmation(
             'app_profil_delete',
             $user,
@@ -295,34 +209,13 @@ class ProfilController extends AbstractController
                 ->htmlTemplate('email/delete_profil.html.twig')
                 ->context(['user' => $user])
         );
-        // $this->addFlash('success', 'Un mail avec un lien vous a été envoyé, pour supprimer votre profil clickez dessus.');
 
-        // $this->addFlash('success', 'Votre profil a été mis à jour avec succès.');
-
-        // // Récupérer les flashbags
-        // $flashMessages = [];
-        // foreach ($this->get('session')->getFlashBag()->all() as $type => $messages) {
-        //     foreach ($messages as $message) {
-        //         $flashMessages[] = ['type' => $type, 'message' => $message];
-        //     }
-        // }
-
-        // Retourner une réponse JSON
         return new JsonResponse([
             'status' => 'success',
             'response' => 'Un mail avec un lien vous a été envoyé, pour supprimer votre profil clickez dessus.'
             // 'flashMessages' => $flashMessages
         ], Response::HTTP_OK); // HTTP 200 OK
     }
-
-
-
-    // if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->getPayload()->getString('_token'))) {
-    //     $entityManager->remove($user);
-    //     $entityManager->flush();
-    // }
-
-    // return $this->redirectToRoute('app_profil_index', [], Response::HTTP_SEE_OTHER);
 
     #[Route('/{id}', name: 'app_profil_delete', methods: ['GET', 'POST'])]
     public function delete(MailerInterface $mailer, Environment $twig, User $user, EntityManagerInterface $entityManager): Response
@@ -349,11 +242,11 @@ class ProfilController extends AbstractController
         return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/change_verified', name: 'app_profil_change_verified', methods: ['GET'])]
-    public function checkMailForChange(Request $request, EntityManagerInterface $entityManager, TranslatorInterface $translator): Response
+    #[Route('/change_verified/{id}', name: 'app_profil_change_verified', methods: ['GET'])]
+    public function checkMailForChange(User $user, Request $request, EntityManagerInterface $entityManager, TranslatorInterface $translator): Response
     {
-        $user = $request->query->get('id');
-        $user = $entityManager->getRepository(User::class)->find($user);
+        // $user = $request->query->get('id');
+        // $user = $entityManager->getRepository(User::class)->find($user);
 
         if (!$user) {
             $this->addFlash('error', 'Liens invalide.');

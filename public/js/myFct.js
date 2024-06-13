@@ -1,5 +1,12 @@
-console.log("je suis là");
-
+function requestChangeMail(button, url) {
+  if (
+    confirm(
+      "Vos modifications ne seront pas sauvegardées, vous allez être redirigé vers le changement de mail."
+    )
+  ) {
+    window.location.href = url;
+  }
+}
 function requestDelete(button, url) {
   console.log(button);
   button.disabled = true; // Désactiver le bouton

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+    <div class="d-flex justify-content-center h-100 min-vh-100 align-items-center position-relative">
+        <div class="col-auto col-md-6 col-lg-4 p-5">
+
+            <div class="d-grid gap-3">
+                <h1>
+                    Nouveau mot de passe
+                </h1>
+
+                {{ form_start(resetForm) }}
+                {{ form_row(resetForm.plainPassword) }}
+                <button class="btn btn-primary w-100">
+                    Enregistrer
+                </button>
+                {{ form_end(resetForm) }}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

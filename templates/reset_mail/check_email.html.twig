@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Envoi de modification de mail{% endblock %}
+
+{% block body %}
+    <p>
+Un mail vous a été envoyé à la nouvelle adresse, clickez sur le lien à l'intérieur pour valider votre nouvelle adresse mail. Ce lien expirera dans 1 heure
+{{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}
+
+    </p>
+<p>
+    Si vous ne le voyez pas dans votre boîte mail, regardez dans les spam ou
+    <a href="{{ path('app_forgot_password_request') }}">
+        réessayer.
+    </a>
+    .
+</p>
+
+{% endblock %}
