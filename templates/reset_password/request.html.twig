@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="d-flex justify-content-center h-100 min-vh-100 align-items-center position-relative">
-        <div class="col-auto col-md-6 col-lg-4 p-5">
+        <div class="col-sm-10 col-md-6 col-lg-5 p-5">
 
             <div class="d-grid gap-3">
                 {% for flash_error in app.flashes('reset_password_error') %}
@@ -11,21 +11,22 @@
                     </div>
                 {% endfor %}
                 <h1 class='fs-3'>
-                    Réinitialisez votre mot de passe
+                    {{ 'Réinitialisez votre mot de passe'|trans }}
                 </h1>
 
                 {{ form_start(requestForm) }}
                 {{ form_row(requestForm.email) }}
                 <div>
                     <small>
+                        {% trans %}
                         Entrez votre adresse e-mail, et nous vous enverrons un lien pour réinitialiser votre mot de passe.
+                        {% endtrans %}
                     </small>
                 </div>
 
                 <button class="btn btn-primary mt-2 w-100">
-<i class="fas fa-paper-plane me-2"></i>
-
-                    Envoyer
+                    <i class="fas fa-paper-plane me-2"></i>
+                    {{ 'Envoyer'|trans }}
                 </button>
                 {{ form_end(requestForm) }}
 

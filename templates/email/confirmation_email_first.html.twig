@@ -52,43 +52,41 @@
         <div class="container">
             <div class="header">
                 <h1>
-                    Email Confirmation Required
+                    Courriel de confirmation requis
                 </h1>
             </div>
             <div class="content">
                 <p>
-                    Dear
+                    {{ 'Chère'|trans }}
                     {{ user.email }}
                     ,
                 </p>
                 <p>
-                    Thank you for registering with us. Please confirm your email address by clicking the button below. This will help us ensure your account is secure and allow you to access all our services.
+                    {{ 'Merci de vous inscrire. Veuillez confirmer votre adresse courriel en cliquant sur le bouton ci-dessous. Cela nous aidera à nous assurer que votre compte est sécurisé et vous permettra d’accéder à tous nos services.'|trans }}
                 </p>
                 <p>
-                    If you did not create this account, please ignore this email.
+                    {{ 'Si vous n’avez pas créé ce compte, veuillez ignorer cet e-mail.'|trans }}
                 </p>
                 <p>
                     <a href="{{ signedUrl|raw }}">
-                        Confirm my Email
+                        {{ 'Confirmer mon courriel'|trans }}
                     </a>
                     .
-                    This link will expire in
+                    {{ 'Ce lien expirera dans'|trans }}
                     {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}
                 </p>
                 <p>
-                    Best regards,
+                    {{ 'Bien cordialement,'|trans }}
                 </p>
-                <p>
-                    The Municipality Team
-                </p>
-            </div>
-            <div class="footer">
-                <p>
-                    &copy;
-                    {{ "now"|date("Y") }}
-                    Your Municipality. All rights reserved.
-                </p>
-            </div>
-        </div>
+            </p>
+            <p>
+                {{ 'L’équipe de la municipalité'|trans }}
+            </p>
+        </p>
     </body>
-</html>
+</html></div><div class="footer">
+<p>
+    &copy;
+    {{ "now"|date("Y") }}
+    {{ 'Votre municipalité. Tous droits réservés.'|trans }}
+</p></div></div></body></html>

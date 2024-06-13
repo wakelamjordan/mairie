@@ -10,7 +10,9 @@
                 </div>
             {% endfor %}
             <h1>
-                Inscription
+                {# messages can be found when using the trans filter and tag #}
+                {{ 'Inscription'|trans }}
+
             </h1>
             {% if email is defined %}
                 <span class='fs-3'>
@@ -42,7 +44,6 @@
                     {{ buttonLabel }}
                 </button>
             {% endif %}
-
             {{ form_end(registrationForm) }}
         </div>
     </div>
@@ -59,6 +60,18 @@ forms.forEach(form => {
       return false; // Empêcher la propagation de l'événement
     }
   });
+});
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    const cguText = document.getElementById('cguText');
+    const acceptButton = document.getElementById('acceptButton');
+
+    cguText.addEventListener('scroll', function() {
+        // Vérifiez si l'utilisateur a atteint le bas du contenu défilable
+        if (cguText.scrollTop + cguText.clientHeight >= cguText.scrollHeight) {
+            acceptButton.disabled = false; // Active le bouton
+        }
+    });
 });
     </script>
 

@@ -21,7 +21,7 @@ class EmailVerifier
         private MailerInterface $mailer,
         private EntityManagerInterface $entityManager,
         private Security $security,
-        private MyFct $myfct,
+        private MyFct $myFct,
     ) {
     }
 
@@ -43,30 +43,12 @@ class EmailVerifier
 
         $email->context($context);
 
-        // ------------------------------------------------------------------------------
-        // unicité
-        $signature = $this->myfct->getParamUrl($signatureComponents->getSignedUrl(), 'signature');
-        // $parsed_url = parse_url($signatureComponents->getSignedUrl());
-        // $query = $parsed_url['query'] ?? '';
-
-        // // Décompose la chaîne de requête en un tableau associatif
-        // parse_str($query, $params);
-
-
-
-        $listRequest = new ListRequest;
-        $listRequest
-            ->setUser($user)
-            ->setParam($signature);
-        $this->entityManager->persist($listRequest);
-        $this->entityManager->flush();
-        // ------------------------------------------------------------------------------
+        $this->myFct->createConfirmationEmail($context['signedUrl'], $user);
 
         $this->mailer->send($email);
     }
     public function sendTest(string $verifyEmailRouteName, User $user, TemplatedEmail $email): void
     {
-        dd('test');
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             $verifyEmailRouteName,
             (string) $user->getId(),
@@ -84,7 +66,7 @@ class EmailVerifier
 
         // ------------------------------------------------------------------------------
         // unicité
-        $signature = $this->myfct->getParamUrl($signatureComponents->getSignedUrl(), 'signature');
+        $signature = $this->myFct->getParamUrl($signatureComponents->getSignedUrl(), 'signature');
         // $parsed_url = parse_url($signatureComponents->getSignedUrl());
         // $query = $parsed_url['query'] ?? '';
 
@@ -93,12 +75,12 @@ class EmailVerifier
 
 
 
-        $listRequest = new ListRequest;
-        $listRequest
-            ->setUser($user)
-            ->setParam($signature);
-        $this->entityManager->persist($listRequest);
-        $this->entityManager->flush();
+        // $listRequest = new ListRequest;
+        // $listRequest
+        //     ->setUser($user)
+        //     ->setParam($signature);
+        // $this->entityManager->persist($listRequest);
+        // $this->entityManager->flush();
         // ------------------------------------------------------------------------------
 
         $this->mailer->send($email);

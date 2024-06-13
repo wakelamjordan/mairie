@@ -61,18 +61,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $newMail = null;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?ConfirmationEmail $confirmationEmail = null;
+
     /**
      * @var Collection<int, ListRequest>
      */
-    #[ORM\OneToMany(targetEntity: ListRequest::class, mappedBy: 'user', orphanRemoval: true)]
-    private Collection $listRequests;
+    // #[ORM\OneToMany(targetEntity: ListRequest::class, mappedBy: 'user', orphanRemoval: true)]
+    // private Collection $listRequests;
 
     public function __construct()
     {
         if ($this->createdAt === null) {
             $this->setCreatedAt(new DateTimeImmutable);
         }
-        $this->listRequests = new ArrayCollection();
+        // $this->listRequests = new ArrayCollection();
     }
 
     // public function PrepUpdate()
@@ -238,32 +241,49 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, ListRequest>
-     */
-    public function getListRequests(): Collection
+    // /**
+    //  * @return Collection<int, ListRequest>
+    //  */
+    // public function getListRequests(): Collection
+    // {
+    //     return $this->listRequests;
+    // }
+
+    // public function addListRequest(ListRequest $listRequest): static
+    // {
+    //     if (!$this->listRequests->contains($listRequest)) {
+    //         $this->listRequests->add($listRequest);
+    //         $listRequest->setUser($this);
+    //     }
+
+    //     return $this;
+    // }
+
+    // public function removeListRequest(ListRequest $listRequest): static
+    // {
+    //     if ($this->listRequests->removeElement($listRequest)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($listRequest->getUser() === $this) {
+    //             $listRequest->setUser(null);
+    //         }
+    //     }
+
+    //     return $this;
+    // }
+
+    public function getConfirmationEmail(): ?ConfirmationEmail
     {
-        return $this->listRequests;
+        return $this->confirmationEmail;
     }
 
-    public function addListRequest(ListRequest $listRequest): static
+    public function setConfirmationEmail(ConfirmationEmail $confirmationEmail): static
     {
-        if (!$this->listRequests->contains($listRequest)) {
-            $this->listRequests->add($listRequest);
-            $listRequest->setUser($this);
+        // set the owning side of the relation if necessary
+        if ($confirmationEmail->getUser() !== $this) {
+            $confirmationEmail->setUser($this);
         }
 
-        return $this;
-    }
-
-    public function removeListRequest(ListRequest $listRequest): static
-    {
-        if ($this->listRequests->removeElement($listRequest)) {
-            // set the owning side to null (unless already changed)
-            if ($listRequest->getUser() === $this) {
-                $listRequest->setUser(null);
-            }
-        }
+        $this->confirmationEmail = $confirmationEmail;
 
         return $this;
     }

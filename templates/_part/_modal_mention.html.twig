@@ -3,19 +3,19 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">
-                    Conditions d'utilisation
+                    {{ 'Conditions d\'utilisation'|trans }}
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="cguText">
                 {% include './_part/_terms.html.twig' %}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Close
-                </button>
-                <button type="submit" class="btn btn-primary">
-                    Accepter
+                {# <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    {{ 'Close'|trans }}
+                </button> #}
+                <button id="acceptButton" type="submit" class="btn btn-primary" disabled>
+                    {{ 'Accepter'|trans }}
                 </button>
                 {{ form_row(registrationForm.terms) }}
             </div>
