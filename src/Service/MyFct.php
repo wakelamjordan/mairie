@@ -228,13 +228,16 @@ class MyFct extends AbstractController
      */
     public function createConfirmationEmail(string $signedUrl, User $user): void
     {
+        // dd(1);
+ 
         try {
             // Analyse de l'URL signée pour extraire les paramètres
             $parsed_url = parse_url($signedUrl);
             if (!isset($parsed_url['query'])) {
                 throw new \InvalidArgumentException('L\'URL signée ne contient pas de paramètres de requête.');
             }
-
+            // dd(2);
+  
             // Extraction des paramètres de la chaîne de requête
             $queryParams = $parsed_url['query'];
             parse_str($queryParams, $params);
@@ -243,7 +246,8 @@ class MyFct extends AbstractController
             if (!isset($params['signature'])) {
                 throw new \InvalidArgumentException('Le paramètre "signature" est manquant dans l\'URL signée.');
             }
-
+            // dd(3);
+        
             // Création de l'entité ConfirmationEmail
             $confirmationEmail = new ConfirmationEmail();
             $confirmationEmail
@@ -256,7 +260,8 @@ class MyFct extends AbstractController
 
             // Debug dump pour vérifier l'entité créée (à utiliser pour le développement)
             // dd($confirmationEmail);
-
+            // dd(4);
+   
         } catch (\InvalidArgumentException $e) {
             // Gestion des erreurs d'argument invalide
             $this->logger->error('Erreur dans createConfirmationEmail: ' . $e->getMessage());

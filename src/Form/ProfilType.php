@@ -22,6 +22,7 @@ class ProfilType extends AbstractType
     }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // $buttonDesabled = $options['buttonDesabled'];
         $builder
             ->add('email', EmailType::class, [
                 'mapped' => false,
@@ -70,8 +71,8 @@ class ProfilType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'attr'=>[
-                'autocomplete'=>'off',
+            'attr' => [
+                'autocomplete' => 'off',
             ]
         ]);
     }

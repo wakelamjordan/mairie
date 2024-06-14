@@ -76,7 +76,7 @@
                         {{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}
                     </td>
                     <td>
-                        <a href="{{ path('app_profil_show', {'id': user.id}) }}">
+                        <a href="{{ path('app_profil', {'id': user.id}) }}">
                             show
                         </a>
                         <a href="{{ path('app_profil_edit', {'id': user.id}) }}">

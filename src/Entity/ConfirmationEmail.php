@@ -21,16 +21,12 @@ class ConfirmationEmail
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $at = null;
 
-    // #[ORM\OneToOne(mappedBy: 'confirmationEmail', cascade: ['persist'])]
-    // // #[ORM\OneToOne(mappedBy: 'confirmationEmail', cascade: ['persist'])]
-    // private ?User $user = null;
-
-    // #[ORM\OneToOne(inversedBy: 'confirmationEmail', cascade: ['persist', 'remove'])]
-    // #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')] // Utilisation de SET NULL au lieu de CASCADE
-    // private ?User $user = null;
     #[ORM\OneToOne(inversedBy: 'confirmationEmail')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')] // Utilisation de SET NULL au lieu de CASCADE
     private ?User $user = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $newMail = null;
 
 
     public function __construct()
@@ -75,6 +71,18 @@ class ConfirmationEmail
     public function setUser(User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getNewMail(): ?string
+    {
+        return $this->newMail;
+    }
+
+    public function setNewMail(?string $newMail): static
+    {
+        $this->newMail = $newMail;
 
         return $this;
     }

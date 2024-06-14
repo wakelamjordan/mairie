@@ -52,7 +52,7 @@ class ProfilController extends AbstractController
 
         if (!$this->myFct->checkLapsTimeRequest($user)) {
             $this->addFlash('error', 'Votre dernière requête date de moins de 30 minutes, réessayer plus tard.');
-            return $this->redirectToRoute('app_profil_show');
+            return $this->redirectToRoute('app_profil');
         }
         // $user = $security->getUser();
         // $form = $this->createForm(ProfilType::class, $user);
@@ -72,10 +72,10 @@ class ProfilController extends AbstractController
                 ->context(['user' => $user])
         );
         $this->addFlash('success', 'Un mail avec un lien vous a été envoyé, pour modifier vos informations clickez dessus.');
-        return $this->redirectToRoute('app_profil_show');
+        return $this->redirectToRoute('app_profil');
     }
 
-    #[Route('', name: 'app_profil_show', methods: ['GET', 'POST'])]
+    #[Route('', name: 'app_profil', methods: ['GET', 'POST'])]
     public function show(Security $security): Response
     {
         $user = $security->getUser();
@@ -183,7 +183,7 @@ class ProfilController extends AbstractController
             $this->addFlash('success', 'Informations mises à jour');
 
 
-            return $this->redirectToRoute('app_profil_show');
+            return $this->redirectToRoute('app_profil');
         }
         return $this->render('profil/edit.html.twig', [
             'form' => $form,

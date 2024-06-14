@@ -1,11 +1,5 @@
-function requestEditMail(button, url) {
-  if (
-    confirm(
-      "Vos modifications ne seront pas sauvegardées, vous allez être redirigé vers le changement de mail."
-    )
-  ) {
-    window.location.href = url;
-  }
+function checkMail(button, url) {
+
 }
 function requestEditProfile(button, url) {
   // button.disabled = true;

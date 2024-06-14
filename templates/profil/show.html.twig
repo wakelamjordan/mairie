@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-    {{'Mairie-Profil utilisateur'|trans}}
+    {{ 'Mairie-Profil utilisateur'|trans }}
 {% endblock %}
 {% block body %}
     <div class="container vh-100" style="background-image:url('{{ asset('image/champ-arbres-herbe.jpg') }}');">
@@ -9,9 +9,7 @@
                 <div class="container d-flex justify-content-center align-items-center bg-60 m-0">
                     <div class="w-75 my-5">
                         <div id='alertSuccess' class="alert alert-success w-100 d-none"></div>
-<div id='alertError' class="alert alert-danger w-100 d-none">
-    
-                        </div>
+                        <div id='alertError' class="alert alert-danger w-100 d-none"></div>
                         <div class="">
                             <h1 class='mb-3'>
                                 {{ 'Votre profil'|trans }}
@@ -30,18 +28,21 @@
 
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <button onclick="requestEditProfile(this, '{{ path('app_profil_edit_request',{'id':user.id}) }}')" class="btn btn-primary w-100 mb-2">
+<button onclick="window.location.href='{{ path('app_profil_edit_request',{'id':user.id}) }}'" class="btn btn-primary w-100 mb-2" {% if buttonDisabled is defined  and buttonDisabled == true %} } disabled{% endif %}>
+    
                                         <i class="fas fa-pencil me-2 d-md-none d-xl-inline"></i>
-                                        {{ 'Édition'|trans }}                   
+                                        {{ 'Édition'|trans }}
                                     </button>
                                 </div>
 
                                 {# {{ include('profil/_form.html.twig', {'button_label': button_label}) }} #}
 
                                 <div class="col-lg-6">
-                                    <button onclick='confirm("Confirmez votre demande de suppression?")?requestDelete(this,"{{ path('app_profil_delete_request',{'id':user.id}) }}"):""' class="btn btn-danger w-100 mb-2">
+<button onclick="window.location.href='{{ path('app_profil_delete_request',{'id':user.id}) }}'" class="btn btn-danger w-100 mb-2" {% if buttonDisabled is defined and buttonDisabled == true %} } disabled {% endif %}>
+    
+
                                         <i class="fas fa-eraser me-2 d-md-none d-xl-inline"></i>
-                                    {{ 'Supprimer'|trans }}
+                                        {{ 'Supprimer'|trans }}
                                     </button>
                                 {# <script>function test_(){alert('kdsjksjldfh');}</script> #}
                                 </div>
