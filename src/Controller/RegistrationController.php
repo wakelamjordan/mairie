@@ -215,7 +215,7 @@ class RegistrationController extends AbstractController
             }
 
             // Rendu du formulaire d'inscription complet si aucune redirection n'a eu lieu
-            return $this->render('registration/register.html.twig', [
+            return $this->render('registration/register_compled.html.twig', [
                 'registrationForm' => $form,
                 'email' => $user->getEmail(),
                 'buttonLabel' => $this->translator->trans('Enregistrer'),

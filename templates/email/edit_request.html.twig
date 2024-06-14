@@ -52,42 +52,43 @@
         <div class="container">
             <div class="header">
                 <h1>
-                    {{ 'Account Modification Request'|trans({}, 'messages') }}
+                    {{ 'Demande de modification de compte'|trans({}, 'messages') }}
                 </h1>
             </div>
             <div class="content">
                 <p>
-                    {{ 'Dear'|trans({}, 'messages') }}
+                    {{ 'cher'|trans({}, 'messages') }}
                     {{ user.lastname }}
                     ,
                 </p>
                 <p>
-                    {{ 'You have requested to modify your account information. To proceed with this request, please click the button below to confirm your identity and update your details.'|trans({}, 'messages') }}
+                    {{ 'Vous avez demandé à modifier vos informations de compte. Pour procéder à cette demande, veuillez cliquer sur le bouton ci-dessous pour confirmer votre identité et mettre à jour vos coordonnées.'|trans({}, 'messages') }}
+
                 </p>
                 <p>
-                    {{ 'If you did not make this request, please ignore this email or contact our support team for assistance.'|trans({}, 'messages') }}
+                    {{ 'Si vous n’avez pas fait cette demande, veuillez ignorer cet e-mail ou contacter notre équipe d’assistance pour obtenir de l’aide.'|trans({}, 'messages') }}
                 </p>
                 <p>
                     <a href="{{ signedUrl|raw }}">
-                        {{ 'Confirm my Email to edit your account'|trans({}, 'messages') }}
+                        {{ 'Confirmer mon email pour modifier votre compte'|trans({}, 'messages') }}
                     </a>
                     .
-                    {{ 'This link will expire in'|trans({}, 'messages') }}
+                    {{ 'Ce lien expirera dans'|trans({}, 'messages') }}
                     {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}
                     .
                 </p>
                 <p>
-                    {{ 'Best regards,'|trans({}, 'messages') }}
+                    {{ 'Bien cordialement,'|trans({}, 'messages') }}
                 </p>
                 <p>
-                    {{ 'The Municipality Team'|trans({}, 'messages') }}
+                    {{ 'L’équipe de la municipalité'|trans({}, 'messages') }}
                 </p>
             </div>
             <div class="footer">
                 <p>
                     &copy;
                     {{ "now"|date("Y") }}
-                    {{ 'Your Municipality. All rights reserved.'|trans({}, 'messages') }}
+                    {{ 'Votre municipalité. Tous droits réservés.'|trans({}, 'messages') }}
                 </p>
             </div>
         </div>

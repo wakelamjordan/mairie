@@ -1,6 +1,6 @@
 {% extends './_part/_modeleFormBg.html.twig' %}
 {% block title %}
-    {{'Mairie-Enregistrement d\'un nouvel utilisateur'}}
+    {{ 'Mairie-Saisie information nouvel utilisateur' }}
 {% endblock %}
 {% block form %}
 
@@ -17,11 +17,12 @@
                 {{ 'Inscription'|trans }}
 
             </h1>
-            {% if email is defined %}
-                <span class='fs-3'>
-                    {{ email }}
-                </span>
-            {% endif %}
+            <span class='fs-3'>
+                {{ email }}
+            </span>
+            <span ='lead'>
+                {{ 'Completez votre inscription.'|trans }}
+            </span>
 
             {{ form_errors(registrationForm) }}
 

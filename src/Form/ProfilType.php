@@ -28,12 +28,17 @@ class ProfilType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'placeholder' => $this->security->getUser()->getUserIdentifier(),
+                    'autocomplete' => 'off',
                 ],
+
             ])
             ->add('password', RepeatedType::class, [
                 'mapped' => false,
                 'type' => PasswordType::class,
                 'required' => false, // Le champ n'est pas requis pour soumettre le formulaire
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                ],
                 'first_options' => [
                     'label' => 'Mot de passe',
                     'constraints' => [
@@ -48,6 +53,9 @@ class ProfilType extends AbstractType
                 ],
                 'second_options' => [
                     'label' => 'Confirmer le mot de passe',
+                    'attr' => [
+                        'autocomplete' => 'new-password',
+                    ],
                 ],
                 'invalid_message' => 'Les mots de passe ne sont pas identiques.',
             ])
@@ -62,6 +70,9 @@ class ProfilType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'attr'=>[
+                'autocomplete'=>'off',
+            ]
         ]);
     }
 }

@@ -1,6 +1,6 @@
 {% extends './_part/_modeleFormBg.html.twig' %}
 {% block title %}
-    Edition du profil
+{{ 'Mairie-Edition du profil'|trans }}
 {% endblock %}
 {% block form %}
     <div class="w-75">
@@ -12,7 +12,7 @@
                 </div>
             {% endfor %}
             <h1>
-                Edition du profil
+                {{ 'Edition du profil'|trans }}
             </h1>
             {{ form_errors(form) }}
             <div class="d-flex justify-content-between">
@@ -20,8 +20,7 @@
                     {{ user.email }}
                 </span>
                 <button onclick="requestEditMail(this,'{{ path('app_reset_mail') }}')" class="btn btn-primary">
-
-                    Changer de mail
+                    {{ 'Changer de mail'|trans }}
                 </button>
             </div>
             {{ form_start(form) }}
@@ -41,7 +40,7 @@
                 <div class="col-md-6">
                     <button class="btn btn-warning w-100 mb-2" onclick="window.location.href='{{ path('app_profil_show') }}'">
                         <i class="fas fa-door-open me-2"></i>
-                        Annuler
+                        {{ 'Annuler'|trans }}
                     </button>
                 </div>
             </div>

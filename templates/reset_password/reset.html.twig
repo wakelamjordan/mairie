@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
-
-
-
+{% block title %}
+    {{ 'Mairie-Nouveau mot de passe'|trans }}
+{% endblock %}
 {% block body %}
 
     <div class="d-flex justify-content-center h-100 min-vh-100 align-items-center position-relative">
@@ -9,13 +9,18 @@
 
             <div class="d-grid gap-3">
                 <h1>
-                    Nouveau mot de passe
+                    {{ 'Nouveau mot de passe'|trans }}
                 </h1>
-
+                <span class='fs-3'>
+                    {{ email }}
+                </span>
+                <span ='lead'>
+                    {{ 'Entrez votre nouveau mot de passe.'|trans }}
+                </span>
                 {{ form_start(resetForm) }}
                 {{ form_row(resetForm.plainPassword) }}
                 <button class="btn btn-primary w-100">
-                    Enregistrer
+                    {{ 'Enregistrer'|trans }}
                 </button>
                 {{ form_end(resetForm) }}
             </div>
