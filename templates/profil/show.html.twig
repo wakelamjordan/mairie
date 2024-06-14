@@ -35,17 +35,6 @@
                                     </button>
                                 </div>
 
-                                {# {{ include('profil/_form.html.twig', {'button_label': button_label}) }} #}
-
-                                <div class="col-lg-6">
-<button onclick="window.location.href='{{ path('app_profil_delete_request',{'id':user.id}) }}'" class="btn btn-danger w-100 mb-2" {% if buttonDisabled is defined and buttonDisabled == true %} } disabled {% endif %}>
-    
-
-                                        <i class="fas fa-eraser me-2 d-md-none d-xl-inline"></i>
-                                        {{ 'Supprimer'|trans }}
-                                    </button>
-                                {# <script>function test_(){alert('kdsjksjldfh');}</script> #}
-                                </div>
                             </div>
 
                         </div>

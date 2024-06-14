@@ -1,6 +1,6 @@
 {% extends './_part/_modeleFormBg.html.twig' %}
 {% block title %}
-{{ 'Mairie-Edition du profil'|trans }}
+    {{ 'Mairie-Edition du profil'|trans }}
 {% endblock %}
 {% block form %}
     <div class="w-75">
@@ -11,6 +11,8 @@
                     {{ flash_error }}
                 </div>
             {% endfor %}
+            <div id="messageSuccessMail" class="alert alert-success d-none" role="alert"></div>
+            <div id="messageErrorMail" class="alert alert-danger d-none" role="alert"></div>
             <h1>
                 {{ 'Edition du profil'|trans }}
             </h1>
@@ -19,36 +21,44 @@
                 <span class="fs-2">
                     {{ user.email }}
                 </span>
-                <button onclick="requestEditMail(this,'{{ path('app_reset_mail') }}')" class="btn btn-primary">
-                    {{ 'Changer de mail'|trans }}
+                <button onclick="window.location.href='{{ path('app_profil') }}'" class="btn btn-warning mb-2 position-absolute top-0">
+                    <i class="fas fa-door-open me-2"></i>
+                    <span class="">
+                        {{ 'Annuler'|trans }}
+                    </span>
                 </button>
             </div>
             {{ form_start(form) }}
             {{ form_row(form.password) }}
+            {{ form_row(form.email) }}
+            {{ form_errors(form.email) }}
             {{ form_widget(form) }}
-
             <div class="row">
                 <div class="col-md-6">
+                    {# <button class="btn btn-success w-100 mb-2" onclick="checkMail(this, '{{ path('app_check_mail') }}','{{ form.vars['name'] }}')"> #}
                     <button class="btn btn-success w-100 mb-2">
                         <i class="fas fa-check me-2"></i>
                         {{ button_label|default('Save') }}
                     </button>
+                {# <button class="btn btn-success w-100 mb-2">
+                    <i class="fas fa-check me-2"></i>
+                    {{ button_label|default('Save') }}
+                </button> #}
                 </div>
 
                 {# {{ include('profil/_form.html.twig', {'button_label': button_label}) }} #}
 
                 <div class="col-md-6">
-                    {# <button class="btn btn-warning w-100 mb-2" onclick="window.location.href='{{ path('app_profil') }}'">
-                        <i class="fas fa-door-open me-2"></i>
-                        {{ 'Annuler'|trans }}
-                    </button> #}
-                    <button class="btn btn-warning w-100 mb-2" onclick="window.location.href='{{ path('app_profil') }}'">
-                        <i class="fas fa-door-open me-2"></i>
-                        {{ 'Annuler'|trans }}
+                    <button class="btn btn-danger w-100 mb-2" onclick="requestEditMail(this,'{{ path('app_reset_mail') }}')">
+                        <i class="fas fa-trash-can me-2"></i>
+                        {{ 'Supprimer'|trans }}
                     </button>
                 </div>
             </div>
             {{ form_end(form,{'render_rest':false}) }}
         </div>
     </div>
+{% endblock %}
+{% block script_specifique %}
+    <script src='{{ asset("./js/CheckEmail.js") }}'></script>
 {% endblock %}

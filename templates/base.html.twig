@@ -23,22 +23,25 @@
         {% endblock %}
     </head>
     <body class="bg-page">
-        <div class="position-relative">
+        <div class="">
             <div class="mx-auto w-100 container px-3 px-md-4 px-lg-5 bg-page">
                 {% include './_part/header.html.twig' %}
             </div>
-            <div class="bg-60 container px-0">
+<div class="bg-60 container px-0">
+    
 
-                <div class="mx-auto w-100  position-sticky" style="z-index: 99;">
+                <div class="mx-auto w-100 position-sticky" style="z-index: 99;">
                     {% include './_part/navbar.html.twig' %}
                     <div class="position-absolute container">
                         {% include './_part/_flashbag.html.twig' %}
                     </div>
                 </div>
 
-                <div class="mx-auto w-100 bg-60">
+<div class="mx-auto w-100 bg-60">
+    
 
-                    <div class="min-vh-100">
+<div class="min-vh-100">
+    
 
                         {% block body %}{% endblock %}
                     </div>
@@ -46,6 +49,7 @@
             </div>
             {% include './_part/footer.html.twig' %}
         </div>
-
+        {% block script_specifique %}
+    {% endblock %}
     </body>
 </html>

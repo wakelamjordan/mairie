@@ -123,7 +123,7 @@ class ProfilController extends AbstractController
         }
 
         // ----------------------------retiré pour dev penser à remettre-----------------------------------
-        // $this->emailVerifier->handleEmailConfirmation($request, $user);
+        $this->emailVerifier->handleEmailConfirmation($request, $user);
         // ---------------------------------------------------------------
 
         $form = $this->createForm(
@@ -134,23 +134,9 @@ class ProfilController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $data = $request->request->all()['profil'];
-
             if (!empty($data['email']) && $data['email'] !== $user->getEmail()) {
-                // --------------------------------------------------------------------
-                // vérification de la disponibilité du mail
 
-
-                dd('test mail');
-
-
-
-
-
-
-
-                // ---------------------------------------------------------------------
 
                 $this->emailVerifier->sendEmailConfirmation(
                     'app_verify_change_email',
@@ -179,7 +165,7 @@ class ProfilController extends AbstractController
                         )
                     );
 
-                $this->addFlash('success', $this->translator->trans('Mot de pass mis à jour'));
+                $this->addFlash('success', $this->translator->trans('Mot de passe mis à jour.'));
             }
             $this->entityManagerInterface->persist($user);
 
@@ -229,7 +215,7 @@ class ProfilController extends AbstractController
             $id = $request->query->get('id');
 
             // Vérifie si l'ID est présent dans la requête
-            if (null === $id) {
+            if ($id === null) {
                 $this->addFlash('error', $this->translator->trans('Lien invalide.'));
                 return $this->redirectToRoute('app_home');
             }
@@ -243,8 +229,15 @@ class ProfilController extends AbstractController
                 return $this->redirectToRoute('app_home');
             }
 
+            $confirmationEmail = $user->getConfirmationEmail();
+
+            if ($confirmationEmail === null) {
+                $this->addFlash('error', $this->translator->trans('Lien invalide.'));
+                return $this->redirectToRoute('app_home');
+            }
             // Vérifie la correspondance de la requête avec l'email de confirmation de l'utilisateur
-            if (!$user->getConfirmationEmail()->getSignature() === $request->getUri()) {
+            if ($confirmationEmail->getSignature() !== $request->getUri()) {
+                $this->addFlash('error', $this->translator->trans('Lien invalide.'));
                 return $this->redirectToRoute('app_home');
             }
 
@@ -256,13 +249,35 @@ class ProfilController extends AbstractController
                 $this->addFlash('error', $this->translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
                 return $this->redirectToRoute('app_home');
             }
-
-            dd('eeee');
         } catch (\Exception $e) {
             // Gestion des exceptions génériques ou inattendues
             $this->logger->error('Erreur dans verifyUserEmail: ' . $e->getMessage());
             throw new \RuntimeException('Une erreur est survenue lors de la vérification et du traitement de l\'email utilisateur.');
         }
+        $this->addFlash('success', $this->translator->trans('Email vérifié avec succès.'));
+        return $this->redirectToRoute('app_home');
+    }
+
+    #[Route('/check_mail', name: 'app_check_mail', methods: ['POST'])]
+    public function checkMail(Request $request): JsonResponse
+    {
+        $input = $request->request->all();
+
+        if ($input['email']) {
+            $existInUser = $this->entityManagerInterface->getRepository(User::class)->findBy(['email' => $input['email']]);
+            $existInNewMail = $this->entityManagerInterface->getRepository(ConfirmationEmail::class)->findBy(['newMail' => $input['email']]);
+
+            // dd($existInNewMail, $existInUser, !empty($existInNewMail), !empty($existInUser));
+            if (!empty($existInNewMail) || !empty($existInUser)) {
+                return new JsonResponse(['message' => $this->translator->trans('Mail déjà utilisé!')], JsonResponse::HTTP_CONFLICT);
+            }
+            return new JsonResponse(['message' => $this->translator->trans('Mail valide.')], JsonResponse::HTTP_OK);
+        }
+        // $data = $request->request->all()['profil'];
+
+        // if ($data['email']) {
+        //     dd($data['email']);
+        // }
     }
 
     // #[Route('/{id}', name: 'app_profil_delete', methods: ['GET', 'POST'])]
