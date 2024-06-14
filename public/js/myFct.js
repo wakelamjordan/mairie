@@ -30,7 +30,7 @@ function fetchDataGet(url) {
     if (xhr.status >= 200 && xhr.status < 400) {
       // Succès de la requête
       var data = JSON.parse(xhr.responseText);
-      showMessage("alertSuccess", data.response);
+      showMessage("alertError", data.message.error);
       console.log(data); // Affichage des données dans la console (à adapter selon le besoin)
       // Manipulation des données ou mise à jour de l'interface utilisateur
     } else {
@@ -59,8 +59,8 @@ function fetchDataPost(url) {
     if (xhr.status >= 200 && xhr.status < 400) {
       // Succès de la requête
       var data = JSON.parse(xhr.responseText);
-      showMessage("alertSuccess", data.response);
-      console.log(data); // Affichage des données dans la console (à adapter selon le besoin)
+      showMessage("alertSuccess", data.message.success);
+      console.log(data.message); // Affichage des données dans la console (à adapter selon le besoin)
       // Manipulation des données ou mise à jour de l'interface utilisateur
     } else {
       // Erreur pendant la requête
@@ -88,7 +88,7 @@ function showMessage(elementId, message, duration = 6000) {
   // Trouver l'élément par ID
   var element = document.getElementById(elementId);
 
-  console.log(element);
+  console.log(element, message);
   // Vérifier si l'élément existe
   if (element) {
     element.classList.remove("d-none");

@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Psr\Log\LoggerInterface; // Pour la journalisation des erreurs
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\ORMException; // Pour capturer les exceptions ORM spécifiques
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException; // Si vous souhaitez utiliser des exceptions HTTP (optionnel)
 use Symfony\Component\Translation\Reader\TranslationReaderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -135,7 +136,7 @@ class MyFct extends AbstractController
 
 
     // à arranger et valider
-    public function checkLapsTimeRequest(User $user): bool
+    public function checkLapsTimeRequest(User $user): JsonResponse
     {
         $confirmationEmail = $user->getConfirmationEmail();
 
@@ -143,7 +144,13 @@ class MyFct extends AbstractController
             $emailConfirmationDate = $confirmationEmail->getAt();
 
             if ($emailConfirmationDate->modify('+30 minutes') > new DateTimeImmutable()) {
-                return false;
+                $data = [
+                    'status' => 'error',
+                    'message' => $this->translate->trans('Votre précédente demande date date de moins de 30 minutes veuillez réitérer plus tard.'),
+                    'errors' => []
+                ];
+
+                return new JsonResponse($data, JsonResponse::HTTP_BAD_REQUEST);
             } else {
                 $this->entityManagerInterface->remove($confirmationEmail);
                 $this->entityManagerInterface->flush();
@@ -329,4 +336,60 @@ class MyFct extends AbstractController
 
     // // Envoyer l'e-mail
     // $mailer->send($email);
+
+
+    /**
+     * Valide la confirmation de l'utilisateur en vérifiant la signature et la durée de validité.
+     *
+     * Cette fonction prend un utilisateur, une requête et une durée optionnelle (par défaut 30 minutes). 
+     * Elle vérifie si l'utilisateur a une demande de confirmation valide et non expirée.
+     *
+     * @param User $user L'utilisateur dont la confirmation est à vérifier.
+     * @param Request $request La requête HTTP contenant les paramètres de validation.
+     * @param int $durationInMinutes La durée en minutes pendant laquelle la confirmation est considérée valide. Par défaut 30 minutes.
+     * 
+     * @return bool Renvoie `true` si la confirmation est valide, sinon `false`.
+     * 
+     * @throws \RuntimeException Si une erreur inattendue se produit pendant la validation.
+     */
+    public function validateConfirmation(User $user, Request $request, int $durationInMinutes = 30): bool
+    {
+        try {
+            // Récupère l'email de confirmation de l'utilisateur.
+            $confirmationEmail = $user->getConfirmationEmail();
+
+            // Vérifie si l'email de confirmation existe.
+            if (!$confirmationEmail) {
+                // Ajoute un message flash (commenté ici) et retourne `false` si l'email de confirmation n'existe pas.
+                // $this->addFlash('error', $this->translate->trans('Lien invalide.'));
+                return false;
+            }
+
+            // Compare la signature dans la requête avec celle de l'email de confirmation.
+            if ($request->query->get('signature') !== $confirmationEmail->getSignature()) {
+                // Si les signatures ne correspondent pas, retourne `false`.
+                return false;
+            }
+
+            // Vérifie si la requête de confirmation a été faite dans la durée spécifiée.
+            $emailConfirmationDate = $confirmationEmail->getAt();
+            $expirationDate = $emailConfirmationDate->modify("+$durationInMinutes minutes");
+
+            // Si la confirmation date de plus que la durée spécifiée.
+            if ($expirationDate < new DateTimeImmutable()) {
+                // Supprime l'email de confirmation de l'utilisateur.
+                $this->entityManagerInterface->remove($confirmationEmail);
+                $this->entityManagerInterface->flush();
+                // Retourne `false` si la confirmation a expiré.
+                return false;
+            }
+
+            // Si toutes les vérifications sont réussies, retourne `true`.
+            return true;
+        } catch (\Exception $e) {
+            // Enregistre une erreur dans le logger et lève une exception en cas de problème inattendu.
+            $this->logger->error('Erreur dans validateConfirmation: ' . $e->getMessage());
+            throw new \RuntimeException('Une erreur est survenue lors de la validation de la confirmation.');
+        }
+    }
 }

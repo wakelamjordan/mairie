@@ -61,8 +61,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $newMail = null;
 
-    // je crois qu'à cause de çà il supprime le user au moment de supprimer sa confirmation
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist'])]
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private ?ConfirmationEmail $confirmationEmail = null;
 
     /**

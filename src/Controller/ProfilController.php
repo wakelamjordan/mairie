@@ -58,33 +58,91 @@ class ProfilController extends AbstractController
         ]);
     }
 
-    #[Route('/edit_request', name: 'app_profil_edit_request', methods: ['GET', 'POST'])]
-    public function requestEdit(Request $request): Response
+    #[Route('/edit_request/{id}', name: 'app_profil_edit_request', methods: ['GET', 'POST'])]
+    public function requestEdit(User $user, Request $request): Response
     {
         // réception par post de la demande
         // j'envoie le mail avec un message comme quoi c'est base
         // la personne reviens en get ici
         // je controle son url signé
 
+        $isU = ($user->getId() === $this->getUser()->getId());
 
+        if (!$isU) {
+            $data = [
+                'status' => 'error',
+                'message' =>  $this->translator->trans('Lien invalide.'),
+                'errors' => []
+            ];
+            return new JsonResponse($data, JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $okToInitConfirm = $this->myFct->checkLapsTimeRequest($user);
+
+        if (!$okToInitConfirm) {
+            $data = [
+                'status' => 'error',
+                'message' =>  $this->translator->trans('Lien invalide.'),
+                'errors' => []
+            ];
+            return new JsonResponse($data, JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $this->emailVerifier->sendEmailConfirmation(
+            'app_profil_edit_request',
+            $user,
+            (new TemplatedEmail())
+                ->from(new Address('mairie@gmail.com', 'mairie'))
+                ->to($user->getUserIdentifier())
+                ->subject($this->translator->trans('Please Confirm your Email'))
+                ->htmlTemplate('email/edit_request.html.twig')
+                ->context(['user' => $user, 'id' => $user->getId()])
+        );
+
+        return new JsonResponse([
+            'message' => ['success' => $this->translator->trans('Un mail avec un lien vous a été envoyé, valider la nouvelle addresse ' . $user->getNewMail())]
+        ], JsonResponse::HTTP_OK);
+
+
+
+        dd();
+
+        if (!$user || $user->getId() !== $this->getUser()->getId()) {
+            $this->addFlash('error', $this->translator->trans('Lien invalide.'));
+            return $this->redirectToRoute('app_home');
+        }
+
+        // containte d'unicité mais uniquement pour le passage avec le lien de confirmation du coup en get
+        if ($request->isMethod('GET')) {
+            if (!$this->myFct->checkCorrespondanceRequest($user, $request)) {
+                dd(3);
+                return $this->redirectToRoute('app_home');
+            }
+            try {
+                $this->verifyEmailHelper->validateEmailConfirmationFromRequest(
+                    $request,
+                    (string) $user->getId(),
+
+                    $user->getEmail()
+                );
+            } catch (VerifyEmailExceptionInterface $exception) {
+                // dd(4);
+                $this->addFlash('error', $this->translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
+                return $this->redirectToRoute('app_home');
+            }
+            return $this->redirectToRoute('app_profil_edit', ['id' => $user->getId()]);
+        }
 
         if ($request->getMethod() === 'POST') {
             // dd('pourquoi je repasse ici alors que mon form devrai revenir d\'ou il est parti');
-
             // je crois que çà sert à rien
             // $confirmationEmail = $this->entityManagerInterface->getRepository(ConfirmationEmail::class)->findOneBy(['user' => $this->getUser()]);
 
 
-            $user = $this->getUser();
+            // $user = $this->getUser();
 
-            if (!$user) {
-                return $this->redirectToRoute('app_home');
-            }
 
-            if (!$this->myFct->checkLapsTimeRequest($user)) {
-                $this->addFlash('error', $this->translator->trans('Votre dernière requête date de moins de 30 minutes, réessayer plus tard.'));
-                return $this->redirectToRoute('app_profil_show');
-            }
+
             // $user = $security->getUser();
             // $form = $this->createForm(ProfilType::class, $user);
             // return $this->render('profil/show.html.twig', [
@@ -100,25 +158,26 @@ class ProfilController extends AbstractController
                     ->to($user->getUserIdentifier())
                     ->subject($this->translator->trans('Please Confirm your Email'))
                     ->htmlTemplate('email/edit_request.html.twig')
-                    ->context(['user' => $user])
+                    ->context(['user' => $user, 'id' => $user->getId()])
             );
 
             return new JsonResponse([
-                'message' => $this->translator->trans('Un mail avec un lien vous a été envoyé, pour modifier vos informations clickez dessus.')
+                'message' => ['success' => $this->translator->trans('Un mail avec un lien vous a été envoyé, valider la nouvelle addresse ' . $user->getNewMail())]
             ], JsonResponse::HTTP_OK);
         }
 
-        // si c'est bon je la renvois vers edit
-        if ($request->isMethod('GET')) {
-            // avec get on est sur le deuxième passage
-            $hawRU = $this->myFct->checkCorrespondanceRequest($this->getUser(), $request);
-            if ($hawRU) {
-                return $this->edit($request);
-            } else {
-                $this->addFlash('error', $this->translator->trans('Lien invalide.'));
-                return $this->redirectToRoute('app_home');
-            };
-        };
+        // return $this->redirectToRoute('app_profil_edit', ['id' => $user->getId()]);
+
+        // // si c'est bon je la renvois vers edit
+        // if ($request->isMethod('GET')) {
+        //     // avec get on est sur le deuxième passage
+        //     $hawRU = $this->myFct->checkCorrespondanceRequest($this->getUser(), $request);
+        //     if ($hawRU) {
+        //     } else {
+        //         $this->addFlash('error', $this->translator->trans('Lien invalide.'));
+        //         return $this->redirectToRoute('app_home');
+        //     };
+        // };
 
 
         // $this->addFlash('success', 'Un mail avec un lien vous a été envoyé, pour modifier vos informations clickez dessus.');
@@ -130,31 +189,17 @@ class ProfilController extends AbstractController
     #[Route('/edit/{id}', name: 'app_profil_edit', methods: ['GET', 'POST'])]
     public function edit(User $user, Request $request)
     {
-        $user = $this->entityManagerInterface->getRepository(User::class)->find($id);
+        // $user = $this->entityManagerInterface->getRepository(User::class)->find($id);
 
-        if (!$this->myFct->checkCorrespondanceRequest($user, $request)) {
-            dd(3);
-            return $this->redirectToRoute('app_home');
-        }
-        if ($user !== ($this->getUser()->getId())) {
+
+
+        if ($user->getId() !== ($this->getUser()->getId())) {
             dd(9);
             return $this->redirectToRoute('app_home');
         }
 
-
+        dd(10);
         if ($request->isMethod('GET')) {
-            try {
-                $this->verifyEmailHelper->validateEmailConfirmationFromRequest(
-                    $request,
-                    (string) $user->getId(),
-
-                    $user->getEmail()
-                );
-            } catch (VerifyEmailExceptionInterface $exception) {
-                // dd(4);
-                $this->addFlash('error', $this->translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
-                return $this->redirectToRoute('app_home');
-            }
         }
 
         // if (null === $id) {

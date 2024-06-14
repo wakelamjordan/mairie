@@ -22,7 +22,6 @@ class ConfirmationEmail
     private ?\DateTimeInterface $at = null;
 
     #[ORM\OneToOne(inversedBy: 'confirmationEmail', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private ?User $user = null;
 
     public function __construct()
