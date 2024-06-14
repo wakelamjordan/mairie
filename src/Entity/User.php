@@ -61,9 +61,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $newMail = null;
 
+    // #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
+    // #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    // #[ORM\OneToOne(inversedBy: 'user')]
+    // #[ORM\JoinColumn(nullable: true)]
+    // private ?ConfirmationEmail $confirmationEmail = null;
+
+    // #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    // #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')] // Utilisation de SET NULL au lieu de CASCADE
+    // private ?ConfirmationEmail $confirmationEmail = null;
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private ?ConfirmationEmail $confirmationEmail = null;
+
 
     /**
      * @var Collection<int, ListRequest>

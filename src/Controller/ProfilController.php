@@ -66,6 +66,28 @@ class ProfilController extends AbstractController
         // la personne reviens en get ici
         // je controle son url signé
 
+
+        $confirmation = $user->getConfirmationEmail();
+
+        // $confirmation = $this->entityManagerInterface->getRepository(ConfirmationEmail::class)->find($confirmation->getId());
+
+
+
+
+        // $confirmation = new ConfirmationEmail;
+
+        // $confirmation->setSignature('$useqssasasasar');
+
+        // $user->setConfirmationEmail($confirmation);
+
+        // $this->entityManagerInterface->flush();
+        // $user->setConfirmationEmail(null);
+        $this->entityManagerInterface->remove($confirmation);
+        // $this->entityManagerInterface->persist($user);
+        $this->entityManagerInterface->flush();
+
+        dd($user, $confirmation);
+
         $isU = ($user->getId() === $this->getUser()->getId());
 
         if (!$isU) {

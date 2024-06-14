@@ -136,7 +136,7 @@ class MyFct extends AbstractController
 
 
     // à arranger et valider
-    public function checkLapsTimeRequest(User $user): JsonResponse
+    public function checkLapsTimeRequest(User $user)
     {
         $confirmationEmail = $user->getConfirmationEmail();
 
