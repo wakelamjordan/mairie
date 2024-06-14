@@ -127,18 +127,22 @@ class ProfilController extends AbstractController
 
 
 
-    #[Route('/edit', name: 'app_profil_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request)
+    #[Route('/edit/{id}', name: 'app_profil_edit', methods: ['GET', 'POST'])]
+    public function edit(User $user, Request $request)
     {
+        $user = $this->entityManagerInterface->getRepository(User::class)->find($id);
+
+        if (!$this->myFct->checkCorrespondanceRequest($user, $request)) {
+            dd(3);
+            return $this->redirectToRoute('app_home');
+        }
+        if ($user !== ($this->getUser()->getId())) {
+            dd(9);
+            return $this->redirectToRoute('app_home');
+        }
+
+
         if ($request->isMethod('GET')) {
-            $id = $request->query->get('id');
-
-            $user = $this->entityManagerInterface->getRepository(User::class)->find($id);
-
-            if (!$this->myFct->checkCorrespondanceRequest($user, $request)) {
-                dd(3);
-                return $this->redirectToRoute('app_home');
-            }
             try {
                 $this->verifyEmailHelper->validateEmailConfirmationFromRequest(
                     $request,
@@ -152,6 +156,7 @@ class ProfilController extends AbstractController
                 return $this->redirectToRoute('app_home');
             }
         }
+
         // if (null === $id) {
         //     $this->addFlash('error', $this->translator->trans('Lien non valide.'));
         //     dd(1);
@@ -181,13 +186,12 @@ class ProfilController extends AbstractController
             // $this->entityManagerInterface->remove($confirmationEmail);
             // $this->entityManagerInterface->flush();
         }
-        $user = $this->getUser();
 
-        if (null === $user) {
-            dd(2);
-            $this->addFlash('error', $this->translator->trans('Lien non valide.'));
-            return $this->redirectToRoute('app_home');
-        }
+        // if (null === $user) {
+        //     dd(2);
+        //     $this->addFlash('error', $this->translator->trans('Lien non valide.'));
+        //     return $this->redirectToRoute('app_home');
+        // }
 
         $form = $this->createForm(
             ProfilType::class,
@@ -201,8 +205,6 @@ class ProfilController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-
             // on va vérifier si mail différent
             $newEmail = $request->request->all()['profil']['email'];
             if ($newEmail !== $user->getEmail()) {
@@ -214,9 +216,9 @@ class ProfilController extends AbstractController
                     (new TemplatedEmail())
                         ->from(new Address('mairie@gmail.com', 'mairie'))
                         ->to($user)
-                        ->subject($this->translator->trans('Please Confirm your Email'))
+                        ->subject($this->translator->trans('Veuillez confirmer votre courriel'))
                         ->htmlTemplate('email/edit_request.html.twig')
-                        ->context(['user' => $user])
+                        ->context(['user' => $user, 'id' => $user->getId()])
                 );
             }
 
