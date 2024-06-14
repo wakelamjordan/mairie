@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ConfirmationEmail;
 use App\Entity\User;
 use Twig\Environment;
 use App\Form\UserType;
@@ -37,50 +38,17 @@ class ProfilController extends AbstractController
         private EmailVerifier $emailVerifier,
         private MyFct $myFct,
         private  UserPasswordHasherInterface $userPasswordHasher,
-        private VerifyEmailHelperInterface $verifyEmailHelper
+        private VerifyEmailHelperInterface $verifyEmailHelper,
+        private TranslatorInterface $translator,
+        private EntityManagerInterface $entityManagerInterface,
     ) {
     }
-
-    #[Route('/edit', name: 'app_profil_edit', methods: ['GET'])]
-    public function requestEdit(Security $security): Response
-    {
-        $user = $security->getUser();
-
-        if (!$user) {
-            return $this->redirectToRoute('app_home');
-        }
-
-        if (!$this->myFct->checkLapsTimeRequest($user)) {
-            $this->addFlash('error', 'Votre dernière requête date de moins de 30 minutes, réessayer plus tard.');
-            return $this->redirectToRoute('app_profil_show');
-        }
-        // $user = $security->getUser();
-        // $form = $this->createForm(ProfilType::class, $user);
-        // return $this->render('profil/show.html.twig', [
-        //     'profilForm' => $form,
-        //     'user' => $user,
-        // ]);
-
-        $this->emailVerifier->sendEmailConfirmation(
-            'app_profil_verify_to_edit',
-            $user,
-            (new TemplatedEmail())
-                ->from(new Address('mairie@gmail.com', 'mairie'))
-                ->to($user->getEmail())
-                ->subject('Please Confirm your Email')
-                ->htmlTemplate('email/edit_request.html.twig')
-                ->context(['user' => $user])
-        );
-        $this->addFlash('success', 'Un mail avec un lien vous a été envoyé, pour modifier vos informations clickez dessus.');
-        return $this->redirectToRoute('app_profil_show');
-    }
-
     #[Route('', name: 'app_profil_show', methods: ['GET', 'POST'])]
     public function show(Security $security): Response
     {
         $user = $security->getUser();
         if (!$user) {
-            $this->addFlash('error', 'Vous n\'avez pas accès');
+            $this->addFlash('error', $this->translator->trans('Vous n\'avez pas accès'));
             return $this->redirectToRoute('app_home');
         }
         $form = $this->createForm(ProfilType::class, $user);
@@ -90,20 +58,83 @@ class ProfilController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/verify', name: 'app_profil_verify_to_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, TranslatorInterface $translator, UserRepository $userRepository, EntityManagerInterface $entityManager)
+    #[Route('/edit_request', name: 'app_profil_edit_request', methods: ['GET', 'POST'])]
+    public function requestEdit(Request $request): Response
+    {
+        // réception par post de la demande
+        // j'envoie le mail avec un message comme quoi c'est base
+        // la personne reviens en get ici
+        // je controle son url signé
+        // si c'est bon je la renvois vers edit
+        if ($request->isMethod('GET')) {
+            $hawRU = $this->myFct->checkCorrespondanceRequest($this->getUser(), $request);
+            return $this->edit($request);
+        } else {
+            $this->addFlash('error', $this->translator->trans('Lien invalide.'));
+            return $this->redirectToRoute('app_home');
+        };
+
+
+        if ($request->getMethod() === 'POST') {
+
+            $confirmationEmail = $this->entityManagerInterface->getRepository(ConfirmationEmail::class)->findOneBy(['user' => $this->getUser()]);
+
+
+            $user = $this->getUser();
+
+            if (!$user) {
+                return $this->redirectToRoute('app_home');
+            }
+
+            if (!$this->myFct->checkLapsTimeRequest($user)) {
+                $this->addFlash('error', 'Votre dernière requête date de moins de 30 minutes, réessayer plus tard.');
+                return $this->redirectToRoute('app_profil_show');
+            }
+            // $user = $security->getUser();
+            // $form = $this->createForm(ProfilType::class, $user);
+            // return $this->render('profil/show.html.twig', [
+            //     'profilForm' => $form,
+            //     'user' => $user,
+            // ]);
+
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_profil_edit_request',
+                $user,
+                (new TemplatedEmail())
+                    ->from(new Address('mairie@gmail.com', 'mairie'))
+                    ->to($user->getUserIdentifier())
+                    ->subject($this->translator->trans('Please Confirm your Email'))
+                    ->htmlTemplate('email/edit_request.html.twig')
+                    ->context(['user' => $user])
+            );
+
+            return new JsonResponse([
+                'message' => $this->translator->trans('Un mail avec un lien vous a été envoyé, pour modifier vos informations clickez dessus.')
+            ], JsonResponse::HTTP_OK);
+        }
+
+
+
+        // $this->addFlash('success', 'Un mail avec un lien vous a été envoyé, pour modifier vos informations clickez dessus.');
+        // return $this->redirectToRoute('app_profil_show');
+    }
+
+
+
+    #[Route('/edit', name: 'app_profil_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request)
     {
         $id = $request->query->get('id');
 
         if (null === $id) {
-            $this->addFlash('error', $translator->trans('Lien non valide.'));
+            $this->addFlash('error', $this->translator->trans('Lien non valide.'));
             return $this->redirectToRoute('app_home');
         }
 
-        $user = $userRepository->find($id);
+        $user = $this->entityManagerInterface->getRepository(User::class)->find($id);
 
         if (null === $user) {
-            $this->addFlash('error', $translator->trans('Lien non valide.'));
+            $this->addFlash('error', $this->translator->trans('Lien non valide.'));
             return $this->redirectToRoute('app_home');
         }
 
@@ -111,9 +142,6 @@ class ProfilController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        $form = $this->createForm(ProfilType::class, $user);
-
-        $form->handleRequest($request);
 
         try {
             $this->verifyEmailHelper->validateEmailConfirmationFromRequest(
@@ -123,29 +151,42 @@ class ProfilController extends AbstractController
                 $user->getEmail()
             );
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
+            $this->addFlash('error', $this->translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
             return $this->redirectToRoute('app_home');
         }
 
 
         if ($request->isMethod('POST')) {
             $id = $request->query->get('id');
-            $listRequest = $entityManager->getRepository(ListRequest::class)->findBy(['user' => $id]);
+            $confirmationEmail = $this->entityManagerInterface->getRepository(ConfirmationEmail::class)->findOneBy(['user' => $id]);
 
-            if (!$listRequest) {
+            if (!$confirmationEmail) {
                 return $this->redirectToRoute('app_home');
             }
 
-            if ($listRequest[0]->getParam() !== $request->query->all()['signature']) {
+
+            $awRu = $this->myFct->checkCorrespondanceRequest($user, $request);
+            if (!$awRu) {
                 return $this->redirectToRoute('app_home');
             }
 
-            $entityManager->remove($listRequest[0]);
-            $entityManager->flush();
+            $this->entityManagerInterface->remove($confirmationEmail);
+            $this->entityManagerInterface->flush();
         }
 
+        $form = $this->createForm(ProfilType::class, $user);
+
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            // on va vérifier si mail différent
+            $newEmail = $request->request->get('email');
+
+            dd($newEmail === $user->getEmail());
+
+            // on va vérifier si password est rempli
             // $emailInForm = $request->request->all()['profil']['email'];
             // $emailActual = $this->getUser()->getUserIdentifier();
 

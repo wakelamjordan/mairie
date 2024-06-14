@@ -25,6 +25,7 @@ class ProfilType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'mapped' => false,
+                'required' => false,
                 'attr' => [
                     'placeholder' => $this->security->getUser()->getUserIdentifier(),
                 ],

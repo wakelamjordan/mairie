@@ -133,37 +133,28 @@ class MyFct extends AbstractController
         // $this->myfct->getError($form);
     }
 
+
+    // à arranger et valider
     public function checkLapsTimeRequest(User $user): bool
     {
-        // $confirmationEmails = $user->getListRequests();
-        // $listRequest = '';
-        // $maxId = 0;
+        $confirmationEmail = $user->getConfirmationEmail();
 
-        // foreach ($listRequests as $r) {
-        //     $rId = $r->getId();
+        if ($confirmationEmail) {
+            $emailConfirmationDate = $confirmationEmail->getAt();
 
-        //     // Comparaison pour trouver l'ID le plus élevé
-        //     if ($rId > $maxId) {
-        //         $maxId = $rId;
-        //         $listRequest = $r;
-        //     }
-        // }
-        // if ($listRequest) {
-        //     $emailConfirmationDate = $listRequest->getRequestAt();
-
-        //     if ($emailConfirmationDate->modify('+30 minutes') > new DateTimeImmutable()) {
-        //         return false;
-        //     } else {
-        //         $this->entityManagerInterface->remove($listRequest);
-        //         $this->entityManagerInterface->flush();
-        //     }
-        // }
-        // dd($emailConfirmationDate->modify('+30 minutes') > new DateTimeImmutable());
+            if ($emailConfirmationDate->modify('+30 minutes') > new DateTimeImmutable()) {
+                return false;
+            } else {
+                $this->entityManagerInterface->remove($confirmationEmail);
+                $this->entityManagerInterface->flush();
+            }
+        }
+        // dd(new DateTimeImmutable());
 
         return true;
     }
 
-    // $listRequest = '';
+    // $confirmationEmail = '';
 
     // foreach ($confirmationEmails as $r) {
     //     $rId = $r->getId();
