@@ -1,55 +1,34 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
         <title>
             {% block title %}
-                Welcome!
+                {{ "Mairie-bienvenue"|trans }}
             {% endblock %}
         </title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         {% include './_part/_favicon.html.twig' %}
-
+        <!-- Bootstrap CSS v5.2.1 -->
         {% include './_part/link.html.twig' %}
-        {% block stylesheets %}{% endblock %}
-        {{ encore_entry_link_tags('app') }}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-            {% block importmap %}
-                {{ importmap('app') }}
-            {% endblock %}
-        {% endblock %}
     </head>
     <body class="bg-page">
-        <div class="">
-            <div class="mx-auto w-100 container px-3 px-md-4 px-lg-5 bg-page">
-                {% include './_part/header.html.twig' %}
-            </div>
-<div class="bg-60 container px-0">
-    
-
-                <div class="mx-auto w-100 position-sticky" style="z-index: 99;">
+        <div class="container">
+            <div class="bg-60">
+                <header class="bg-page">
+                    {% include './_part/header.html.twig' %}
+                </header>
+                <main class="min-vh-100 position-relative">
                     {% include './_part/navbar.html.twig' %}
-                    <div class="position-absolute container">
-                        {% include './_part/_flashbag.html.twig' %}
-                    </div>
-                </div>
-
-<div class="mx-auto w-100 bg-60">
-    
-
-<div class="min-vh-100">
-    
-
-                        {% block body %}{% endblock %}
-                    </div>
-                </div>
+                    {% include './_part/_flashbag.html.twig' %}
+                    {% block body %}{% endblock %}
+                </main>
+                <footer>
+                    {% include './_part/footer.html.twig' %}
+                </footer>
             </div>
-            {% include './_part/footer.html.twig' %}
         </div>
-        {% block script_specifique %}
-    {% endblock %}
+        {% block script_specifique %}{% endblock %}
     </body>
 </html>
