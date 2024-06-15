@@ -36,16 +36,12 @@
                 <td>{{ user.firstname }}</td>
             </tr>
             <tr>
-                <th>BirthAt</th>
-                <td>{{ user.birthAt ? user.birthAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>LoginAt</th>
-                <td>{{ user.loginAt ? user.loginAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
                 <th>CreatedAt</th>
                 <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>BirthAt</th>
+                <td>{{ user.birthAt ? user.birthAt|date('Y-m-d') : '' }}</td>
             </tr>
         </tbody>
     </table>

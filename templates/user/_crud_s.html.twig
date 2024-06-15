@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-md bg-light mb-3">
+    <div class="container-fluid">
+        <!-- Bouton de basculement (Toggle Button) -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarActions" aria-controls="navbarActions" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Contenu de la navbar -->
+        <div class="collapse navbar-collapse" id="navbarActions">
+            <form class="d-flex me-auto my-3 my-md-0" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search by email, name..." aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">
+                        Search
+                    </button>
+                </form>
+                <div class="d-flex flex-column flex-md-row grid gap-2">
+                    <button class="btn btn-primary w-100" id="btn-show">
+                        Afficher
+                    </button>
+                    <button class="btn btn-warning w-100" id="btn-edit">
+                        Modifier
+                    </button>
+                    <button class="btn btn-danger w-100" id="btn-delete">
+                        Supprimer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+
+
+    <script>
+        document.getElementById('btn-show').addEventListener('click', function() {
+    // Logique pour afficher les détails de l'utilisateur sélectionné
+    console.log('Afficher l\'utilisateur sélectionné');
+});
+
+document.getElementById('btn-edit').addEventListener('click', function() {
+    // Logique pour rediriger vers la page de modification
+    console.log('Modifier l\'utilisateur sélectionné');
+});
+
+document.getElementById('btn-delete').addEventListener('click', function() {
+    // Logique pour supprimer les utilisateurs sélectionnés
+    console.log('Supprimer les utilisateurs sélectionnés');
+});
+
+    </script>
+    
