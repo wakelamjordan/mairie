@@ -23,26 +23,23 @@ document.getElementById("btn-show").addEventListener("click", function () {
 
     url = url.replace("id", userId);
 
-    console.log(url);
-
-    makeRequest("GET", url, null, function (err, data) {
+    makeRequest(url, "GET", null, function (err, data) {
       if (err) {
         console.error("Erreur :", err);
         // Gérer l'erreur
       } else {
         var modalBody = document.getElementById("modalBody");
-        var buttonActionModal = document.getElementById("buttonActionModal");
 
-        console.log(modalBody);
+        var buttonActionModal = document.getElementById("buttonActionModal");
 
         modalBody.innerHTML = data; // Supposant que data est du HTML ou du texte à afficher
         // Afficher la modal
         // var myModal = new bootstrap.Modal(document.getElementById("modalBox"));
         buttonActionModal.click();
 
-        checkboxes.forEach((checkbox) => {
-          checkbox.checked = false;
-        });
+        // checkboxes.forEach((checkbox) => {
+        //   checkbox.checked = false;
+        // });
       }
     });
     // alert("afficher id" + userId);
@@ -55,8 +52,6 @@ document.getElementById("btn-edit").addEventListener("click", function () {
   const checkboxes = document.querySelectorAll(
     '#tableauProfilTbody input[type="checkbox"]:checked'
   );
-
-  console.log(checkboxes.length, checkboxes);
 
   if (checkboxes.length === 0) {
     alert("Veuillez sélectionner au moins un utilisateur à modifier.");
@@ -73,9 +68,7 @@ document.getElementById("btn-edit").addEventListener("click", function () {
 
     url = url.replace("id", userId);
 
-    console.log(url);
-
-    makeRequest("GET", url, null, function (err, data) {
+    makeRequest(url, "GET", null, function (err, data) {
       if (err) {
         console.error("Erreur :", err);
         // Gérer l'erreur
@@ -83,14 +76,12 @@ document.getElementById("btn-edit").addEventListener("click", function () {
         var modalBody = document.getElementById("modalBody");
         var buttonActionModal = document.getElementById("buttonActionModal");
 
-        console.log(modalBody);
-
         modalBody.innerHTML = data; // Supposant que data est du HTML ou du texte à afficher
         // Afficher la modal
         // var myModal = new bootstrap.Modal(document.getElementById("modalBox"));
         buttonActionModal.click();
 
-        checkboxes = null;
+        // checkboxes = null;
       }
     });
   }
@@ -113,46 +104,21 @@ document.getElementById("btn-delete").addEventListener("click", function () {
       (checkbox) => checkbox.value
     );
 
-    // var data=JSON.stringify(selectedIds);
-
-    // return console.log(data);
-    // Afficher une confirmation pour la suppression
     const confirmDelete = window.confirm(
       `Êtes-vous sûr de vouloir supprimer ${selectedIds.length} utilisateur(s) ?`
     );
-
     if (confirmDelete) {
-      // Procéder à la suppression
-      console.log(
-        `Les IDs des utilisateurs à supprimer: ${JSON.stringify(selectedIds)}`
-      );
-
-      //   makeRequest(
-      //     "DELETE",
-      //     "/user/test/delete/",
-      //     selectedIds,
-      //     function (err, data) {
-      //       if (err) {
-      //         console.error("Erreur :", err);
-      //         // Gérer l'erreur
-      //       } else {
-      //         console.log("Réponse du serveur :", data);
-      //         // Traiter la réponse
-      //       }
-      //     }
-      //   );
-
       const postData = { profil: selectedIds };
       makeRequest(
-        "DELETE",
         "/user/test/delete",
+        "DELETE",
         postData,
         function (err, data) {
           if (err) {
             console.error("Erreur :", err);
             // Gérer l'erreur
           } else {
-            console.log("Réponse du serveur :", data);
+            research(searchValue);
             // Traiter la réponse
           }
         }
@@ -162,10 +128,34 @@ document.getElementById("btn-delete").addEventListener("click", function () {
 });
 
 document.getElementById("formSearch").addEventListener("submit", (event) => {
-  event.preventDefault(); // Empêche le comportement par défaut du formulaire (rechargement de la page)
+  event.preventDefault();
 
   const formSearch = document.getElementById("formSearch"); // Récupère l'élément du formulaire
-  const searchValue = formSearch.querySelector('input[type="search"]').value; // Récupère la valeur de l'input de recherche
+  const searchValue = formSearch.querySelector('input[type="search"]').value; // Récupère la valeur de l'input de rec
 
-  console.log(searchValue); // Affiche la valeur dans la console
+  research(searchValue);
 });
+
+function research(searchValue) {
+  // URL de base pour la recherche
+  const baseUrl = "/user/test/search/";
+
+  // Construire l'URL de recherche
+  let urlSearch = searchValue
+    ? `${baseUrl}${encodeURIComponent(searchValue)}`
+    : baseUrl;
+
+  // Effectuer la requête AJAX
+  makeRequest(urlSearch,"GET", null, function (err, data) {
+    if (err) {
+      console.error("Erreur :", err);
+    } else {
+      // Mettre à jour le contenu du tableau cible avec les résultats de la recherche
+      const targetTable = document.getElementById("targetTable");
+
+      // Vérifier si le contenu retourné est correct pour le tableau cible
+      targetTable.innerHTML = data;
+    }
+  });
+}
+

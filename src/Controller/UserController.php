@@ -152,12 +152,16 @@ class UserController extends AbstractController
     }
 
 
-    #[Route('/test/search/{mot}', methods: ['GET'])]
-    public function testSearch($mot, Request $request): Response
+    #[Route('/test/search/{mot?}', methods: ['GET'])]
+    public function testSearch($mot=''): Response
     {
-        dd('search');
         $searchTerm = $mot;
+        $result = $this->entityManagerInterface->getRepository(User::class)->searchByWord($searchTerm);
+        // dd($searchTerm, $result);
 
+        return $this->render('user/_table.html.twig', [
+            'users' => $result,
+        ]);
         // Vous pouvez ajouter ici la logique pour effectuer la recherche avec $searchTerm
 
         return new Response("Méthode Search appelée avec searchTerm={$searchTerm}");

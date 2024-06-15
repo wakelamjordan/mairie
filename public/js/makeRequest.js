@@ -1,10 +1,21 @@
 // console.log("youhou!");
 
-function makeRequest(method, url, data, callback) {
+function showSpinner() {
+  document.getElementById("spinner").style.display = "block";
+}
+
+function hideSpinner() {
+  document.getElementById("spinner").style.display = "none";
+}
+
+function makeRequest(url, method = "GET", data = null, callback = null) {
   let xhr = new XMLHttpRequest();
   xhr.open(method, url, true);
 
+  showSpinner();
+
   xhr.onload = function () {
+    hideSpinner();
     if (xhr.status >= 200 && xhr.status < 300) {
       callback(null, xhr.responseText);
     } else {
@@ -13,6 +24,7 @@ function makeRequest(method, url, data, callback) {
   };
 
   xhr.onerror = function () {
+    hideSpinner();
     callback("Erreur réseau", null);
   };
 

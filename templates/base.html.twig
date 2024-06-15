@@ -23,6 +23,15 @@
                     {% include './_part/navbar.html.twig' %}
                     {% include './_part/_flashbag.html.twig' %}
                     {% block body %}{% endblock %}
+                    <div class=" position-fixed top-50 start-50 translate-middle">
+
+                        <div id="spinner" class="spinner-border text-primary" role="status" style="display:none">
+                            <span class="visually-hidden">
+                                Loading...
+                            </span>
+                        </div>
+
+                    </div>
                 </main>
                 <footer>
                     {% include './_part/footer.html.twig' %}
