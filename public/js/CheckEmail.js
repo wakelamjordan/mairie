@@ -11,16 +11,12 @@ if (formProfil) {
     // Empêcher le comportement par défaut de soumission du formulaire
     e.preventDefault();
 
-    // Afficher dans la console pour débogage
-    console.log(formProfil);
-
     // Vérifier si le champ email a une valeur
     if (input.value) {
       // Créer une nouvelle requête XMLHttpRequest
       var xhr = new XMLHttpRequest();
 
       // Ouvrir une connexion POST à l'URL spécifiée
-      // Remplacer "/profil/check_mail" par l'URL correcte de votre backend
       xhr.open("POST", "/profil/check_mail", true);
 
       // Créer un objet FormData pour envoyer les données du formulaire
@@ -29,6 +25,22 @@ if (formProfil) {
 
       // Gérer la réponse de la requête
       xhr.onload = function () {
+        // Sélectionner les éléments de message de succès et d'erreur
+        const messageSuccessMail =
+          document.getElementById("messageSuccessMail");
+        const messageErrorMail = document.getElementById("messageErrorMail");
+
+        // Réinitialiser les messages avant de traiter la nouvelle réponse
+        if (messageSuccessMail) {
+          messageSuccessMail.classList.add("d-none");
+          messageSuccessMail.innerText = "";
+        }
+
+        if (messageErrorMail) {
+          messageErrorMail.classList.add("d-none");
+          messageErrorMail.innerText = "";
+        }
+
         // Vérifier si le statut HTTP est 200 (OK) - L'email est disponible
         if (xhr.status == 200) {
           var responseData = JSON.parse(xhr.responseText);
@@ -38,11 +50,11 @@ if (formProfil) {
           input.classList.add("is-valid");
 
           // Afficher un message de succès
-          const messageSuccessMail =
-            document.getElementById("messageSuccessMail");
           if (messageSuccessMail) {
-            messageSuccessMail.classList.remove("d-none");
+            messageSuccessMail.classList.remove("d-none", "alert-danger");
+            messageSuccessMail.classList.add("alert", "alert-success");
             messageSuccessMail.style.display = "block";
+            messageSuccessMail.style.opacity = "1"; // Assurez-vous que l'opacité est 1
             messageSuccessMail.innerText = responseData.message;
           }
 
@@ -59,10 +71,11 @@ if (formProfil) {
           input.classList.add("is-invalid");
 
           // Afficher un message d'erreur
-          const messageErrorMail = document.getElementById("messageErrorMail");
           if (messageErrorMail) {
-            messageErrorMail.classList.remove("d-none");
+            messageErrorMail.classList.remove("d-none", "alert-success");
+            messageErrorMail.classList.add("alert", "alert-danger");
             messageErrorMail.style.display = "block";
+            messageErrorMail.style.opacity = "1"; // Assurez-vous que l'opacité est 1
             messageErrorMail.innerText = responseData.message;
           }
         }

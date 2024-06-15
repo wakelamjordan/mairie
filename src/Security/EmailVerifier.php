@@ -34,21 +34,27 @@ class EmailVerifier
             $user->getEmail(),
             ['id' => $user->getId()]
         );
-        // ----------------------------------------
-        // $refreshUser = $this->entityManager->getRepository(User::class)->find($user->getId());
 
-        if ($user->getConfirmationEmail() !== null) {
-            $this->entityManager->remove($user->getConfirmationEmail());
-            $this->entityManager->flush();
+
+
+        $confirmationEmail = $this->entityManager->getRepository(ConfirmationEmail::class)->findOneBy(['user' => $user->getId()]);
+
+        if ($confirmationEmail === null) {
+            $confirmationEmail = new ConfirmationEmail();
+            $confirmationEmail
+                ->setUser($user);
         }
-        $confirmationEmail = new ConfirmationEmail();
+
+        $urlSigned = $signatureComponents->getSignedUrl();
+
         $confirmationEmail
-            ->setUser($user)
-            ->setSignature($signatureComponents->getSignedUrl());
+            ->setSignature($urlSigned);
 
         $this->entityManager->persist($confirmationEmail);
         $this->entityManager->flush();
-        // ------------------------------------
+        // Ajoutez un log ici
+        error_log("Nouvelle ConfirmationEmail créée pour l'utilisateur " . $user->getId());
+
 
 
 

@@ -4,28 +4,30 @@
 {# templates/_flash_messages.html.twig #}
 
 {# Affichage des messages flash de succès #}
+<div class="position-absolute t-0 w-100">
 {% for flashMessage in app.flashes('success') %}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ flashMessage }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+{{ flashMessage }}
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 {% endfor %}
 
 {% if logoutMessage is defined %}
 <div class="alert alert-success alert-dismissible fade show" role="alert">
-    {{ logoutMessage }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+{{ logoutMessage }}
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 
 {% endif %}
 
 {# Affichage des messages flash d'erreur #}
 {% for flashMessage in app.flashes('error') %}
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ flashMessage }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+{{ flashMessage }}
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 {% endfor %}
+</div>
 
 {# JavaScript pour faire disparaître les messages après 5 secondes #}
 <script>
