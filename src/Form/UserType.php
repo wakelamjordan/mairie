@@ -6,13 +6,14 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class UserType extends AbstractType
 {
@@ -73,9 +74,17 @@ class UserType extends AbstractType
                     ]),
                 ],
             ])
-            // Champ birthAt avec type DateTimeType pour la date de naissance
-            ->add('birthAt', null, [
+            ->add('birthAt', DateTimeType::class, [
                 'widget' => 'single_text',
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'La date de naissance ne doit pas être vide.',
+                    ]),
+                    new Assert\DateTime([
+                        'message' => 'Veuillez entrer une date de naissance valide.',
+                    ]),
+                    new Assert\Callback([$this, 'validateBirthdate']),
+                ],
             ])
             // Champ createdAt avec type DateTimeType pour la date de création
             ->add('createdAt', DateTimeType::class, [
@@ -96,5 +105,20 @@ class UserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
         ]);
+    }
+
+    public function validateBirthdate($value, ExecutionContextInterface $context)
+    {
+        // Vérifie si la date est dans le futur
+        if ($value > new \DateTime()) {
+            $context->buildViolation('La date de naissance ne peut pas être dans le futur.')
+                ->addViolation();
+        }
+
+        // Vérifie si la date est antérieure à 1900
+        if ($value < new \DateTime('1900-01-01')) {
+            $context->buildViolation('La date de naissance doit être postérieure à 1900.')
+                ->addViolation();
+        }
     }
 }

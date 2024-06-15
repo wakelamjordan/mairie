@@ -195,14 +195,17 @@ class MyFct extends AbstractController
         try {
             // Récupère l'email de confirmation de l'utilisateur
             $confirmationEmail = $user->getConfirmationEmail();
+
+            
             // Vérifie si l'email de confirmation existe
             if (!$confirmationEmail) {
                 $this->addFlash('error', $this->translate->trans('Lien invalide.'));
                 return false;
             }
-
+            
+            // dd($user, $request->getUri(), $confirmationEmail->getSignature());
             // Compare la signature dans la requête avec celle de l'email de confirmation
-            if ($request->query->get('signature') !== $confirmationEmail->getSignature()) {
+            if ($request->getUri() !== $confirmationEmail->getSignature()) {
                 $this->addFlash('error', $this->translate->trans('Lien invalide.'));
                 return false;
             }
@@ -229,7 +232,7 @@ class MyFct extends AbstractController
     public function createConfirmationEmail(string $signedUrl, User $user): void
     {
         // dd(1);
- 
+
         try {
             // Analyse de l'URL signée pour extraire les paramètres
             $parsed_url = parse_url($signedUrl);
@@ -237,7 +240,7 @@ class MyFct extends AbstractController
                 throw new \InvalidArgumentException('L\'URL signée ne contient pas de paramètres de requête.');
             }
             // dd(2);
-  
+
             // Extraction des paramètres de la chaîne de requête
             $queryParams = $parsed_url['query'];
             parse_str($queryParams, $params);
@@ -247,7 +250,7 @@ class MyFct extends AbstractController
                 throw new \InvalidArgumentException('Le paramètre "signature" est manquant dans l\'URL signée.');
             }
             // dd(3);
-        
+
             // Création de l'entité ConfirmationEmail
             $confirmationEmail = new ConfirmationEmail();
             $confirmationEmail
@@ -261,7 +264,7 @@ class MyFct extends AbstractController
             // Debug dump pour vérifier l'entité créée (à utiliser pour le développement)
             // dd($confirmationEmail);
             // dd(4);
-   
+
         } catch (\InvalidArgumentException $e) {
             // Gestion des erreurs d'argument invalide
             $this->logger->error('Erreur dans createConfirmationEmail: ' . $e->getMessage());

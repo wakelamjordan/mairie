@@ -56,9 +56,9 @@ a {
 .bg-30 {
   background-color: var(--light--30--color);
 }
-a {
+/* a {
   color: white;
-}
+} */
 
 .object-none {
   object-fit: none;

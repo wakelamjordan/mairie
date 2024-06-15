@@ -4,98 +4,98 @@
         <div class="col mb-3"></div>
 
         <div class="col mb-3">
-            <h5 class=" text-dark">
+            <h5 class=" text-light">
                 Section
             </h5>
             <ul class="nav flex-column">
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link p-0 text-dark">
+                    <a href="#" class="nav-link p-0 text-light">
                         Home
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link p-0 text-dark">
+                    <a href="#" class="nav-link p-0 text-light">
                         Features
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link p-0 text-dark">
+                    <a href="#" class="nav-link p-0 text-light">
                         Pricing
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link p-0 text-dark">
+                    <a href="#" class="nav-link p-0 text-light">
                         FAQs
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link p-0 text-dark">
+                    <a href="#" class="nav-link p-0 text-light">
                         About
                     </a>
                 </li>
             </ul>
         </div>
 
-        <div class="col mb-3">
+        <div class="col mb-3 text-light">
             <h5>
                 Section
             </h5>
             <ul class="nav flex-column">
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link p-0 text-dark">
+                    <a href="#" class="nav-link p-0 text-light">
                         Home
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link p-0 text-dark">
+                    <a href="#" class="nav-link p-0 text-light">
                         Features
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link p-0 text-dark">
+                    <a href="#" class="nav-link p-0 text-light">
                         Pricing
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link p-0 text-dark">
+                    <a href="#" class="nav-link p-0 text-light">
                         FAQs
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link p-0 text-dark">
+                    <a href="#" class="nav-link p-0 text-light">
                         About
                     </a>
                 </li>
             </ul>
         </div>
 
-        <div class="col mb-3">
+        <div class="col mb-3 text-light">
             <h5>
                 Section
             </h5>
             <ul class="nav flex-column">
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link p-0 text-dark">
+                    <a href="#" class="nav-link p-0 text-light">
                         Home
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link p-0 text-dark">
+                    <a href="#" class="nav-link p-0 text-light">
                         Features
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link p-0 text-dark">
+                    <a href="#" class="nav-link p-0 text-light">
                         Pricing
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link p-0 text-dark">
+                    <a href="#" class="nav-link p-0 text-light">
                         FAQs
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link p-0 text-dark">
+                    <a href="#" class="nav-link p-0 text-light">
                         About
                     </a>
                 </li>
@@ -109,7 +109,7 @@
         </div>
         <div class="d-none d-md-flex position-absolute bottom-0 start-50 translate-middle me-2">
 
-            {% if app.user %}
+            {% if app.user.userIdentifier is defined %}
                 <button onclick="window.location.href='{{ path('app_logout') }}'" class="btn btn-warning">
                     <i class="fas fa-door-open me-3"></i>
 
@@ -140,7 +140,7 @@
 
         </div>
 
-        <p class="text-center">
+        <p class="text-center text-light">
             © 2024 jordan Wakelam
         </p>
 

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\ConfirmationEmail;
 use App\Entity\User;
 use Twig\Environment;
 use App\Form\UserType;
@@ -12,6 +11,7 @@ use App\Form\User1Type;
 use App\Form\ProfilType;
 use App\Entity\ListRequest;
 use App\Security\EmailVerifier;
+use App\Entity\ConfirmationEmail;
 use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
@@ -23,12 +23,13 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 #[Route('/profil')]
@@ -42,6 +43,7 @@ class ProfilController extends AbstractController
         private VerifyEmailHelperInterface $verifyEmailHelper,
         private TranslatorInterface $translator,
         private EntityManagerInterface $entityManagerInterface,
+        private Security $security,
     ) {
     }
     #[Route('', name: 'app_profil', methods: ['GET'])]
@@ -280,65 +282,44 @@ class ProfilController extends AbstractController
         // }
     }
 
-    // #[Route('/{id}', name: 'app_profil_delete', methods: ['GET', 'POST'])]
-    // public function delete(MailerInterface $mailer, Environment $twig, User $user, EntityManagerInterface $entityManager): Response
-    // {
-    //     $entityManager->remove($user);
-    //     $entityManager->flush();
-
-    //     // Rendre le contenu HTML avec Twig
-    //     $htmlContent = $twig->render('email/delete_confirm.html.twig', [
-    //         'user' => $user,
-    //     ]);
-
-    //     // Créer l'e-mail
-    //     $email = (new Email())
-    //         ->from('mairie@gmail.com')
-    //         ->to($user->getEmail())
-    //         ->subject('Confirmation de suppression')
-    //         ->html($htmlContent);
-
-    //     // Envoyer l'e-mail
-    //     $mailer->send($email);
-
-    //     $this->addFlash('success', 'Le profil ' . $user->getEmail() . ' a bien été supprimé');
-    //     return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
-    // }
-
-    // #[Route('/change_verified/{id}', name: 'app_profil_change_verified', methods: ['GET'])]
-    // public function checkMailForChange(User $user, Request $request, EntityManagerInterface $entityManager, TranslatorInterface $translator): Response
-    // {
-    //     // $user = $request->query->get('id');
-    //     // $user = $entityManager->getRepository(User::class)->find($user);
-
-    //     if (!$user) {
-    //         $this->addFlash('error', 'Liens invalide.');
-    //         $this->redirectToRoute('app_home');
-    //     }
-
-    //     try {
-    //         $this->emailVerifier->handleEmailConfirmation(
-    //             $request,
-    //             $user
-    //         );
-    //     } catch (VerifyEmailExceptionInterface $exception) {
-    //         $this->addFlash('error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
-    //         return $this->redirectToRoute('app_home');
-    //     }
-
-    //     $user->setEmail($user->getNewMail());
-    //     $user->setNewMail(null);
-    //     $listRequests = $user->getListRequests();
-    //     foreach ($listRequests as $r) {
-    //         $entityManager->remove($r);
-    //     }
-    //     $entityManager->persist($user);
-    //     $entityManager->flush();
-    //     // dd($user);
-    //     $this->addFlash('success', 'Votre mail est vérifié vous pouvez vous connecter en tant que ' . $user->getEmail());
-    //     return $this->redirectToRoute('app_home');
-    // }
 
 
+    #[Route('/{id}', name: 'app_profil_delete', methods: ['POST'])]
+    public function delete(MailerInterface $mailer, Environment $twig, User $user, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        // Rendre le contenu HTML avec Twig
+        $htmlContent = $twig->render('email/delete_confirm.html.twig', [
+            'user' => $user,
+        ]);
 
+        // Créer l'e-mail
+        $email = (new Email())
+            ->from('mairie@gmail.com')
+            ->to($user->getEmail())
+            ->subject($this->translator->trans('Confirmation de suppression'))
+            ->html($htmlContent);
+
+        // Envoyer l'e-mail
+
+        // Invalider la session et déconnecter l'utilisateur
+        // $session = $request->getSession();
+        // $session->invalidate(); // Invalider la session
+
+        // $this->security->getUser()->setToken(null);
+        $session = new Session();
+        $session->invalidate();
+
+        // Déconnecter l'utilisateur en supprimant le jeton d'authentification
+        // $this->tokenStorage->setToken(null);
+        // connecter l'utilisateur
+
+        $entityManager->remove($user);
+        $entityManager->flush();
+
+        $mailer->send($email);
+        // $this->addFlash('success', 'Le profil ' . $user->getEmail() . ' a bien été supprimé');
+        return $this->redirectToRoute('app_home', [
+            'logoutMessage' => $this->translator->trans('Votre compte a bien été supprimé :\'\(')
+        ], Response::HTTP_SEE_OTHER);
+    }
 }

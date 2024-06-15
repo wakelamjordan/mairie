@@ -18,11 +18,10 @@
                         {{ flash_error }}
                     </div>
                 {% endfor %}
-                <div id="messageErrorMail" class="alert alert-success fade show d-none" role="alert">
-                </div>
+                <div id="messageErrorMail" class="alert alert-success fade show d-none" role="alert"></div>
 
                 <div id="messageSuccessMail" class="alert alert-success d-none"></div>
-                {# <div class="alert alert-danger d-none"></div> #}
+            {# <div class="alert alert-danger d-none"></div> #}
             </div>
         </div>
 
@@ -41,9 +40,10 @@
         {{ form_errors(form.email) }}
         {{ form_widget(form) }}
         <div class="row">
-            <div class="col-md-6">
-                {# <button class="btn btn-success w-100 mb-2" onclick="checkMail(this, '{{ path('app_check_mail') }}','{{ form.vars['name'] }}')"> #}
-                <button class="btn btn-success w-100 mb-2">
+            <div class="col-md-6 mt-5">
+
+                <button class="btn btn-success w-100 mb-2" onclick="checkMail(this, '{{ path('app_check_mail') }}','{{ form.vars['name'] }}')">
+                {# <button class="btn btn-success w-100 mb-2"> #}
                     <i class="fas fa-check me-2"></i>
                     {{ button_label|default('Save') }}
                 </button>
@@ -55,8 +55,9 @@
 
             {# {{ include('profil/_form.html.twig', {'button_label': button_label}) }} #}
 
-            <div class="col-md-6">
-                <button class="btn btn-danger w-100 mb-2" onclick="requestEditMail(this,'{{ path('app_reset_mail') }}')">
+            <div class="col-md-6 mt-5">
+                <button class="btn btn-danger w-100 mb-2" onclick="confirm('{{ 'Voulez-vous vraiment supprimer votre profil?'|trans }}')?formDelete.submit():null">
+
                     <i class="fas fa-trash-can me-2"></i>
                     {{ 'Supprimer'|trans }}
                 </button>
@@ -64,5 +65,9 @@
         </div>
         {{ form_end(form,{'render_rest':false}) }}
     </div>
+
+    {% include './profil/_delete_form.html.twig' %}
+
+{# {% include './profil/delete.html.twig' %} #}
 </div>{% endblock %}{% block script_specifique %}
 <script src='{{ asset("./js/CheckEmail.js") }}'></script>{% endblock %}

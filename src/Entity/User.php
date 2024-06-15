@@ -58,8 +58,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthAt = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $newMail = null;
+    // #[ORM\Column(length: 255, nullable: true)]
+    // private ?string $newMail = null;
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?ConfirmationEmail $confirmationEmail = null;
@@ -230,17 +230,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getNewMail(): ?string
-    {
-        return $this->newMail;
-    }
+    // public function getNewMail(): ?string
+    // {
+    //     return $this->newMail;
+    // }
 
-    public function setNewMail(?string $newMail): static
-    {
-        $this->newMail = $newMail;
+    // public function setNewMail(?string $newMail): static
+    // {
+    //     $this->newMail = $newMail;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     // /**
     //  * @return Collection<int, ListRequest>

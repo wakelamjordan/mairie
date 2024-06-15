@@ -45,7 +45,7 @@ class AppFixtures extends Fixture
                 ->setRoles($data['roles'])
                 ->setLastname($this->myFct->generateRandomName())
                 ->setFirstname($this->myFct->generateRandomName())
-                ->isVerified(true);
+                ->SetVerified(true);
 
             $this->entityManagerInterface->persist($user);
         }

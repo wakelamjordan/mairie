@@ -20,6 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 /**
@@ -31,7 +32,6 @@ class RegistrationController extends AbstractController
     private LoggerInterface $logger;
     private EmailVerifier $emailVerifier;
     private TranslatorInterface $translator;
-    private VerifyEmailHelperInterface $verifyEmailHelper;
     private EntityManagerInterface $entityManagerInterface;
     private UserPasswordHasherInterface $userPasswordHasher;
 
@@ -59,7 +59,6 @@ class RegistrationController extends AbstractController
         $this->logger = $logger;
         $this->emailVerifier = $emailVerifier;
         $this->translator = $translator;
-        $this->verifyEmailHelper = $verifyEmailHelper;
         $this->entityManagerInterface = $entityManagerInterface;
         $this->userPasswordHasher = $userPasswordHasher;
     }
@@ -78,6 +77,7 @@ class RegistrationController extends AbstractController
      *
      * @throws \RuntimeException Si une erreur inattendue survient lors de l'envoi de l'email de confirmation.
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/register', name: 'app_register')]
     public function registerCustom(Request $request): Response
     {
@@ -155,21 +155,20 @@ class RegistrationController extends AbstractController
                 $this->addFlash('error', $this->translator->trans('Lien invalide.'));
                 return $this->redirectToRoute('app_home');
             }
-
             // Récupère l'utilisateur à partir de l'ID
             $user = $this->entityManagerInterface->getRepository(User::class)->find($id);
-
+            
             // Vérifie si l'utilisateur existe
             if (null === $user) {
                 $this->addFlash('error', $this->translator->trans('Lien invalide.'));
                 return $this->redirectToRoute('app_home');
             }
-
+            
             // Vérifie la correspondance de la requête avec l'email de confirmation de l'utilisateur
             if (!$this->myFct->checkCorrespondanceRequest($user, $request)) {
                 return $this->redirectToRoute('app_home');
             }
-
+            
             // Création du formulaire de complétion d'inscription
             $form = $this->createForm(RegistrationCompledType::class, $user);
 
