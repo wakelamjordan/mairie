@@ -3,13 +3,14 @@
 namespace App\Form;
 
 use App\Entity\User;
-use Symfony\Component\Validator\Constraints\Callback;
-use Symfony\Component\Validator\Constraints\DateTime;
 use Webmozart\Assert\Assert;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,6 +18,8 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class ProfilType extends AbstractType
@@ -67,18 +70,21 @@ class ProfilType extends AbstractType
             ])
             ->add('lastname')
             ->add('firstname')
-            ->add('birthAt', DateTimeType::class, [
-                'widget' => 'single_text',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'La date de naissance ne doit pas être vide.',
-                    ]),
-                    new DateTime([
-                        'message' => 'Veuillez entrer une date de naissance valide.',
-                    ]),
-                    new Callback([$this, 'validateBirthdate']),
-                ],
-            ]);
+            ->add('birthAt', null,
+                [
+                    'widget' => 'single_text',
+                    'constraints' => [
+                        // new LowerThanOrEqual([
+                        //     'value' => (new \DateTime('now'))->modify('-10 years'),
+                        //     'message' => 'La date d\'anniversaire doit être supérieure ou égale à {{ compared_value }}',
+                        // ]),
+                        new LessThanOrEqual([
+                            'value' => (new \DateTime('now'))->modify('-10 years'),
+                            'message' => 'Votre date de naissance est invalide',
+                        ]),
+                    ],
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -91,18 +97,18 @@ class ProfilType extends AbstractType
         ]);
     }
 
-    public function validateBirthdate($value, ExecutionContextInterface $context)
-    {
-        // Vérifie si la date est dans le futur
-        if ($value > new \DateTime()) {
-            $context->buildViolation('La date de naissance ne peut pas être dans le futur.')
-                ->addViolation();
-        }
+    // public function validateBirthdate($value, ExecutionContextInterface $context)
+    // {
+    //     // Vérifie si la date est dans le futur
+    //     if ($value > new \DateTime()) {
+    //         $context->buildViolation('La date de naissance ne peut pas être dans le futur.')
+    //             ->addViolation();
+    //     }
 
-        // Vérifie si la date est antérieure à 1900
-        if ($value < new \DateTime('1900-01-01')) {
-            $context->buildViolation('La date de naissance doit être postérieure à 1900.')
-                ->addViolation();
-        }
-    }
+    //     // Vérifie si la date est antérieure à 1900
+    //     if ($value < new \DateTime('1900-01-01')) {
+    //         $context->buildViolation('La date de naissance doit être postérieure à 1900.')
+    //             ->addViolation();
+    //     }
+    // }
 }

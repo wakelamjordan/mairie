@@ -10,9 +10,10 @@
                 {{ 'Annuler'|trans }}
             </span>
         </button>
-        <div class="position-relative">
+        {# <div class="position-relative">
 
-            <div class="mt-5 position-absolute bottom-50 w-100">
+            <div class="position-absolute bottom-50 w-75">
+
                 {% for flash_error in app.flashes('verify_email_error') %}
                     <div class="alert alert-danger" role="alert">
                         {{ flash_error }}
@@ -21,9 +22,9 @@
                 <div id="messageErrorMail" class="alert alert-success fade show d-none" role="alert"></div>
 
                 <div id="messageSuccessMail" class="alert alert-success d-none"></div>
-            {# <div class="alert alert-danger d-none"></div> #}
+            <div class="alert alert-danger d-none"></div>
             </div>
-        </div>
+        </div> #}
 
         <h1>
             {{ 'Edition du profil'|trans }}
@@ -42,8 +43,8 @@
         <div class="row">
             <div class="col-md-6 mt-5">
 
-                <button class="btn btn-success w-100 mb-2" onclick="checkMail(this, '{{ path('app_check_mail') }}','{{ form.vars['name'] }}')">
-                {# <button class="btn btn-success w-100 mb-2"> #}
+                {# <button class="btn btn-success w-100 mb-2" onclick="checkMail(this, '{{ path('app_check_mail') }}','{{ form.vars['name'] }}')"> #}
+                <button type='submit' class="btn btn-success w-100 mb-2">
                     <i class="fas fa-check me-2"></i>
                     {{ button_label|default('Save') }}
                 </button>

@@ -2,7 +2,7 @@
 const formProfil = document.querySelector("form[name='profil']");
 
 // Sélectionner le champ email dans le formulaire
-const input = document.querySelector("input[type='email']");
+const inputMail = document.querySelector("input[type='email']");
 
 // Vérifier que le formulaire existe sur la page
 if (formProfil) {
@@ -12,7 +12,7 @@ if (formProfil) {
     e.preventDefault();
 
     // Vérifier si le champ email a une valeur
-    if (input.value) {
+    if (inputMail.value) {
       // Créer une nouvelle requête XMLHttpRequest
       var xhr = new XMLHttpRequest();
 
@@ -21,7 +21,7 @@ if (formProfil) {
 
       // Créer un objet FormData pour envoyer les données du formulaire
       var data = new FormData();
-      data.append("email", input.value);
+      data.append("email", inputMail.value);
 
       // Gérer la réponse de la requête
       xhr.onload = function () {
@@ -46,16 +46,24 @@ if (formProfil) {
           var responseData = JSON.parse(xhr.responseText);
 
           // Ajouter une classe de validation CSS au champ email
-          input.classList.remove("is-invalid");
-          input.classList.add("is-valid");
+          inputMail.classList.remove("is-invalid");
+          inputMail.classList.add("is-valid");
 
           // Afficher un message de succès
           if (messageSuccessMail) {
-            messageSuccessMail.classList.remove("d-none", "alert-danger");
-            messageSuccessMail.classList.add("alert", "alert-success");
-            messageSuccessMail.style.display = "block";
-            messageSuccessMail.style.opacity = "1"; // Assurez-vous que l'opacité est 1
+            // messageSuccessMail.classList.remove("d-none", "alert-danger");
+            // messageSuccessMail.classList.add("alert", "alert-success");
+            // messageSuccessMail.style.display = "block";
+            // messageSuccessMail.style.opacity = "1"; // Assurez-vous que l'opacité est 1
             messageSuccessMail.innerText = responseData.message;
+
+            // Masquer le message d'erreur après 3 secondes
+            // setTimeout(function () {
+            //   messageSuccessMail.style.opacity = "0";
+            //   setTimeout(function () {
+            //     messageSuccessMail.style.display = "none";
+              // }, 1000); // Temps d'attente supplémentaire après la disparition de l'opacité
+            // }, 3000); // 3000 millisecondes = 3 seconde
           }
 
           // Soumettre le formulaire si l'email est valide
@@ -67,16 +75,26 @@ if (formProfil) {
           var responseData = JSON.parse(xhr.responseText);
 
           // Ajouter une classe d'erreur CSS au champ email
-          input.classList.remove("is-valid");
-          input.classList.add("is-invalid");
+          inputMail.classList.remove("is-valid");
+          inputMail.classList.add("is-invalid");
+
+          alert(responseData.message);
 
           // Afficher un message d'erreur
           if (messageErrorMail) {
-            messageErrorMail.classList.remove("d-none", "alert-success");
-            messageErrorMail.classList.add("alert", "alert-danger");
-            messageErrorMail.style.display = "block";
-            messageErrorMail.style.opacity = "1"; // Assurez-vous que l'opacité est 1
+            // messageErrorMail.classList.remove("d-none", "alert-success");
+            // messageErrorMail.classList.add("alert", "alert-danger");
+            // messageErrorMail.style.display = "block";
+            // messageErrorMail.style.opacity = "1"; // Assurez-vous que l'opacité est 1
             messageErrorMail.innerText = responseData.message;
+
+            // // Masquer le message d'erreur après 3 secondes
+            // setTimeout(function () {
+            //   messageErrorMail.style.opacity = "0";
+            //   setTimeout(function () {
+            //     messageErrorMail.style.display = "none";
+            //   }, 1000); // Temps d'attente supplémentaire après la disparition de l'opacité
+            // }, 3000); // 3000 millisecondes = 3 secondes
           }
         }
       };
@@ -88,6 +106,8 @@ if (formProfil) {
 
       // Envoyer la requête avec les données
       xhr.send(data);
+    }else{
+      formProfil.submit();
     }
   });
 } else {

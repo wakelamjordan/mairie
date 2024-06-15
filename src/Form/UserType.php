@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class UserType extends AbstractType
@@ -74,16 +76,17 @@ class UserType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('birthAt', DateTimeType::class, [
+            ->add('birthAt', null, [
                 'widget' => 'single_text',
                 'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'La date de naissance ne doit pas être vide.',
+                    // new LowerThanOrEqual([
+                    //     'value' => (new \DateTime('now'))->modify('-10 years'),
+                    //     'message' => 'La date d\'anniversaire doit être supérieure ou égale à {{ compared_value }}',
+                    // ]),
+                    new LessThanOrEqual([
+                        'value' => (new \DateTime('now'))->modify('-10 years'),
+                        'message' => 'Votre date de naissance est invalide',
                     ]),
-                    new Assert\DateTime([
-                        'message' => 'Veuillez entrer une date de naissance valide.',
-                    ]),
-                    new Assert\Callback([$this, 'validateBirthdate']),
                 ],
             ])
             // Champ createdAt avec type DateTimeType pour la date de création
