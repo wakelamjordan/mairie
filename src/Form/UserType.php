@@ -2,12 +2,15 @@
 
 namespace App\Form;
 
-use App\Entity\ConfirmationEmail;
 use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\ConfirmationEmail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class UserType extends AbstractType
 {
@@ -15,7 +18,12 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles')
+            ->add('roles', CheckboxType::class, [
+                'label' => 'Rôle administrateur',
+                'required' => false,
+                'mapped' => false, // Ne pas mapper directement à l'entité User
+                'data' => in_array('ROLE_ADMIN', $options['data']->getRoles()), // Vérifie si l'utilisateur a le rôle admin
+            ])
             ->add('password')
             ->add('isVerified')
             ->add('lastname')
@@ -29,8 +37,7 @@ class UserType extends AbstractType
             ->add('confirmationEmail', EntityType::class, [
                 'class' => ConfirmationEmail::class,
                 'choice_label' => 'id',
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

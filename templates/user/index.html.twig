@@ -1,79 +1,117 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}
-    User index
+    {{'Mairie-Liste des Profiles'|trans}}
 {% endblock %}
 
 {% block body %}
-    <h1>
-        User index
-    </h1>
+{%include 'user/_modal.html.twig' %}
+<div class="container mt-5 px-2 min-vh-100">
+    <div id="alert-container" class="container my-3 position-absolute top-0 w-100"></div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Email
-                </th>
-                <th>
-                    Roles
-                </th>
-                <th>
-                    IsVerified
-                </th>
-                <th>
-                    Lastname
-                </th>
-                <th>
-                    Firstname
-                </th>
-                <th>
-                    actions
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-                <tr id="te-{{ user.id }}">
-                <td>
-                    {{ user.email }}
-                </td>
-                <td>
-                    {{ user.roles ? user.roles|json_encode : '' }}
-                </td>
-                <td>
-                    {{ user.isVerified ? 'Yes' : 'No' }}
-                </td>
-                <td>
-                    {{ user.lastname }}
-                </td>
-                <td>
-                    {{ user.firstname }}
-                </td>
-    
-                <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">
-                        show
-                    </a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">
-                        edit
-                    </a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">
-                    no records found
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <div class="mb-2 d-flex justify-content-between align-items-center">
+        <div class="table-responsive w-100 mt-5">
+            {% include 'user/_crud_s.html.twig' %}
+            <table id="tableauProfil" class="table table-responsive table-borderless table-hover table-striped text-center">
+                <thead class="table-dark">
+                    <tr class="">
+                        <th scope="col" width="5%">
+                            <input id='selectAll' class="form-check-input" type="checkbox" onclick="toggleSelectAll()"></th>
+                            <th scope="col" width="5%">
+                                Email
+                            </th>
+                            <th scope="col" width="20%">
+                                Roles
+                            </th>
+                            <th scope="col" width="10%">
+                                Email vérifié
+                            </th>
+                            <th scope="col" width="20%">
+                                Nom Prénom
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr id="row-{{ user.id }}" onclick="toggleCheckbox('checkBox-{{ user.id }}')">
+                                <td scope="row">
+                                    <input id="checkBox-{{ user.id }}" class="form-check-input" type="checkbox" value="{{ user.id }}"></td>
+                                    <td>
+                                        {{ user.email }}
+                                    </td>
+                                    <td>
+                                        {% if 'ROLE_ADMIN' in user.roles %}
+                                            <span class="badge text-bg-warning">
+                                                Admin
+                                            </span>
+                                        {% else %}
+                                            <span class="badge text-bg-success">
+                                                User
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if user.isVerified %}
+                                            <i class="fas fa-check text-success"></i>
+                                        {% else %}
+                                            <i class="fas fa-xmark text-danger"></i>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ user.firstname }}
+                                        {{ user.lastname }}
+                                    </td>
+                                </tr>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="7">
+                                    No records found
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        <tfoot>
+                            <tr>
+                                <td colspan="100">
+                                    {% if users|length > 0 %}
+                                    {{users|length}} profils utilisateurs.
+                                    {% else %}
+                                    aucuns profils utilisateurs.
+                                    {% endif %} 
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-{% include 'user/_test.html.twig' %}
+        <script>
+        // Fonction pour basculer l'état de la case à cocher
+        function toggleCheckbox(checkboxId) {
+            const checkbox = document.getElementById(checkboxId);
+            // Si la case à cocher est trouvée, changez son état
+            if (checkbox) {
+                checkbox.checked = !checkbox.checked;
+            }
+        }
+
+            // Empêcher le comportement de propagation du clic sur la case à cocher
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                });
+            });
 
 
+        function toggleSelectAll() {
+        const selectAllCheckbox = document.getElementById('selectAll');
+        const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
 
-<a href="{{ path('app_user_new') }}">
-    Create new
-</a>{% endblock %}
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectAllCheckbox.checked;
+        });
+    }
+        </script>
+{% endblock %}
+
+        
