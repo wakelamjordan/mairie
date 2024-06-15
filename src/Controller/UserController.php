@@ -6,16 +6,19 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/user')]
 class UserController extends AbstractController
 {
     public function __construct(
-        private EntityManagerInterface $entityManagerInterface
+        private EntityManagerInterface $entityManagerInterface,
+        private SerializerInterface $serializerInterface,
     ) {
     }
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
@@ -110,17 +113,42 @@ class UserController extends AbstractController
             'form' => $form,
         ]);
     }
-    
-    #[Route('/test/delete', methods: ['POST'])]
+
+    #[Route('/test/delete', methods: ['DELETE'])]
     public function testDelete(Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
-        $userId = $data['userId'];
-        dd('delete' + $userId);
+        // $userId = $data['userId'];
+        $usersToDelete = [];
+        // dd($data);
+        $profil = $data['profil'];
+        foreach ($profil as $id) {
+            $user = $this->entityManagerInterface->getRepository(User::class)->find($id);
+            if ($user) {
+                $usersToDelete[] = $user;
+            } else {
+                $data = ['message' => 'Wrong profile id check your request.'];
+                return new JsonResponse($data, JsonResponse::HTTP_BAD_REQUEST);
+            }
+        }
+
+        $data = [];
+        foreach ($usersToDelete as $user) {
+            $this->entityManagerInterface->remove($user);
+        }
+        $this->entityManagerInterface->flush();
+        // $data = [];
+        // foreach ($usersToDelete as $user) {
+        //     $serialized = $this->serializerInterface->serialize($user, 'json',['groups'=>'']);
+        //     $data[] = $serialized;
+        // }
+
 
         // Vous pouvez ajouter ici la logique pour supprimer l'utilisateur avec $userId
+        return new JsonResponse(['message' => 'properly formed profiles', 'list' => $data], JsonResponse::HTTP_OK);
 
-        return new Response("Méthode Delete appelée avec userId={$userId}");
+
+        // return new Response("Méthode Delete appelée avec userId={$userId}");
     }
 
 

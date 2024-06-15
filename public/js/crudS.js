@@ -9,7 +9,7 @@
 document.getElementById("btn-show").addEventListener("click", function () {
   // Logique pour afficher les détails de l'utilisateur sélectionné
   const checkboxes = document.querySelectorAll(
-    '#tableauProfil input[type="checkbox"]:checked'
+    '#tableauProfilTbody input[type="checkbox"]:checked'
   );
 
   if (checkboxes.length === 0) {
@@ -53,7 +53,7 @@ document.getElementById("btn-edit").addEventListener("click", function () {
   // Logique pour rediriger vers la page de modification
 
   const checkboxes = document.querySelectorAll(
-    '#tableauProfil input[type="checkbox"]:checked'
+    '#tableauProfilTbody input[type="checkbox"]:checked'
   );
 
   console.log(checkboxes.length, checkboxes);
@@ -101,7 +101,7 @@ document.getElementById("btn-delete").addEventListener("click", function () {
   console.log("Supprimer les utilisateurs sélectionnés");
 
   const checkboxes = document.querySelectorAll(
-    '#tableauProfil input[type="checkbox"]:checked'
+    '#tableauProfilTbody input[type="checkbox"]:checked'
   );
 
   if (checkboxes.length === 0) {
@@ -113,6 +113,9 @@ document.getElementById("btn-delete").addEventListener("click", function () {
       (checkbox) => checkbox.value
     );
 
+    // var data=JSON.stringify(selectedIds);
+
+    // return console.log(data);
     // Afficher une confirmation pour la suppression
     const confirmDelete = window.confirm(
       `Êtes-vous sûr de vouloir supprimer ${selectedIds.length} utilisateur(s) ?`
@@ -124,10 +127,26 @@ document.getElementById("btn-delete").addEventListener("click", function () {
         `Les IDs des utilisateurs à supprimer: ${JSON.stringify(selectedIds)}`
       );
 
+      //   makeRequest(
+      //     "DELETE",
+      //     "/user/test/delete/",
+      //     selectedIds,
+      //     function (err, data) {
+      //       if (err) {
+      //         console.error("Erreur :", err);
+      //         // Gérer l'erreur
+      //       } else {
+      //         console.log("Réponse du serveur :", data);
+      //         // Traiter la réponse
+      //       }
+      //     }
+      //   );
+
+      const postData = { profil: selectedIds };
       makeRequest(
-        "POST",
-        "/user/test/delete/",
-        selectedIds,
+        "DELETE",
+        "/user/test/delete",
+        postData,
         function (err, data) {
           if (err) {
             console.error("Erreur :", err);
