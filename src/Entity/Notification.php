@@ -17,9 +17,6 @@ class Notification
     private ?string $recipient = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $suject = null;
-
-    #[ORM\Column(length: 100, nullable: true)]
     private ?string $object = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -42,18 +39,6 @@ class Notification
     public function setRecipient(string $recipient): static
     {
         $this->recipient = $recipient;
-
-        return $this;
-    }
-
-    public function getSuject(): ?string
-    {
-        return $this->suject;
-    }
-
-    public function setSuject(?string $suject): static
-    {
-        $this->suject = $suject;
 
         return $this;
     }

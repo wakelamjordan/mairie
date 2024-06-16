@@ -22,6 +22,9 @@ class Photo
     #[ORM\Column(nullable: true)]
     private ?int $rank = null;
 
+    #[ORM\Column(length: 20)]
+    private ?string $alt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Photo
     public function setRank(?int $rank): static
     {
         $this->rank = $rank;
+
+        return $this;
+    }
+
+    public function getAlt(): ?string
+    {
+        return $this->alt;
+    }
+
+    public function setAlt(string $alt): static
+    {
+        $this->alt = $alt;
 
         return $this;
     }

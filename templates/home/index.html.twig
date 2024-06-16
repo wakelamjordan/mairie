@@ -7,9 +7,9 @@
 {% block body %}
     <div class="row mx-auto">
 
-        <div class="bg-success col">
+        <div class="col">
             {% set slides=[
-[
+
                 {
                         'image':asset("image/champ-arbres-herbe.jpg"),
 
@@ -18,7 +18,7 @@
                 'active':true
             },
                 {
-                        'image':asset("image/peinture-lac-montagne-montagne-arriere-plan_188544-9126.avif"),
+                        'image':asset("image/image-ia-exemple.avif"),
 
                 'title':'Lorem, ipsum dolor.',
                 'description':'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aperiam, blanditiis.',
@@ -31,7 +31,7 @@
                 'description':'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aperiam, blanditiis.',
                 'active':false
             },
-            ]
+
             ] %}
             {% include 'home/_swiper.html.twig' with {'slides': slides} %}
         </div>

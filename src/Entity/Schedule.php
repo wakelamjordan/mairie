@@ -30,6 +30,9 @@ class Schedule
     #[ORM\JoinColumn(nullable: false)]
     private ?Article $article = null;
 
+    #[ORM\Column]
+    private ?int $dayOfWeek = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +94,18 @@ class Schedule
     public function setArticle(?Article $article): static
     {
         $this->article = $article;
+
+        return $this;
+    }
+
+    public function getDayOfWeek(): ?int
+    {
+        return $this->dayOfWeek;
+    }
+
+    public function setDayOfWeek(int $dayOfWeek): static
+    {
+        $this->dayOfWeek = $dayOfWeek;
 
         return $this;
     }

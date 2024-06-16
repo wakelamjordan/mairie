@@ -1,4 +1,4 @@
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+<div id="carouselExampleIndicators" class="carousel slide overflow-hidden position-relative h-100" data-bs-ride="carousel">
     <!-- Indicateurs -->
     <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -6,33 +6,40 @@
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
     <!-- Slides -->
-    <div class="carousel-inner">
+    <div class="carousel-inner h-100">
         {% for slide in slides %}
-            {{ dump(slides) }}
-            <div class="carousel-item {% if slide.active %}active{% endif %}">
-                <img src="{{ slide.image }}" class="d-block w-100" alt="Slide 1">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>
+            {# {{ dump(slides) }} #}
+            <div class="carousel-item active {% if slide.active %}active{% endif %} h-100">
+                <img src="{{ slide.image }}" class="d-block w-100 object-fit-cover" height="500px" width="500px" alt="Slide" >
+                <div class="carousel-caption d-none d-md-block position-absolute translate-middle w-25 h-100" style="top:110%;right:0%">
+                    <div class='bg-dark rounded position-absolute mt-5 h-25'>
+                        <h5 class='opacity-100 text-light'>
                             {{ slide.title }}
                         </h5>
-                        <p>
+                        <p class='opacity-100 text-light'>
                             {{ slide.description }}
                         </p>
                     </div>
                 </div>
+            </div>
             {% endfor %}
             <!-- Contrôles -->
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <div class="bg-dark rounded-circle d-flex justify-content-center align-items-center" style='height:50px;width:50px;'>
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </div>
                 <span class="visually-hidden">
                     Previous
                 </span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <div class="bg-dark rounded-circle d-flex justify-content-center align-items-center" style='height:50px;width:50px;'>
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </div>
                 <span class="visually-hidden">
                     Next
                 </span>
             </button>
-        </div>
+    </div>
+</div>
         

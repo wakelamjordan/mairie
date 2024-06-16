@@ -1,8 +1,8 @@
 function handleScreenSizeChange() {
   const accordeons = document.querySelectorAll(".accordion-collapse");
-    console.log(accordeons);
+    // console.log(accordeons);
   const accordeonsButton = document.querySelectorAll(".accordion-button");
-    console.log(accordeonsButton);
+    // console.log(accordeonsButton);
   if (window.matchMedia("(min-width: 768px)").matches) {
     // Code à exécuter lorsque la taille d'écran est MD ou supérieure
     // Ajoutez ici le code que vous souhaitez exécuter pour les écrans MD et plus grands

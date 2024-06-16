@@ -51,7 +51,6 @@ class RegistrationController extends AbstractController
         LoggerInterface $logger,
         EmailVerifier $emailVerifier,
         TranslatorInterface $translator,
-        VerifyEmailHelperInterface $verifyEmailHelper,
         EntityManagerInterface $entityManagerInterface,
         UserPasswordHasherInterface $userPasswordHasher
     ) {
@@ -78,7 +77,7 @@ class RegistrationController extends AbstractController
      * @throws \RuntimeException Si une erreur inattendue survient lors de l'envoi de l'email de confirmation.
      */
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/register', name: 'app_register')]
+    #[Route('/register', name: 'app_register',methods:['GET','POST'])]
     public function registerCustom(Request $request): Response
     {
         try {
