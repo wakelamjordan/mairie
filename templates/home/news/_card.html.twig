@@ -1,0 +1,22 @@
+{% for item in props %}
+    <div class="col-md-6 col-lg-4 mt-2">
+        <div class="card" style="
+                background-color:$ {
+                1: orangered;
+                }
+                border-color:$ {
+                2: darkblue;
+                }
+            ">
+            <img class="card-img-top img-fluid" src='{{ item.image }}' alt="Title" />
+            <div class="card-body">
+                <h4 class="card-title">
+                    {{ item.title }}
+                </h4>
+                <p class="card-text">
+                    {{ item.content }}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endfor %}

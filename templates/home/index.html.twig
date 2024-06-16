@@ -1,37 +1,118 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{'Mairie-Bienvenue sur notre site'|trans}}
+    {{ 'Mairie-Bienvenue sur notre site'|trans }}
 {% endblock %}
 
 {% block body %}
-    <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="row mx-auto">
 
-    <div class="example-wrapper">
-        <h1>
-            Hello
-            {{ controller_name }}
-            ! ✅
-        </h1>
+        <div class="bg-success col">
+            {% set slides=[
+[
+                {
+                        'image':asset("image/champ-arbres-herbe.jpg"),
 
-        This friendly message is coming from:
-        <ul>
-            <li>
-                Your controller at
-                <code>
-                    C:/Users/jwake/Desktop/mairie/src/Controller/HomeController.php
-                </code>
-            </li>
-            <li>
-                Your template at
-                <code>
-                    C:/Users/jwake/Desktop/mairie/templates/home/index.html.twig
-                </code>
-            </li>
-        </ul>
+                'title':'Lorem, ipsum dolor.',
+                'description':'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aperiam, blanditiis.',
+            },
+                {
+                        'image':asset("image/peinture-lac-montagne-montagne-arriere-plan_188544-9126.avif"),
 
+                'title':'Lorem, ipsum dolor.',
+                'description':'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aperiam, blanditiis.',
+            },
+                {
+                        'image':asset("image/MainAfter.webp"),
+
+                'title':'Lorem, ipsum dolor.',
+                'description':'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aperiam, blanditiis.',
+            },
+            ]
+            ] %}
+            {% include 'home/_swiper.html.twig' with {'slides': slides} %}
+        </div>
     </div>
+    <div class="row flex-row-reverse mx-auto">
+
+        <div class="col-12 col-md-4 bg-warning#">
+            {% include 'home/_accordeon.html.twig' %}
+        </div>
+        <div class="col-12 col-md-8 bg-dark# p-2 d-flex flex-column justify-content-between">
+            <div class="row p-3">
+                <h1>
+                    Lorem, ipsum dolor.
+                </h1>
+                <div class="d-flex justify-content-between flex-column">
+
+                    <p class="lead">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing.
+                    </p>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore quo veniam eligendi ducimus quos, repellendus animi sint molestiae harum odio amet optio accusantium earum, non ex aut neque est repudiandae inventore minima? Molestiae architecto inventore quaerat repellat voluptate at vero reiciendis ipsam assumenda provident rerum, explicabo officiis. Cupiditate dolorem, quas quisquam maxime similique nostrum voluptatem repellendus earum voluptatum tempore reiciendis inventore rerum fugit id? Odio quod labore reiciendis aliquid iure beatae quos necessitatibus suscipit voluptatibus a eveniet autem nemo, ea vel similique quas corporis voluptas, ratione rerum deleniti alias unde, debitis in? Quis, temporibus. Reiciendis facere iste omnis eaque s
+                    </p>
+                    <p class="">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis quod culpa illum porro. Obcaecati aliquam pariatur nam! Eos ut similique quaerat! Esse exercitationem quae fuga laboriosam accusantium deserunt adipisci rerum.
+                    </p>
+                </div>
+            </div>
+            <div class="row p-3 flex-grow-1">
+
+                <h2>
+                    Actualités
+                </h2>
+                {% set props=[
+                    {
+                    'image' : asset('image/image-ia-exemple.avif'),
+                    'title': 'Lorem, ipsum.',
+                    'content': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nihil ducimus impedit voluptas? Unde reprehenderit non provident nisi commodi voluptatem.'
+                },
+                    {
+                    'image' : asset('image/image-ia-exemple.avif'),
+                    'title': 'Lorem, ipsum.',
+                    'content': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nihil ducimus impedit voluptas? Unde reprehenderit non provident nisi commodi voluptatem.'
+                },
+                    {
+                    'image' : asset('image/image-ia-exemple.avif'),
+                    'title': 'Lorem, ipsum.',
+                    'content': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nihil ducimus impedit voluptas? Unde reprehenderit non provident nisi commodi voluptatem.'
+                },
+                    {
+                    'image' : asset('image/image-ia-exemple.avif'),
+                    'title': 'Lorem, ipsum.',
+                    'content': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nihil ducimus impedit voluptas? Unde reprehenderit non provident nisi commodi voluptatem.'
+                },
+                    {
+                    'image' : asset('image/image-ia-exemple.avif'),
+                    'title': 'Lorem, ipsum.',
+                    'content': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nihil ducimus impedit voluptas? Unde reprehenderit non provident nisi commodi voluptatem.'
+                },
+                    {
+                    'image' : asset('image/image-ia-exemple.avif'),
+                    'title': 'Lorem, ipsum.',
+                    'content': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nihil ducimus impedit voluptas? Unde reprehenderit non provident nisi commodi voluptatem.'
+                },
+                    {
+                    'image' : asset('image/image-ia-exemple.avif'),
+                    'title': 'Lorem, ipsum.',
+                    'content': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nihil ducimus impedit voluptas? Unde reprehenderit non provident nisi commodi voluptatem.'
+                },
+                    {
+                    'image' : asset('image/image-ia-exemple.avif'),
+                    'title': 'Lorem, ipsum.',
+                    'content': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nihil ducimus impedit voluptas? Unde reprehenderit non provident nisi commodi voluptatem.'
+                },
+                    {
+                    'image' : asset('image/image-ia-exemple.avif'),
+                    'title': 'Lorem, ipsum.',
+                    'content': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nihil ducimus impedit voluptas? Unde reprehenderit non provident nisi commodi voluptatem.'
+                },
+                ] %}
+                {% include 'home/news/_card.html.twig' with {'props':props} %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script_specifique %}
+    <script src="{{ asset('js/ForResponsive.js') }}"></script>
 {% endblock %}
