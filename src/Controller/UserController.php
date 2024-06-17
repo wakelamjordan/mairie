@@ -5,14 +5,21 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
+use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
+use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 
 #[IsGranted('ROLE_ADMIN')]
 #[Route('/user')]
@@ -21,6 +28,9 @@ class UserController extends AbstractController
     public function __construct(
         private EntityManagerInterface $entityManagerInterface,
         private SerializerInterface $serializerInterface,
+        private ResetPasswordController $resetPasswordController,
+        private ResetPasswordHelperInterface $resetPasswordHelper,
+        private TranslatorInterface $translator,
     ) {
     }
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
@@ -154,8 +164,8 @@ class UserController extends AbstractController
     }
 
 
-    #[Route('/test/search/{mot?}', methods: ['GET'])]
-    public function testSearch($mot=''): Response
+    #[Route('/api/categories/navbar{mot?}', methods: ['GET'])]
+    public function testSearch($mot = ''): Response
     {
         $searchTerm = $mot;
         $result = $this->entityManagerInterface->getRepository(User::class)->searchByWord($searchTerm);

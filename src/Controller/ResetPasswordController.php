@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
+use App\Security\EmailVerifier;
+use App\Service\MyFct;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
@@ -27,7 +30,6 @@ use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 class ResetPasswordController extends AbstractController
 {
     use ResetPasswordControllerTrait;
-
     private ResetPasswordHelperInterface $resetPasswordHelper;
     private EntityManagerInterface $entityManager;
     private TranslatorInterface $translator;
@@ -42,7 +44,11 @@ class ResetPasswordController extends AbstractController
     public function __construct(
         ResetPasswordHelperInterface $resetPasswordHelper,
         EntityManagerInterface $entityManager,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        private EmailVerifier $emailVerifier,
+        private UserPasswordHasherInterface $userPasswordHasher,
+        private MyFct $myFct,
+
     ) {
         $this->resetPasswordHelper = $resetPasswordHelper;
         $this->entityManager = $entityManager;
@@ -220,5 +226,64 @@ class ResetPasswordController extends AbstractController
             'resetForm' => $form,
             'email' => $user->getEmail(),
         ]);
+    }
+    #[Route('/admin/{id}', name: 'app_admin_reset_password')]
+    public function resetByAdmin(User $user): Response
+    {
+        $user->setPassword($this->userPasswordHasher->hashPassword($user, $this->myFct->generateRandomSantence()))
+            ->setVerified(false);
+
+        $this->emailVerifier->sendEmailConfirmation(
+            'app_admin_reset_verify',
+            $user,
+            (new TemplatedEmail())
+                ->from(new Address('mairie@gmail.com', 'mairie'))
+                ->to($user->getEmail())
+                ->subject($this->translator->trans('Confirmez votre inscription'))
+                ->htmlTemplate('email/confirmation_email_first.html.twig')
+                ->context(['user' => $user])
+        );
+
+        dd($user);
+        // à partir du user, set is verified false set password avec random password, et sent email verifier vers route 
+
+    }
+    #[Route('/reset/admin/{id}/verify', name: 'app_admin_reset_verify', methods: ['GET', 'POST'])]
+    public function returnResetByAdmin(User $user, Request $request): Response
+    {
+        // vérifie token et sers formulaire 
+        $this->emailVerifier->handleEmailConfirmation($request, $user);
+        $form = $this->createForm(ChangePasswordFormType::class);
+
+        $form->handleRequest($request);
+
+        // $result = $this->render('reset_password/reset.html.twig', [
+        //     'resetForm' => $form,
+        //     'email' => $user->getEmail(),
+        // ]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $encodedPassword = $this->userPasswordHasher->hashPassword(
+                $user,
+                $form->get('plainPassword')->getData()
+            );
+            $user->setPassword($encodedPassword);
+            $this->entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('Mot de passe mis à jour. Vous pouvez maintenant vous connecter.')
+            );
+            return $this->redirectToRoute('app_login');
+        }
+
+
+
+
+        return $this->render('reset_password/reset.html.twig', [
+            'resetForm' => $form,
+            'email' => $user->getEmail(),
+        ]);
+
+        // dd($result);
     }
 }

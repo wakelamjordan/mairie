@@ -140,7 +140,7 @@ document.getElementById("formSearch").addEventListener("submit", (event) => {
 
 // Fonction pour effectuer une recherche AJAX
 function research(searchValue) {
-  const baseUrl = "/user/test/search/"; // URL de base pour la recherche
+  const baseUrl = "/user/api/categories/navbar"; // URL de base pour la recherche
 
   // Construit l'URL de recherche avec la valeur de recherche encodée
   let urlSearch = searchValue

@@ -12,27 +12,29 @@ class ApiServiceController extends AbstractController
     #[Route('/api/categories/navbar', name: 'app_api_service_navbar', methods: ['GET'])]
     public function navLink(CategoryRepository $categoryRepository): Response
     {
-        $roles = $this->getUser()->getRoles();
-        $categories = "";
+        $roles = $this->getRolesToFind();
+
         $categories = $categoryRepository->findByRoles($roles);
 
-        // $render = $this->render('_part/_recursive_categories.html.twig', ['categories' => $categories]);
         return $this->render('_part/_recursive_categories.html.twig', ['categories' => $categories]);
-
-        dd($categories, $render);
     }
     #[Route('/api/categories/footer', name: 'app_api_service_footer', methods: ['GET'])]
     public function FooterLink(CategoryRepository $categoryRepository): Response
     {
-        $roles = $this->getUser()->getRoles();
-        $categories = "";
+        $roles = $this->getRolesToFind();
+
         $categories = $categoryRepository->findByRoles($roles);
 
-        
-        // $render = $this->render('_part/_linkFooter.html.twig', ['categories' => $categories]);
         return $this->render('_part/_linkFooter.html.twig', ['categories' => $categories]);
-        // dd($categories);
+    }
 
-        // dd($categories, $render);
+    private function getRolesToFind()
+    {
+        if ($this->getUser()) {
+            $roles = $this->getUser()->getRoles();
+        } else {
+            $roles = [];
+        }
+        return $roles;
     }
 }
