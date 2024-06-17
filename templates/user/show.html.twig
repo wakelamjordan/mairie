@@ -3,92 +3,92 @@
     
 {% block body %} #}
 
-{{ user.email }}
 
-<table class="table">
-    <tbody>
-        <tr>
-            <th>
-                Id
-            </th>
-            <td>
-                {{ user.id }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                Email
-            </th>
-            <td>
-                {{ user.email }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                Roles
-            </th>
-            <td>
-                {{ user.roles ? user.roles|json_encode : '' }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                Password
-            </th>
-            <td>
-                {{ user.password }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                IsVerified
-            </th>
-            <td>
-                {{ user.isVerified ? 'Yes' : 'No' }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                Lastname
-            </th>
-            <td>
-                {{ user.lastname }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                Firstname
-            </th>
-            <td>
-                {{ user.firstname }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                CreatedAt
-            </th>
-            <td>
-                {{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                BirthAt
-            </th>
-            <td>
-                {{ user.birthAt ? user.birthAt|date('Y-m-d') : '' }}
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="row-cols-2">
+	<div class="">
+		<table class="table table-secondary">
+			<tbody>
+				<tr>
+					<th class="table-dark">
+						Email
+					</th>
+					<td class="text-end">
+						{{ user.email }}
+						{% if user.isVerified %}
+							<i class="fas fa-check text-success"></i>
+						{% else %}
+							<i class="fas fa-xmark text-danger"></i>
+						{% endif %}
 
-<a href="#" data-bs-dismiss="modal" class='btn btn-primary'>
-    back to list
-</a>
+					</td>
+				</tr>
+				<tr>
+					<th class="table-dark">
+						Roles
+					</th>
+					<td class="text-end">
+						{% if 'ROLE_ADMIN' in user.roles %}
+							<span class="badge text-bg-warning">
+								Admin
+							</span>
+						{% else %}
+							<span class="badge text-bg-success">
+								User
+							</span>
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<th class="table-dark">
+						Lastname
+					</th>
+					<td class="text-end">
+						{{ user.lastname }}
+					</td>
+				</tr>
+				<tr>
+					<th class="table-dark">
+						Firstname
+					</th>
+					<td class="text-end">
+						{{ user.firstname }}
+					</td>
+				</tr>
+				<tr>
+					<th class="table-dark">
+						CreatedAt
+					</th>
+					<td class="text-end">
+						{{ user.createdAt ? user.createdAt|date('d-m-Y H:i:s') : '' }}
+					</td>
+				</tr>
+				<tr>
+					<th class="table-dark">
+						BirthAt
+					</th>
+					<td class="text-end">
+						{{ user.birthAt ? user.birthAt|date('Y-m-d') : '' }}
+					</td>
+				</tr>
+				<tr>
+					<th class="table-dark">
+						Password
+					</th>
+				</tr>
+			</tbody>
+		</table>
 
-<a href="{{ path('app_user_edit', {'id': user.id}) }}">
-    edit
-</a>
+		<a href="#" data-bs-dismiss="modal" class='btn btn-primary'>
+			back to list
+		</a>
 
-{{ include('user/_delete_form.html.twig') }}
+		<a href="{{ path('app_user_edit', {'id': user.id}) }}">
+			edit
+		</a>
+
+		{{ include('user/_delete_form.html.twig') }}
+	</div>
+</div>
+
+
 {# {% endblock %} #}
