@@ -7,7 +7,7 @@ if (cachedMenu) {
   navLinksGenerate.innerHTML = JSON.parse(cachedMenu);
 }
 
-makeRequest("/api/categories", "GET", null, function (err, data) {
+makeRequest("/api/categories/navbar", "GET", null, function (err, data) {
   if (err) {
     console.error("Erreur :", err);
     // Gérer l'erreur
