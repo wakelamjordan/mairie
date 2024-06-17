@@ -82,8 +82,6 @@ document.getElementById("btn-edit").addEventListener("click", function () {
 
 // Écouteur d'événement pour le bouton Supprimer
 document.getElementById("btn-delete").addEventListener("click", function () {
-  console.log("Supprimer les utilisateurs sélectionnés");
-
   // Récupère toutes les cases à cocher sélectionnées dans le tableau
   const checkboxes = document.querySelectorAll(
     '#tableauProfilTbody input[type="checkbox"]:checked'
@@ -166,4 +164,59 @@ function research(searchValue) {
         });
     }
   });
+}
+
+function editFromShow(btn) {
+  // URL pour rediriger vers la page de modification de l'utilisateur
+  var url = "/user/test/edit/id";
+  url = url.replace("id", btn.dataset.idUser);
+
+  // Effectue une requête AJAX pour récupérer les données
+  makeRequest(url, "GET", null, function (err, data) {
+    if (err) {
+      console.error("Erreur :", err);
+      // Gérer l'erreur ici
+    } else {
+      btnReturn = document.getElementById("btnReturn");
+      btnReturn.click();
+      // Affiche les données récupérées dans le corps de la modal
+      // Utiliser un délai avant de mettre à jour le contenu et rouvrir la modal
+      setTimeout(function () {
+        // Met à jour le contenu de la modal
+        var modalBody = document.getElementById("modalBody");
+        modalBody.innerHTML = data;
+
+        // Rouvre la modal
+        var buttonActionModal = document.getElementById("buttonActionModal");
+        buttonActionModal.click();
+      }, 350);
+
+      // Réinitialise les cases à cocher
+      // checkboxes[0].checked = false;
+    }
+  });
+}
+
+function deleteFromShow(btn) {
+  // Confirme la suppression des utilisateurs
+  const confirmDelete = window.confirm(
+    `Êtes-vous sûr de vouloir supprimer ${selectedIds.length} utilisateur(s) ?`
+  );
+
+  if (confirmDelete) {
+    const selectedIds = [btn.dataset.idUser];
+    const postData = { profil: selectedIds };
+
+    // Effectue une requête AJAX pour supprimer les utilisateurs
+    makeRequest("/user/test/delete", "DELETE", postData, function (err, data) {
+      if (err) {
+        console.error("Erreur :", err);
+        // Gérer l'erreur ici
+      } else {
+        // Effectue une recherche avec la valeur de recherche actuelle
+        document.getElementById("btnReturn").click();
+        research(document.querySelector('input[type="search"]').value);
+      }
+    });
+  }
 }

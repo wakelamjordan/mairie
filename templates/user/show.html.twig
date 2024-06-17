@@ -4,7 +4,7 @@
 {% block body %} #}
 
 
-<div class="row-cols-2">
+<div class="row row-cols-lg-2">
 	<div class="">
 		<table class="table table-secondary">
 			<tbody>
@@ -72,21 +72,28 @@
 				</tr>
 				<tr>
 					<th class="table-dark">
-						<button name="" id="buttonResetAdmin" class="btn btn-primary" onclick="resetPasswordAdmin({{user.id}})" role="button">Reset password</button>
+						<button name="" id="buttonResetAdmin" class="btn btn-primary" onclick="resetPasswordAdmin({{user.id}})" role="button">{{'btn_reset_password'|trans}}</button>
 					</th>
 				</tr>
 			</tbody>
 		</table>
+		<div class="d-flex flex-row justify-content-between">
+			<div class="d-grid gap-2">
+				<button type="button" name="" id="btnReturn" class="btn btn-primary" data-bs-dismiss="modal">
+					<i class="fas fa-door-open me-1"></i>
+					{{'btn_return'|trans}}
+				</button>
+			</div>
+			<div class="d-grid gap-2">
+				<button type="button" class="btn btn-warning" data-id-user="{{user.id}}" onclick="editFromShow(this)">
+					<i class="fas fa-pencil me-1"></i>
+					{{'btn_edit'|trans}}
+				</button>
+			</div>
 
-		<a href="#" data-bs-dismiss="modal" class='btn btn-primary'>
-			back to list
-		</a>
 
-		<a href="{{ path('app_user_edit', {'id': user.id}) }}">
-			edit
-		</a>
-
-		{{ include('user/_delete_form.html.twig') }}
+			{{ include('user/_delete_form.html.twig') }}
+		</div>
 	</div>
 </div>
 
