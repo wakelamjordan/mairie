@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
     <head>
         <title>
             {% block title %}
@@ -12,8 +12,10 @@
         {% include './_part/_favicon.html.twig' %}
         <!-- Bootstrap CSS v5.2.1 -->
         {% include './_part/link.html.twig' %}
+        {{ encore_entry_link_tags('app') }}
+    {# {{ encore_entry_link_tags('custom') }} #}
     </head>
-    <body class="bg-page">
+    <body class="bg-page#">
         <div class="container">
             <div class="bg-60">
                 <header class="bg-page">
@@ -38,6 +40,7 @@
                 </footer>
             </div>
         </div>
+        {{ encore_entry_script_tags('app') }}
         {% block script_specifique %}{% endblock %}
     </body>
 </html>

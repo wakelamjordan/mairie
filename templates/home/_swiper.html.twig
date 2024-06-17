@@ -10,7 +10,7 @@
         {% for slide in slides %}
             {# {{ dump(slides) }} #}
             <div class="carousel-item active {% if slide.active %}active{% endif %} h-100">
-                <img src="{{ slide.image }}" class="d-block w-100 object-fit-cover" height="500px" width="500px" alt="Slide" >
+                <img src="{{ slide.image }}" class="d-block w-100 object-fit-cover" height="500px" alt="Slide" >
                 <div class="carousel-caption d-none d-md-block position-absolute translate-middle w-25 h-100" style="top:110%;right:0%">
                     <div class='bg-dark rounded position-absolute mt-5 h-25'>
                         <h5 class='opacity-100 text-light'>

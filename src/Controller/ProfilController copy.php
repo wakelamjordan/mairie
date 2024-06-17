@@ -30,7 +30,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 #[Route('/profil')]
-#[IsGranted('ROLE_USER')]
 class ProfilController extends AbstractController
 {
     public function __construct(
@@ -74,7 +73,6 @@ class ProfilController extends AbstractController
         $this->addFlash('success', 'Un mail avec un lien vous a été envoyé, pour modifier vos informations clickez dessus.');
         return $this->redirectToRoute('app_profil');
     }
-
     #[Route('', name: 'app_profil', methods: ['GET', 'POST'])]
     public function show(Security $security): Response
     {

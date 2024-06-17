@@ -1,6 +1,7 @@
 // console.log("youhou!");
 
 function showSpinner() {
+  console.log(document.getElementById("spinner"));
   document.getElementById("spinner").style.display = "block";
 }
 

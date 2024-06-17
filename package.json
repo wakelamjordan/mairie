@@ -1,0 +1,26 @@
+{
+  "name": "mon-projet",
+  "version": "1.0.0",
+  "description": "Mon projet Symfony avec Webpack Encore",
+  "main": "index.js",
+  "scripts": {
+    "dev-server": "encore dev-server --hot",
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production"
+  },
+  "dependencies": {
+    "@symfony/webpack-encore": "^1.1.0",
+    "bootstrap": "^5.1.0",
+    "jquery": "^3.6.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.13",
+    "browser-sync-webpack-plugin": "^2.3.0",
+    "core-js": "^3.37.1",
+    "regenerator-runtime": "^0.14.1",
+    "sass": "^1.32.8",
+    "sass-loader": "^11.0.1",
+    "webpack-notifier": "^1.6.0"
+  }
+}

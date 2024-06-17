@@ -25,6 +25,12 @@ class Category
     private ?self $parent = null;
 
     /**
+     * @var list<string> The user roles
+     */
+    #[ORM\Column]
+    private array $roles = [];
+
+    /**
      * @var Collection<int, self>
      */
     #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parent')]
@@ -117,6 +123,26 @@ class Category
     public function setRank(?int $rank): static
     {
         $this->rank = $rank;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of roles
+     */ 
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * Set the value of roles
+     *
+     * @return  self
+     */ 
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
 
         return $this;
     }
