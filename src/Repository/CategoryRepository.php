@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Category;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Category>
@@ -15,6 +16,20 @@ class CategoryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Category::class);
     }
+
+    public function findByRoles(array $roles): array
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.roles', 'r')
+            ->andWhere('r.label IN (:roles) OR r.label IS NULL')  // Ajout de la condition pour les rôles null
+            ->setParameter('roles', $roles)
+            ->orderBy('c.rank', 'ASC')
+            ->getQuery()
+            ->getResult();
+    
+    }
+
+
 
     //    /**
     //     * @return Category[] Returns an array of Category objects

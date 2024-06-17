@@ -1,45 +1,68 @@
-// console.log("youhou!");
-
+/**
+ * Affiche le spinner de chargement.
+ */
 function showSpinner() {
-  console.log(document.getElementById("spinner"));
   document.getElementById("spinner").style.display = "block";
 }
 
+/**
+ * Masque le spinner de chargement.
+ */
 function hideSpinner() {
   document.getElementById("spinner").style.display = "none";
 }
 
-function makeRequest(url, method = "GET", data = null, callback = null) {
+/**
+ * Effectue une requête AJAX vers l'URL spécifiée avec les options données.
+ *
+ * @param {string} url - L'URL cible pour la requête.
+ * @param {string} method - La méthode HTTP pour la requête (GET, POST, DELETE).
+ * @param {Object} data - Les données à envoyer avec la requête (pour POST et DELETE).
+ * @param {function} callback - La fonction de rappel pour traiter la réponse de la requête.
+ * @param {boolean} spinner - Indique si le spinner de chargement doit être affiché (par défaut true).
+ */
+function makeRequest(
+  url,
+  method = "GET",
+  data = null,
+  callback = null,
+  spinner = true
+) {
   let xhr = new XMLHttpRequest();
   xhr.open(method, url, true);
 
-  showSpinner();
+  // Affichage du spinner si nécessaire
+  if (spinner) {
+    showSpinner();
+  }
 
   xhr.onload = function () {
     hideSpinner();
     if (xhr.status >= 200 && xhr.status < 300) {
-      callback(null, xhr.responseText);
+      callback(null, xhr.responseText); // Appel du callback avec succès
     } else {
-      callback(xhr.statusText, null);
+      callback(xhr.statusText, null); // Appel du callback avec erreur
     }
   };
 
   xhr.onerror = function () {
     hideSpinner();
-    callback("Erreur réseau", null);
+    callback("Erreur réseau", null); // Appel du callback en cas d'erreur réseau
   };
 
+  // Configuration de l'en-tête pour les requêtes POST et DELETE
   if (method === "POST" || method === "DELETE") {
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(JSON.stringify(data));
   } else {
-    xhr.send();
+    xhr.send(); // Envoi de la requête pour les méthodes GET
   }
 }
 
-// // Exemple d'utilisation :
+// Exemple d'utilisation :
+
 // // GET request
-// makeRequest("GET", "https://exemple.com/api/data", null, function (err, data) {
+// makeRequest("https://exemple.com/api/data", "GET", null, function (err, data) {
 //   if (err) {
 //     console.error("Erreur :", err);
 //     // Gérer l'erreur
@@ -51,33 +74,23 @@ function makeRequest(url, method = "GET", data = null, callback = null) {
 
 // // POST request
 // const postData = { param1: "valeur1", param2: "valeur2" };
-// makeRequest(
-//   "POST",
-//   "https://exemple.com/api/data",
-//   postData,
-//   function (err, data) {
-//     if (err) {
-//       console.error("Erreur :", err);
-//       // Gérer l'erreur
-//     } else {
-//       console.log("Réponse du serveur :", data);
-//       // Traiter la réponse
-//     }
+// makeRequest("https://exemple.com/api/data", "POST", postData, function (err, data) {
+//   if (err) {
+//     console.error("Erreur :", err);
+//     // Gérer l'erreur
+//   } else {
+//     console.log("Réponse du serveur :", data);
+//     // Traiter la réponse
 //   }
-// );
+// });
 
 // // DELETE request
-// makeRequest(
-//   "DELETE",
-//   "https://exemple.com/api/data/123",
-//   null,
-//   function (err, data) {
-//     if (err) {
-//       console.error("Erreur :", err);
-//       // Gérer l'erreur
-//     } else {
-//       console.log("Réponse du serveur :", data);
-//       // Traiter la réponse
-//     }
+// makeRequest("https://exemple.com/api/data/123", "DELETE", null, function (err, data) {
+//   if (err) {
+//     console.error("Erreur :", err);
+//     // Gérer l'erreur
+//   } else {
+//     console.log("Réponse du serveur :", data);
+//     // Traiter la réponse
 //   }
-// );
+// });

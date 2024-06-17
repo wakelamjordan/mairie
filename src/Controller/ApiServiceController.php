@@ -12,12 +12,13 @@ class ApiServiceController extends AbstractController
     #[Route('/api/categories', name: 'app_api_service', methods: ['GET'])]
     public function navLink(CategoryRepository $categoryRepository): Response
     {
-        $roles = $this;
-        // $categories = $categoryRepository->findBy(['roles'=>]);
+        $roles = $this->getUser()->getRoles();
         $categories = "";
-        dd($roles);
-        return $this->render('category/index.html.twig', [
-            'categories' => $categories,
-        ]);
+        $categories = $categoryRepository->findByRoles($roles);
+
+        // $render = $this->render('_part/_recursive_categories.html.twig', ['categories' => $categories]);
+        return $this->render('_part/_recursive_categories.html.twig', ['categories' => $categories]);
+
+        dd($categories, $render);
     }
 }

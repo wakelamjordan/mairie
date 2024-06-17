@@ -25,12 +25,6 @@ class Category
     private ?self $parent = null;
 
     /**
-     * @var list<string> The user roles
-     */
-    #[ORM\Column]
-    private array $roles = [];
-
-    /**
      * @var Collection<int, self>
      */
     #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parent')]
@@ -39,9 +33,16 @@ class Category
     #[ORM\Column(nullable: true)]
     private ?int $rank = null;
 
+    /**
+     * @var Collection<int, Role>
+     */
+    #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'categories')]
+    private Collection $roles;
+
     public function __construct()
     {
         $this->subCategories = new ArrayCollection();
+        $this->roles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -128,21 +129,25 @@ class Category
     }
 
     /**
-     * Get the value of roles
-     */ 
-    public function getRoles()
+     * @return Collection<int, Role>
+     */
+    public function getRoles(): Collection
     {
         return $this->roles;
     }
 
-    /**
-     * Set the value of roles
-     *
-     * @return  self
-     */ 
-    public function setRoles($roles)
+    public function addRole(Role $role): static
     {
-        $this->roles = $roles;
+        if (!$this->roles->contains($role)) {
+            $this->roles->add($role);
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): static
+    {
+        $this->roles->removeElement($role);
 
         return $this;
     }

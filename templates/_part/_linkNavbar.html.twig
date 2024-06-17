@@ -4,41 +4,31 @@
 </button>
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	<ul class="navbar-nav me-auto mb-2 mb-lg-0" id="navLinksGenerate">
+
 		<li class="nav-item">
 			<a class="nav-link active text-light" aria-current="page" href="{{path('app_profil')}}">
 				Profil
 			</a>
 		</li>
-		<li
-			class="nav-item">{# <a class="nav-link text-light" href="{{ path('app_profil') }}">
-				    
-				                Link
-				            </a> #}
-		</li>
+
+
 		<li class="nav-item dropdown">
+
 			<a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 				Dropdown
 			</a>
-			<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+			<ul role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
 				<li>
 					<a class="dropdown-item text-dark" href="#">
 						Action
 					</a>
 				</li>
-				<li>
-					<a class="dropdown-item text-dark" href="#">
-						Another action
-					</a>
-				</li>
-				<li>
-					<hr class="dropdown-divider"></li>
-				<li>
-					<a class="dropdown-item text-dark" href="#">
-						Something else here
-					</a>
-				</li>
+
 			</ul>
 		</li>
+
 	</ul>
 	<form class="d-flex">
 		<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -49,18 +39,8 @@
 	</form>
 </div>
 
- <script>
-    const navLinksGenerate = document.getElementById('navLinksGenerate');
 
-makeRequest("/api/categories","GET", null, function (err, data) {
+{% block script_specifique %}
+ <script src="{{asset('./js/GenerateLinkNavBar.js')}}" defer></script>
+{% endblock %}
 
-  if (err) {
-    console.error("Erreur :", err);
-    // Gérer l'erreur
-  } else {
-    console.log("Réponse du serveur :", data);
-    // Traiter la réponse
-  }
-});
-    console.log(navLinksGenerate);
-</script>

@@ -1,17 +1,11 @@
-// function showAlert(message, type = "danger") {
-//   const alertContainer = document.getElementById("alert-container");
-//   alertContainer.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
-//         ${message}
-//         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-//     </div>`;
-// }
-
+// Écouteur d'événement pour le bouton Afficher
 document.getElementById("btn-show").addEventListener("click", function () {
-  // Logique pour afficher les détails de l'utilisateur sélectionné
+  // Récupère toutes les cases à cocher sélectionnées dans le tableau
   const checkboxes = document.querySelectorAll(
     '#tableauProfilTbody input[type="checkbox"]:checked'
   );
 
+  // Vérifie le nombre de cases cochées
   if (checkboxes.length === 0) {
     alert("Veuillez sélectionner au moins un utilisateur à afficher.");
   } else if (checkboxes.length > 1) {
@@ -19,40 +13,41 @@ document.getElementById("btn-show").addEventListener("click", function () {
   } else if (checkboxes.length === 1) {
     const userId = checkboxes[0].value;
 
+    // URL pour récupérer les détails de l'utilisateur sélectionné
     var url = "/user/test/show/id";
-
     url = url.replace("id", userId);
 
+    // Effectue une requête AJAX pour récupérer les données
     makeRequest(url, "GET", null, function (err, data) {
       if (err) {
         console.error("Erreur :", err);
-        // Gérer l'erreur
+        // Gérer l'erreur ici
       } else {
+        // Affiche les données récupérées dans le corps de la modal
         var modalBody = document.getElementById("modalBody");
+        modalBody.innerHTML = data;
 
+        // Affiche la modal
         var buttonActionModal = document.getElementById("buttonActionModal");
-
-        modalBody.innerHTML = data; // Supposant que data est du HTML ou du texte à afficher
-        // Afficher la modal
-        // var myModal = new bootstrap.Modal(document.getElementById("modalBox"));
         buttonActionModal.click();
 
+        // Réinitialise les cases à cocher
         // checkboxes.forEach((checkbox) => {
         //   checkbox.checked = false;
         // });
       }
     });
-    // alert("afficher id" + userId);
   }
 });
 
+// Écouteur d'événement pour le bouton Modifier
 document.getElementById("btn-edit").addEventListener("click", function () {
-  // Logique pour rediriger vers la page de modification
-
+  // Récupère toutes les cases à cocher sélectionnées dans le tableau
   const checkboxes = document.querySelectorAll(
     '#tableauProfilTbody input[type="checkbox"]:checked'
   );
 
+  // Vérifie le nombre de cases cochées
   if (checkboxes.length === 0) {
     alert("Veuillez sélectionner au moins un utilisateur à modifier.");
   } else if (checkboxes.length > 1) {
@@ -60,55 +55,58 @@ document.getElementById("btn-edit").addEventListener("click", function () {
   } else if (checkboxes.length === 1) {
     const userId = checkboxes[0].value;
 
-    // alert("modifier id" + userId);
-
-    // checkboxes[0].checked = false;
-
+    // URL pour rediriger vers la page de modification de l'utilisateur
     var url = "/user/test/edit/id";
-
     url = url.replace("id", userId);
 
+    // Effectue une requête AJAX pour récupérer les données
     makeRequest(url, "GET", null, function (err, data) {
       if (err) {
         console.error("Erreur :", err);
-        // Gérer l'erreur
+        // Gérer l'erreur ici
       } else {
+        // Affiche les données récupérées dans le corps de la modal
         var modalBody = document.getElementById("modalBody");
-        var buttonActionModal = document.getElementById("buttonActionModal");
+        modalBody.innerHTML = data;
 
-        modalBody.innerHTML = data; // Supposant que data est du HTML ou du texte à afficher
-        // Afficher la modal
-        // var myModal = new bootstrap.Modal(document.getElementById("modalBox"));
+        // Affiche la modal
+        var buttonActionModal = document.getElementById("buttonActionModal");
         buttonActionModal.click();
 
-        // checkboxes = null;
+        // Réinitialise les cases à cocher
+        // checkboxes[0].checked = false;
       }
     });
   }
 });
 
+// Écouteur d'événement pour le bouton Supprimer
 document.getElementById("btn-delete").addEventListener("click", function () {
-  // Logique pour supprimer les utilisateurs sélectionnés
   console.log("Supprimer les utilisateurs sélectionnés");
 
+  // Récupère toutes les cases à cocher sélectionnées dans le tableau
   const checkboxes = document.querySelectorAll(
     '#tableauProfilTbody input[type="checkbox"]:checked'
   );
 
+  // Vérifie le nombre de cases cochées
   if (checkboxes.length === 0) {
-    // Aucune case cochée
     alert("Veuillez sélectionner au moins un utilisateur à supprimer.");
   } else {
-    // Construire un tableau avec les IDs des utilisateurs sélectionnés
+    // Construit un tableau avec les IDs des utilisateurs sélectionnés
     const selectedIds = Array.from(checkboxes).map(
       (checkbox) => checkbox.value
     );
 
+    // Confirme la suppression des utilisateurs
     const confirmDelete = window.confirm(
       `Êtes-vous sûr de vouloir supprimer ${selectedIds.length} utilisateur(s) ?`
     );
+
     if (confirmDelete) {
       const postData = { profil: selectedIds };
+
+      // Effectue une requête AJAX pour supprimer les utilisateurs
       makeRequest(
         "/user/test/delete",
         "DELETE",
@@ -116,10 +114,10 @@ document.getElementById("btn-delete").addEventListener("click", function () {
         function (err, data) {
           if (err) {
             console.error("Erreur :", err);
-            // Gérer l'erreur
+            // Gérer l'erreur ici
           } else {
-            research(searchValue);
-            // Traiter la réponse
+            // Effectue une recherche avec la valeur de recherche actuelle
+            research(document.querySelector('input[type="search"]').value);
           }
         }
       );
@@ -127,35 +125,45 @@ document.getElementById("btn-delete").addEventListener("click", function () {
   }
 });
 
+// Écouteur d'événement pour le formulaire de recherche
 document.getElementById("formSearch").addEventListener("submit", (event) => {
   event.preventDefault();
 
-  const formSearch = document.getElementById("formSearch"); // Récupère l'élément du formulaire
-  const searchValue = formSearch.querySelector('input[type="search"]').value; // Récupère la valeur de l'input de rec
+  // Récupère la valeur de l'input de recherche
+  const searchValue = document
+    .getElementById("formSearch")
+    .querySelector('input[type="search"]').value;
 
+  // Effectue une recherche avec la valeur de recherche
   research(searchValue);
 });
 
+// Fonction pour effectuer une recherche AJAX
 function research(searchValue) {
-  // URL de base pour la recherche
-  const baseUrl = "/user/test/search/";
+  const baseUrl = "/user/test/search/"; // URL de base pour la recherche
 
-  // Construire l'URL de recherche
+  // Construit l'URL de recherche avec la valeur de recherche encodée
   let urlSearch = searchValue
     ? `${baseUrl}${encodeURIComponent(searchValue)}`
     : baseUrl;
 
-  // Effectuer la requête AJAX
-  makeRequest(urlSearch,"GET", null, function (err, data) {
+  // Effectue une requête AJAX pour récupérer les résultats de recherche
+  makeRequest(urlSearch, "GET", null, function (err, data) {
     if (err) {
       console.error("Erreur :", err);
     } else {
-      // Mettre à jour le contenu du tableau cible avec les résultats de la recherche
+      // Met à jour le contenu du tableau cible avec les résultats de la recherche
       const targetTable = document.getElementById("targetTable");
-
-      // Vérifier si le contenu retourné est correct pour le tableau cible
       targetTable.innerHTML = data;
+
+      // Ajoute des écouteurs d'événements aux cases à cocher
+      document
+        .querySelectorAll('#tableauProfilTbody input[type="checkbox"]')
+        .forEach((checkbox) => {
+          checkbox.addEventListener("click", function (event) {
+            event.stopPropagation(); // Empêche la propagation de l'événement
+          });
+        });
     }
   });
 }
-

@@ -1,0 +1,44 @@
+<!-- Définition des macros -->
+{% macro hasSubCategories(category) %}
+	<li class="nav-item dropdown">
+		<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			{{ category.label }}
+		</a>
+		<ul class="dropdown-menu">
+			{% for subCategory in category.subCategories %}
+				<li>
+					<a class="dropdown-item" href="{{ subCategory.route ? path(subCategory.route) : '#' }}">
+						{{ subCategory.label }}
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</li>
+{% endmacro %}
+
+{% macro noSubCategories(category) %}
+	<li class="nav-item">
+		<a class="nav-link" href="{{ category.route ? path(category.route) : '#' }}">
+			{{ category.label }}
+		</a>
+	</li>
+{% endmacro %}
+
+<!-- Macro récursive pour parcourir les catégories -->
+{% macro recursive(categories) %}
+	<ul class="navbar-nav">
+		{% for category in categories %}
+			{% if category.subCategories is not empty %}
+				{{ _self.hasSubCategories(category) }}
+			{% else %}
+				{% if category.parent %}
+					{% else %}
+						{{ _self.noSubCategories(category) }}
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+	</ul>
+{% endmacro %}
+
+<!-- Appel de la macro recursive pour générer le menu -->
+{{ _self.recursive(categories) }}
