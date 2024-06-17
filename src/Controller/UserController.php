@@ -61,31 +61,31 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
-    public function show(User $user): Response
-    {
-        return $this->render('user/show.html.twig', [
-            'user' => $user,
-        ]);
-    }
+    // #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
+    // public function show(User $user): Response
+    // {
+    //     return $this->render('user/show.html.twig', [
+    //         'user' => $user,
+    //     ]);
+    // }
 
-    #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
+    // #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
+    // public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    // {
+    //     $form = $this->createForm(UserType::class, $user);
+    //     $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-        }
+    //         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+    //     }
 
-        return $this->render('user/edit.html.twig', [
-            'user' => $user,
-            'form' => $form,
-        ]);
-    }
+    //     return $this->render('user/edit.html.twig', [
+    //         'user' => $user,
+    //         'form' => $form,
+    //     ]);
+    // }
 
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
@@ -100,7 +100,7 @@ class UserController extends AbstractController
 
     // ---------------------------------------------------test
 
-    #[Route('/test/show/{id}', methods: ['GET'])]
+    #[Route('/show/{id}', methods: ['GET'])]
     public function testShow(User $user, UserRepository $userRepository): Response
     {
 
@@ -108,7 +108,7 @@ class UserController extends AbstractController
             'user' => $user,
         ]);
     }
-    #[Route('/test/edit/{id}', methods: ['GET'])]
+    #[Route('/edit/{id}', methods: ['GET'])]
     public function testEdit(User $user, Request $request): Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -126,7 +126,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/test/delete', methods: ['DELETE'])]
+    #[Route('/delete', methods: ['DELETE'])]
     public function testDelete(Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -177,5 +177,17 @@ class UserController extends AbstractController
         // Vous pouvez ajouter ici la logique pour effectuer la recherche avec $searchTerm
 
         return new Response("Méthode Search appelée avec searchTerm={$searchTerm}");
+    }
+
+
+    #[Route('/delete/{id}', methods: ['DELETE'])]
+    public function deleteFromShow(User $user): Response
+    {
+        // dd('kjhsdflksdf');
+        $this->entityManagerInterface->remove($user);
+
+        $this->entityManagerInterface->flush();
+
+        return new JsonResponse(['message' => 'properly formed profiles'], JsonResponse::HTTP_OK);
     }
 }

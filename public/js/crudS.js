@@ -14,7 +14,7 @@ document.getElementById("btn-show").addEventListener("click", function () {
     const userId = checkboxes[0].value;
 
     // URL pour récupérer les détails de l'utilisateur sélectionné
-    var url = "/user/test/show/id";
+    var url = "/user/show/id";
     url = url.replace("id", userId);
 
     // Effectue une requête AJAX pour récupérer les données
@@ -56,7 +56,7 @@ document.getElementById("btn-edit").addEventListener("click", function () {
     const userId = checkboxes[0].value;
 
     // URL pour rediriger vers la page de modification de l'utilisateur
-    var url = "/user/test/edit/id";
+    var url = "/user/edit/id";
     url = url.replace("id", userId);
 
     // Effectue une requête AJAX pour récupérer les données
@@ -105,20 +105,15 @@ document.getElementById("btn-delete").addEventListener("click", function () {
       const postData = { profil: selectedIds };
 
       // Effectue une requête AJAX pour supprimer les utilisateurs
-      makeRequest(
-        "/user/test/delete",
-        "DELETE",
-        postData,
-        function (err, data) {
-          if (err) {
-            console.error("Erreur :", err);
-            // Gérer l'erreur ici
-          } else {
-            // Effectue une recherche avec la valeur de recherche actuelle
-            research(document.querySelector('input[type="search"]').value);
-          }
+      makeRequest("/user/delete", "DELETE", postData, function (err, data) {
+        if (err) {
+          console.error("Erreur :", err);
+          // Gérer l'erreur ici
+        } else {
+          // Effectue une recherche avec la valeur de recherche actuelle
+          research(document.querySelector('input[type="search"]').value);
         }
-      );
+      });
     }
   }
 });
@@ -168,7 +163,7 @@ function research(searchValue) {
 
 function editFromShow(btn) {
   // URL pour rediriger vers la page de modification de l'utilisateur
-  var url = "/user/test/edit/id";
+  var url = "/user/edit/id";
   url = url.replace("id", btn.dataset.idUser);
 
   // Effectue une requête AJAX pour récupérer les données
@@ -200,15 +195,21 @@ function editFromShow(btn) {
 function deleteFromShow(btn) {
   // Confirme la suppression des utilisateurs
   const confirmDelete = window.confirm(
-    `Êtes-vous sûr de vouloir supprimer ${selectedIds.length} utilisateur(s) ?`
+    `Êtes-vous sûr de vouloir supprimer cet utilisateur ?`
   );
 
   if (confirmDelete) {
     const selectedIds = [btn.dataset.idUser];
     const postData = { profil: selectedIds };
 
+    const idUser = btn.dataset.idUser;
+
+    const url = "/user/delete/id";
+
+    const urlWithParam = url.replace("id", idUser);
+
     // Effectue une requête AJAX pour supprimer les utilisateurs
-    makeRequest("/user/test/delete", "DELETE", postData, function (err, data) {
+    makeRequest(urlWithParam, "DELETE", postData, function (err, data) {
       if (err) {
         console.error("Erreur :", err);
         // Gérer l'erreur ici
