@@ -169,6 +169,10 @@ class AppFixtures extends Fixture
                 ],
                 'parent' => 'link_account'
             ],
+            [
+                'label' => 'test',
+                'route' => 'app_test',
+            ],
 
         ];
 

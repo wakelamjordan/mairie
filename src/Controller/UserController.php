@@ -5,12 +5,10 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Service\MyFct;
-use App\Form\ProfilType;
 use App\Form\AdminUserType;
 use App\Entity\ConfirmationEmail;
 use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
-use App\Form\RegistrationCompledType;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -24,8 +22,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
-use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
-use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 
 #[IsGranted('ROLE_ADMIN')]
 #[Route('/user')]
@@ -106,40 +102,18 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    // ---------------------------------------------------test
-
     #[Route('/show/{id}', methods: ['GET'])]
-    public function testShow(User $user, UserRepository $userRepository): Response
+    public function testShow(User $user): Response
     {
-
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
     }
-    // #[Route('/edit/{id}', methods: ['GET', 'POST'])]
-    // public function testEdit(User $user, Request $request): Response
-    // {
-    //     $form = $this->createForm(AdminUserType::class, $user);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         dd("lj;hkhj");
-    //         $this->entityManagerInterface->flush();
-
-    //         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-    //     }
-
-    //     dd($user, $request->request->all());
-    //     return $this->render('user/edit.html.twig', [
-    //         'user' => $user,
-    //         'form' => $form,
-    //     ]);
-    // }
-
 
     #[Route('/edit/{id}', methods: ['GET', 'POST'])]
     public function testEdit(User $user, Request $request): Response
     {
+        
         $form = $this->createForm(AdminUserType::class, $user);
 
         $form->handleRequest($request);
@@ -179,26 +153,6 @@ class UserController extends AbstractController
 
                 $confirmationEmail->setNewMail($data['email']);
             }
-            // dd('pas de modif de mail', $data, $inDbuser, $user);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             $this->entityManagerInterface->flush();
 

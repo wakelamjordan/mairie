@@ -37,10 +37,14 @@ function makeRequest(
   }
 
   xhr.onload = function () {
+    // console.log(xhr.status);
     hideSpinner();
     if (xhr.status >= 200 && xhr.status < 300) {
       callback(null, xhr.responseText); // Appel du callback avec succès
     } else {
+      if (xhr.status === 401) {
+        window.location.href = "/";
+      }
       callback(xhr.statusText, null); // Appel du callback avec erreur
     }
   };

@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TestController!
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+
+	<div class="example-wrapper">
+		<div class="position-relative z-1">{{dump(app)}}</div>
+		<h1>User Information</h1>
+
+		{% if app.user %}
+			<p>
+				<strong>firstname:</strong>
+				{{ app.user.firstname }}</p>
+			<p></p>
+			<p>
+				<strong>lastname:</strong>
+				{{ app.user.lastname }}</p>
+			<p>
+				<strong>Email:</strong>
+				{{ app.user.email }}</p>
+			<p>
+				<strong>Roles:</strong>
+				{{ app.user.roles|join(', ') }}</p>
+		{% else %}
+			<p>No user is logged in.</p>
+		{% endif %}
+
+		<ul class="list-group position-relative z-1">
+			{% for name, route in routes %}
+				<li class="list-group-item d-flex justify-content-between align-items-center active">
+					<span class="badge bg-secondary badge-pill">{{route.name}}</span>
+					<ul>
+						<li>
+							{{route.path}}
+						</li>
+						<li>
+							{{route.methods|json_encode()}}
+						</li>
+					</ul>
+				</li>
+			{% endfor %}
+		</ul>
+
+
+	{% endblock %}
