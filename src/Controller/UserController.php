@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\ProfilType;
+use App\Form\AdminUserType;
 use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
+use App\Form\RegistrationCompledType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -111,7 +114,7 @@ class UserController extends AbstractController
     #[Route('/edit/{id}', methods: ['GET'])]
     public function testEdit(User $user, Request $request): Response
     {
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(AdminUserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -43,6 +43,7 @@ document.getElementById("btn-show").addEventListener("click", function () {
 // Écouteur d'événement pour le bouton Modifier
 document.getElementById("btn-edit").addEventListener("click", function () {
   // Récupère toutes les cases à cocher sélectionnées dans le tableau
+
   const checkboxes = document.querySelectorAll(
     '#tableauProfilTbody input[type="checkbox"]:checked'
   );
@@ -66,11 +67,12 @@ document.getElementById("btn-edit").addEventListener("click", function () {
         // Gérer l'erreur ici
       } else {
         // Affiche les données récupérées dans le corps de la modal
-        var modalBody = document.getElementById("modalBody");
+        var modalBody = document.getElementById("contentModalLg");
+
         modalBody.innerHTML = data;
 
         // Affiche la modal
-        var buttonActionModal = document.getElementById("buttonActionModal");
+        var buttonActionModal = document.getElementById("btnActionModalLg");
         buttonActionModal.click();
 
         // Réinitialise les cases à cocher
@@ -178,11 +180,11 @@ function editFromShow(btn) {
       // Utiliser un délai avant de mettre à jour le contenu et rouvrir la modal
       setTimeout(function () {
         // Met à jour le contenu de la modal
-        var modalBody = document.getElementById("modalBody");
+        var modalBody = document.getElementById("contentModalLg");
         modalBody.innerHTML = data;
 
         // Rouvre la modal
-        var buttonActionModal = document.getElementById("buttonActionModal");
+        var buttonActionModal = document.getElementById("btnActionModalLg");
         buttonActionModal.click();
       }, 350);
 

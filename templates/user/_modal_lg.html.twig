@@ -1,0 +1,24 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalLg" id="btnActionModalLg">
+	Launch
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="modalLg" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered" role="document" id="contentModalLg">
+
+    </div>
+</div>
+
+	 <script>
+	    var modalLg = document.getElementById('modalLg');
+	
+	    modalLg.addEventListener('show.bs.modal', function (event) {
+	          // Button that triggered the modal
+	          let button = event.relatedTarget;
+	          // Extract info from data-bs-* attributes
+	          let recipient = button.getAttribute('data-bs-whatever');
+	
+	        // Use above variables to manipulate the DOM
+	    });
+	</script>
