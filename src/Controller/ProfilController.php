@@ -154,7 +154,7 @@ class ProfilController extends AbstractController
 
                 $confirmationEmail->setNewMail($data['email']);
 
-                $this->addFlash('success', $this->translator->trans('Un mail de confirmation vous a été envoyé à l\'addresse ' . $user->getNewMail()));
+                $this->addFlash('success', $this->translator->trans('Un mail de confirmation vous a été envoyé à l\'addresse ' . $confirmationEmail->getNewMail()));
             }
 
             if ($data['password']['first']) {

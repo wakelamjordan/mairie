@@ -72,7 +72,7 @@
 				</tr>
 				<tr>
 					<th class="table-dark">
-						<button name="" id="buttonResetAdmin" class="btn btn-primary" onclick="resetPasswordAdmin({{user.id}})" role="button">{{'btn_reset_password'|trans}}</button>
+						<button name="" id="buttonResetAdmin" class="btn btn-primary" onclick="resetPasswordAdmin({{user.id}});" role="button">{{'btn_reset_password'|trans}}</button>
 					</th>
 				</tr>
 			</tbody>
@@ -96,9 +96,6 @@
 					{{'btn_delete'|trans}}
 				</button>
 			</div>
-
-
-			{{ include('user/_delete_form.html.twig') }}
 		</div>
 	</div>
 </div>

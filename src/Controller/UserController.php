@@ -4,11 +4,14 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Service\MyFct;
 use App\Form\ProfilType;
 use App\Form\AdminUserType;
+use App\Entity\ConfirmationEmail;
 use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
 use App\Form\RegistrationCompledType;
+use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +37,8 @@ class UserController extends AbstractController
         private ResetPasswordController $resetPasswordController,
         private ResetPasswordHelperInterface $resetPasswordHelper,
         private TranslatorInterface $translator,
+        private MyFct $myFct,
+        private EmailVerifier $emailVerifier,
     ) {
     }
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
@@ -111,23 +116,100 @@ class UserController extends AbstractController
             'user' => $user,
         ]);
     }
-    #[Route('/edit/{id}', methods: ['GET'])]
+    // #[Route('/edit/{id}', methods: ['GET', 'POST'])]
+    // public function testEdit(User $user, Request $request): Response
+    // {
+    //     $form = $this->createForm(AdminUserType::class, $user);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         dd("lj;hkhj");
+    //         $this->entityManagerInterface->flush();
+
+    //         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+    //     }
+
+    //     dd($user, $request->request->all());
+    //     return $this->render('user/edit.html.twig', [
+    //         'user' => $user,
+    //         'form' => $form,
+    //     ]);
+    // }
+
+
+    #[Route('/edit/{id}', methods: ['GET', 'POST'])]
     public function testEdit(User $user, Request $request): Response
     {
         $form = $this->createForm(AdminUserType::class, $user);
+
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManagerInterface->flush();
-
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        // Rendu initial du formulaire
+        if (!$request->isXmlHttpRequest()) {
+            // Non-AJAX request, render the form normally
+            return $this->render('user/edit.html.twig', [
+                'user' => $user,
+                'form' => $form,
+            ]);
         }
 
-        return $this->render('user/edit.html.twig', [
-            'user' => $user,
-            'form' => $form,
-        ]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // dd("Le formulaire est soumis et valide !", $user);
+
+            $inDbuser = $this->entityManagerInterface->getRepository(User::class)->find($user->getId());
+
+            // dd($inDbuser);
+            $data = $request->request->all()['admin_user'];
+
+            if (!empty($data['email']) && $data['email'] !== $inDbuser->getEmail()) {
+
+                // dd('modif de mail', $inDbuser, $user);
+
+                $this->emailVerifier->sendEmailConfirmation(
+                    'app_verify_change_email',
+                    $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('mairie@gmail.com', 'mairie'))
+                        ->to($data['email'])
+                        ->subject($this->translator->trans('Veuillez confirmer votre courriel'))
+                        ->htmlTemplate('email/admin_user_change_mail_request.html.twig')
+                        ->context(['user' => $user, 'id' => $user->getId()])
+                );
+                $confirmationEmail = $this->entityManagerInterface->getRepository(ConfirmationEmail::class)->findOneBy(['user' => $user->getId()]);
+
+                $confirmationEmail->setNewMail($data['email']);
+            }
+            // dd('pas de modif de mail', $data, $inDbuser, $user);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            $this->entityManagerInterface->flush();
+
+            // Retourner une réponse JSON
+            return new JsonResponse(['success' => true, 'message' => 'User updated successfully', JsonResponse::HTTP_OK]);
+        }
+
+        $errors = $this->myFct->getErrorsFromForm($form); // Fonction à définir pour obtenir les erreurs du formulaire
+        return $this->json(['success' => false, 'errors' => $errors], Response::HTTP_BAD_REQUEST);
     }
+
 
     #[Route('/delete', methods: ['DELETE'])]
     public function testDelete(Request $request): Response

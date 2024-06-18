@@ -53,6 +53,7 @@ function makeRequest(
   // Configuration de l'en-tête pour les requêtes POST et DELETE
   if (method === "POST" || method === "DELETE") {
     xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest"); // Détecte une requête AJAX côté serveur
     xhr.send(JSON.stringify(data));
   } else {
     xhr.send(); // Envoi de la requête pour les méthodes GET

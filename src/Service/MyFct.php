@@ -2,22 +2,19 @@
 
 namespace App\Service;
 
-use DateTime;
 use App\Entity\User;
 use DateTimeImmutable;
 use App\Entity\ConfirmationEmail;
+use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Psr\Log\LoggerInterface; // Pour la journalisation des erreurs
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\ORMException; // Pour capturer les exceptions ORM spécifiques
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\HttpException; // Si vous souhaitez utiliser des exceptions HTTP (optionnel)
-use Symfony\Component\Translation\Reader\TranslationReaderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MyFct extends AbstractController
 {
@@ -196,13 +193,13 @@ class MyFct extends AbstractController
             // Récupère l'email de confirmation de l'utilisateur
             $confirmationEmail = $user->getConfirmationEmail();
 
-            
+
             // Vérifie si l'email de confirmation existe
             if (!$confirmationEmail) {
                 $this->addFlash('error', $this->translate->trans('Lien invalide.'));
                 return false;
             }
-            
+
             // dd($user, $request->getUri(), $confirmationEmail->getSignature());
             // Compare la signature dans la requête avec celle de l'email de confirmation
             if ($request->getUri() !== $confirmationEmail->getSignature()) {
@@ -399,5 +396,26 @@ class MyFct extends AbstractController
             $this->logger->error('Erreur dans validateConfirmation: ' . $e->getMessage());
             throw new \RuntimeException('Une erreur est survenue lors de la validation de la confirmation.');
         }
+    }
+
+    public function getErrorsFromForm(FormInterface $form): array
+    {
+        // dd($form->getErrors()->__toString());
+        $errors = [];
+        foreach ($form->getErrors(true) as $error) {
+            if ($error instanceof FormError) {
+                $errors[] = $error->getMessage();
+            }
+        }
+
+        foreach ($form->all() as $childForm) {
+            if ($childForm instanceof FormInterface) {
+                if ($childErrors = $this->getErrorsFromForm($childForm)) {
+                    $errors[$childForm->getName()] = $childErrors;
+                }
+            }
+        }
+
+        return $errors;
     }
 }

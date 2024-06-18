@@ -75,6 +75,28 @@ document.getElementById("btn-edit").addEventListener("click", function () {
         var buttonActionModal = document.getElementById("btnActionModalLg");
         buttonActionModal.click();
 
+        const formEdit = document.querySelector("form[name='admin_user']");
+        formEdit.addEventListener("submit", (e) => {
+          e.preventDefault();
+          // const btn = formEdit.querySelector("button[type='submit']");
+          // formEdit.submit();
+          // data-id-user="{{user.id}}"
+          const url = "/user/edit/{id}";
+          const userId = formEdit.querySelector("button[type='submit']").dataset
+            .idUser;
+
+          const newUrl = url.replace("{id}", userId);
+
+          submitEdit(newUrl, formEdit);
+          // submitEdit(formEdit);
+          // console.log(formEdit);
+        });
+        // document
+        //   .getElementById("admin_user")
+        //   .addEventListener("submit", (e) => {
+        //     e.preventDefault();
+        //     console.log("save");
+        //   });
         // Réinitialise les cases à cocher
         // checkboxes[0].checked = false;
       }
@@ -164,6 +186,7 @@ function research(searchValue) {
 }
 
 function editFromShow(btn) {
+  // data-id-user="{{user.id}}"
   // URL pour rediriger vers la page de modification de l'utilisateur
   var url = "/user/edit/id";
   url = url.replace("id", btn.dataset.idUser);
@@ -222,4 +245,40 @@ function deleteFromShow(btn) {
       }
     });
   }
+}
+
+function submitEdit(url, form) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.open("POST", url, true);
+  // xhr.open("POST", url, true);
+
+  // xhr.setRequestHeader("Content-Type", "application/json");
+  // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+  // Écouter l'événement chargement de la réponse XHR
+  xhr.onload = function () {
+    if (xhr.status >= 200 && xhr.status < 300) {
+      // Succès : traitement de la réponse
+      btnReturn = document.getElementById("closeModalEdit");
+      btnReturn.click();
+      research();
+
+      // console.log("Réponse du serveur :", xhr.responseText);
+    } else {
+      // Erreur : gestion de l'erreur
+      console.error("Erreur lors de la requête XHR :", xhr.statusText);
+    }
+  };
+
+  // Gérer les erreurs réseau
+  xhr.onerror = function () {
+    console.error("Erreur réseau lors de la requête XHR.");
+  };
+
+  const formData = new FormData(form);
+
+  xhr.send(formData);
 }
