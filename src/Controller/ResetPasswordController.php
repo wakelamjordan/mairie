@@ -227,6 +227,7 @@ class ResetPasswordController extends AbstractController
             'email' => $user->getEmail(),
         ]);
     }
+
     #[Route('/admin/{id}', name: 'app_admin_reset_password')]
     public function resetByAdmin(User $user): Response
     {
@@ -240,14 +241,15 @@ class ResetPasswordController extends AbstractController
                 ->from(new Address('mairie@gmail.com', 'mairie'))
                 ->to($user->getEmail())
                 ->subject($this->translator->trans('Confirmez votre inscription'))
-                ->htmlTemplate('email/confirmation_email_first.html.twig')
+                ->htmlTemplate('email/admin_password_reset.html.twig')
                 ->context(['user' => $user])
         );
 
-        dd($user);
+        // dd($user);
         // à partir du user, set is verified false set password avec random password, et sent email verifier vers route 
 
     }
+
     #[Route('/reset/admin/{id}/verify', name: 'app_admin_reset_verify', methods: ['GET', 'POST'])]
     public function returnResetByAdmin(User $user, Request $request): Response
     {

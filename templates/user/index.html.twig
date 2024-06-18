@@ -17,34 +17,33 @@
 		</div>
 
 		 <script>
-				        // Fonction pour basculer l'état de la case à cocher
-				        function toggleCheckbox(checkboxId) {
-				            const checkbox = document.getElementById(checkboxId);
-				            // Si la case à cocher est trouvée, changez son état
-				            if (checkbox) {
-				                checkbox.checked = !checkbox.checked;
-				            }
-				        }
-				
-				            // Empêcher le comportement de propagation du clic sur la case à cocher
-				            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-				                checkbox.addEventListener('click', function(event) {
-				                    event.stopPropagation();
-				                });
-				            });
-				
-				
-				        function toggleSelectAll() {
-				        const selectAllCheckbox = document.getElementById('selectAll');
-				        const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
-				
-				        checkboxes.forEach(checkbox => {
-				            checkbox.checked = selectAllCheckbox.checked;
-				        });
-				    }
-				        </script>
+						        // Fonction pour basculer l'état de la case à cocher
+						        function toggleCheckbox(checkboxId) {
+						            const checkbox = document.getElementById(checkboxId);
+						            // Si la case à cocher est trouvée, changez son état
+						            if (checkbox) {
+						                checkbox.checked = !checkbox.checked;
+						            }
+						        }
+						
+						            // Empêcher le comportement de propagation du clic sur la case à cocher
+						            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+						                checkbox.addEventListener('click', function(event) {
+						                    event.stopPropagation();
+						                });
+						            });
+						
+						
+						        function toggleSelectAll() {
+						        const selectAllCheckbox = document.getElementById('selectAll');
+						        const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+						
+						        checkboxes.forEach(checkbox => {
+						            checkbox.checked = selectAllCheckbox.checked;
+						        });
+						    }
+						        </script>
 	{% endblock %}
-	{% block script_specifique %}
-		 <script src="{{asset('js/resetPassword.js')}}"></script>
-
+	{% block script_specifique %} 
+	<script src="{{asset('js/resetPassword.js')}}"></script>
 	{% endblock %}

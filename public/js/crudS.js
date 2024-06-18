@@ -1,3 +1,5 @@
+// const { error } = require("jquery");
+
 // Écouteur d'événement pour le bouton Afficher
 document.getElementById("btn-show").addEventListener("click", function () {
   // Récupère toutes les cases à cocher sélectionnées dans le tableau
@@ -268,6 +270,34 @@ function submitEdit(url, form) {
 
       // console.log("Réponse du serveur :", xhr.responseText);
     } else {
+      if (xhr.status === 400) {
+        var response = JSON.parse(xhr.responseText);
+
+        const errorEdit = document.getElementById("errorEdit");
+
+        document.querySelectorAll("input").forEach((e) => {
+          e.classList.remove("is-invalide");
+        });
+
+        for (let field in response.errors) {
+          // Récupérer l'élément du formulaire correspondant
+          var element = document.getElementById(form.name + "_" + field);
+
+          if (element) {
+            // Ajouter une classe d'erreur à l'élément
+            element.classList.add("is-invalid");
+
+            // Ajouter les messages d'erreur à la div errorEdit
+            response.errors[field].forEach((message) => {
+              errorEdit.innerHTML += `<p>Error in ${field}: ${message}</p>`;
+            });
+          }
+        }
+        errorEdit.classList.replace("hidden", "visible");
+        setTimeout(() => {
+          errorEdit.classList.replace("visible", "hidden");
+        }, 3000);
+      }
       // Erreur : gestion de l'erreur
       console.error("Erreur lors de la requête XHR :", xhr.statusText);
     }

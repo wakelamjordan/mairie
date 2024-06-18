@@ -67,12 +67,12 @@
 						BirthAt
 					</th>
 					<td class="text-end">
-						{{ user.birthAt ? user.birthAt|date('Y-m-d') : '' }}
+						{{ user.birthAt ? user.birthAt|date('d-m-Y') : '' }}
 					</td>
 				</tr>
 				<tr>
 					<th class="table-dark">
-						<button name="" id="buttonResetAdmin" class="btn btn-primary" onclick="resetPasswordAdmin({{user.id}});" role="button">{{'btn_reset_password'|trans}}</button>
+						<button name="" id="buttonResetAdmin" class="btn btn-primary" onclick="resetPasswordAdmin({{user.id}},this);" role="button">{{'btn_reset_password'|trans}}</button>
 					</th>
 				</tr>
 			</tbody>

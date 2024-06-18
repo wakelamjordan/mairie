@@ -185,29 +185,29 @@ class ProfilController extends AbstractController
         ]);
     }
 
-    #[Route('/delete_request/{id}', name: 'app_profil_delete_request', methods: ['GET'])]
-    public function deleteRequest(Request $request, User $user, EntityManagerInterface $entityManager): JsonResponse
-    {
-        if (!$user) {
-            return $this->redirectToRoute('app_home');
-        }
-        $this->emailVerifier->sendEmailConfirmation(
-            'app_profil_delete',
-            $user,
-            (new TemplatedEmail())
-                ->from(new Address('mairie@gmail.com', 'mairie'))
-                ->to($user->getEmail())
-                ->subject('Demande de suppression de profil')
-                ->htmlTemplate('email/delete_profil.html.twig')
-                ->context(['user' => $user])
-        );
+    // #[Route('/delete_request/{id}', name: 'app_profil_delete_request', methods: ['POST'])]
+    // public function deleteRequest(Request $request, User $user, EntityManagerInterface $entityManager): JsonResponse
+    // {
+    //     if (!$user) {
+    //         return $this->redirectToRoute('app_home');
+    //     }
+    //     $this->emailVerifier->sendEmailConfirmation(
+    //         'app_profil_delete',
+    //         $user,
+    //         (new TemplatedEmail())
+    //             ->from(new Address('mairie@gmail.com', 'mairie'))
+    //             ->to($user->getEmail())
+    //             ->subject('Demande de suppression de profil')
+    //             ->htmlTemplate('email/delete_profil.html.twig')
+    //             ->context(['user' => $user])
+    //     );
 
-        return new JsonResponse([
-            'status' => 'success',
-            'response' => 'Un mail avec un lien vous a été envoyé, pour supprimer votre profil clickez dessus.'
-            // 'flashMessages' => $flashMessages
-        ], Response::HTTP_OK); // HTTP 200 OK
-    }
+    //     return new JsonResponse([
+    //         'status' => 'success',
+    //         'response' => 'Un mail avec un lien vous a été envoyé, pour supprimer votre profil clickez dessus.'
+    //         // 'flashMessages' => $flashMessages
+    //     ], Response::HTTP_OK); // HTTP 200 OK
+    // }
 
     #[Route('/verify/change/email', name: 'app_verify_change_email', methods: ['GET'])]
     public function verifyUserEmail(Request $request): Response
@@ -285,7 +285,7 @@ class ProfilController extends AbstractController
 
 
     #[Route('/{id}', name: 'app_profil_delete', methods: ['POST'])]
-    public function delete(MailerInterface $mailer, Environment $twig, User $user, EntityManagerInterface $entityManager, Request $request): Response
+    public function delete(MailerInterface $mailer, Environment $twig, User $user, EntityManagerInterface $entityManager): Response
     {
         // Rendre le contenu HTML avec Twig
         $htmlContent = $twig->render('email/delete_confirm.html.twig', [

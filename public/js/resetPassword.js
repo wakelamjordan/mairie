@@ -1,6 +1,9 @@
-function resetPasswordAdmin(id) {
-  const confirmationMessage =
-    'Cronfirmez la réinitialisation du mot de passe?';
+function resetPasswordAdmin(id, btn = null) {
+  const confirmationMessage = "Cronfirmez la réinitialisation du mot de passe?";
+
+  if (btn) {
+    btn.disabled = true;
+  }
 
   if (confirm(confirmationMessage)) {
     var url = "/reset-password/admin/{id}";

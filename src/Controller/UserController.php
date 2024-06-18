@@ -3,13 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use Twig\Environment;
 use App\Form\UserType;
 use App\Service\MyFct;
 use App\Form\AdminUserType;
+use App\Security\EmailVerifier;
 use App\Entity\ConfirmationEmail;
+use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
-use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,6 +37,8 @@ class UserController extends AbstractController
         private TranslatorInterface $translator,
         private MyFct $myFct,
         private EmailVerifier $emailVerifier,
+        private Environment $twig,
+        private MailerInterface $mailer,
     ) {
     }
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
@@ -113,7 +117,7 @@ class UserController extends AbstractController
     #[Route('/edit/{id}', methods: ['GET', 'POST'])]
     public function testEdit(User $user, Request $request): Response
     {
-        
+
         $form = $this->createForm(AdminUserType::class, $user);
 
         $form->handleRequest($request);
@@ -137,7 +141,7 @@ class UserController extends AbstractController
 
             if (!empty($data['email']) && $data['email'] !== $inDbuser->getEmail()) {
 
-                // dd('modif de mail', $inDbuser, $user);
+                dd('modif de mail', $inDbuser, $user);
 
                 $this->emailVerifier->sendEmailConfirmation(
                     'app_verify_change_email',
@@ -159,6 +163,7 @@ class UserController extends AbstractController
             // Retourner une réponse JSON
             return new JsonResponse(['success' => true, 'message' => 'User updated successfully', JsonResponse::HTTP_OK]);
         }
+        // dd($user, $request->request->all()['admin_user'], $form->isSubmitted(), $form->isValid());
 
         $errors = $this->myFct->getErrorsFromForm($form); // Fonction à définir pour obtenir les erreurs du formulaire
         return $this->json(['success' => false, 'errors' => $errors], Response::HTTP_BAD_REQUEST);
@@ -193,6 +198,17 @@ class UserController extends AbstractController
         //     $serialized = $this->serializerInterface->serialize($user, 'json',['groups'=>'']);
         //     $data[] = $serialized;
         // }
+
+        $htmlContent = $this->twig->render('email/delete_from_admin_confirm.html.twig', [
+            'user' => $user,
+        ]);
+        $email = (new Email())
+            ->from('mairie@gmail.com')
+            ->to($user->getEmail())
+            ->subject($this->translator->trans('Confirmation de suppression'))
+            ->html($htmlContent);
+
+        $this->mailer->send($email);
 
 
         // Vous pouvez ajouter ici la logique pour supprimer l'utilisateur avec $userId

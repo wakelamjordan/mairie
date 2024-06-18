@@ -3,20 +3,14 @@
 namespace App\Form;
 
 use App\Entity\User;
-use App\Entity\ConfirmationEmail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class AdminUserType extends AbstractType
 {
@@ -30,62 +24,54 @@ class AdminUserType extends AbstractType
                     'placeholder' => $options['data']->getEmail(),
                 ],
                 'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'L\'adresse email ne doit pas être vide.',
-                    ]),
                     new Assert\Email([
                         'message' => 'L\'adresse email "{{ value }}" n\'est pas valide.',
                     ]),
                 ],
 
             ])
-            ->add('roles', CheckboxType::class, [
-                'label' => 'Admin',
-                'required' => false,
-                'mapped' => false, // Ne pas mapper directement à l'entité User
-                'data' => in_array('ROLE_ADMIN', $options['data']->getRoles()), // Vérifie si l'utilisateur a le rôle admin
+            ->add('roles', ChoiceType::class, [
+                'label' => false,
+                'choices' => [
+                    'Admin' => 'ROLE_ADMIN',
+                ],
                 'label_attr' => [
                     'class' => 'badge text-bg-warning fs-5'
                 ],
-                // 'attr'=>[
-                //     'class'=>'pt-3'
-                // ]
+                'expanded' => true,  // Pour afficher les choix sous forme de boutons radio ou cases à cocher
+                'multiple' => true,  // Pour permettre à l'utilisateur de sélectionner plusieurs rôles
+                'required' => false, // Si vous ne voulez pas rendre ce champ obligatoire
             ])
-            // ->add('password', RepeatedType::class, [
-            //     'mapped' => false,
-            //     'type' => PasswordType::class,
-            //     'required' => false, // Le champ n'est pas requis pour soumettre le formulaire
-            //     'attr' => [
-            //         'autocomplete' => 'new-password',
-            //     ],
-            //     'first_options' => [
-            //         'label' => 'Mot de passe',
-            //         'constraints' => [
-            //             // Utilisation de la contrainte personnalisée qui ne s'appliquera que si le champ est rempli
-            //             new Length([
-            //                 'min' => 8,
-            //                 'max' => 25,
-            //                 'minMessage' => 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
-            //                 'maxMessage' => 'Le mot de passe ne peut pas contenir plus de {{ limit }} caractères.',
-            //             ]),
-            //         ],
-            //     ],
-            //     'second_options' => [
-            //         'label' => 'Confirmer le mot de passe',
-            //         'attr' => [
-            //             'autocomplete' => 'new-password',
-            //         ],
-            //     ],
-            //     'invalid_message' => 'Les mots de passe ne sont pas identiques.',
-            // ])
-            // ->add('isVerified')
-            ->add('lastname')
-            ->add('firstname')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
+            ->add('lastname', TextType::class, [
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Le prénom ne doit pas être vide.',
+                    ]),
+                    new Assert\Length([
+                        'max' => 255,
+                        'maxMessage' => 'Le prénom ne peut pas contenir plus de {{ limit }} caractères.',
+                    ]),
+                ],
+            ])
+            ->add('firstname', TextType::class, [
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Le prénom ne doit pas être vide.',
+                    ]),
+                    new Assert\Length([
+                        'max' => 255,
+                        'maxMessage' => 'Le prénom ne peut pas contenir plus de {{ limit }} caractères.',
+                    ]),
+                ],
             ])
             ->add('birthAt', null, [
                 'widget' => 'single_text',
+                'constraints' => [
+                    new LessThanOrEqual([
+                        'value' => (new \DateTime('now'))->modify('-10 years'),
+                        'message' => 'Votre date de naissance est invalide',
+                    ]),
+                ],
             ]);
     }
 

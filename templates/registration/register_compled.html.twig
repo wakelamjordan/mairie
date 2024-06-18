@@ -71,8 +71,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const acceptButton = document.getElementById('acceptButton');
 
     cguText.addEventListener('scroll', function() {
+        console.log(cguText.scrollHeight);
+
         // Vérifiez si l'utilisateur a atteint le bas du contenu défilable
-        if (cguText.scrollTop + cguText.clientHeight >= cguText.scrollHeight) {
+        if (cguText.scrollTop + cguText.clientHeight >= cguText.scrollHeight-100) {
             acceptButton.disabled = false; // Active le bouton
         }
     });

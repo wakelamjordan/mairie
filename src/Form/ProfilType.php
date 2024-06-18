@@ -7,20 +7,14 @@ use Webmozart\Assert\Assert;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\Callback;
-use Symfony\Component\Validator\Constraints\DateTime;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
-use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ProfilType extends AbstractType
 {
@@ -68,9 +62,31 @@ class ProfilType extends AbstractType
                 ],
                 'invalid_message' => 'Les mots de passe ne sont pas identiques.',
             ])
-            ->add('lastname')
-            ->add('firstname')
-            ->add('birthAt', null,
+            ->add('lastname', TextType::class, [
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Le prénom ne doit pas être vide.',
+                    ]),
+                    new Length([
+                        'max' => 255,
+                        'maxMessage' => 'Le prénom ne peut pas contenir plus de {{ limit }} caractères.',
+                    ]),
+                ],
+            ])
+            ->add('firstname', TextType::class, [
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Le prénom ne doit pas être vide.',
+                    ]),
+                    new Length([
+                        'max' => 255,
+                        'maxMessage' => 'Le prénom ne peut pas contenir plus de {{ limit }} caractères.',
+                    ]),
+                ],
+            ])
+            ->add(
+                'birthAt',
+                null,
                 [
                     'widget' => 'single_text',
                     'constraints' => [

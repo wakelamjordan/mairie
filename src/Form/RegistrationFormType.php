@@ -28,21 +28,9 @@ class RegistrationFormType extends AbstractType
                 ],
 
             ]);
-        // // Champ password avec type PasswordType et contraintes
-        // ->add('password', PasswordType::class, [
-        //     'constraints' => [
-        //         new Assert\NotBlank([
-        //             'message' => 'Le mot de passe ne doit pas être vide.',
-        //         ]),
-        //         new Assert\Length([
-        //             'min' => 8,
-        //             'max' => 25,
-        //             'minMessage' => 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
-        //             'maxMessage' => 'Le mot de passe ne peut pas contenir plus de {{ limit }} caractères.',
-        //         ]),
-        //     ],
-        // ])
-        // // Champ terms avec type CheckboxType et contraintes
+        // Champ password avec type PasswordType et contraintes
+
+        // Champ terms avec type CheckboxType et contraintes
 ;
     }
 

@@ -7,16 +7,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
-use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+
 
 class RegistrationCompledType extends AbstractType
 {
@@ -95,10 +91,6 @@ class RegistrationCompledType extends AbstractType
             ->add('birthAt', null, [
                 'widget' => 'single_text',
                 'constraints' => [
-                    // new LowerThanOrEqual([
-                    //     'value' => (new \DateTime('now'))->modify('-10 years'),
-                    //     'message' => 'La date d\'anniversaire doit être supérieure ou égale à {{ compared_value }}',
-                    // ]),
                     new LessThanOrEqual([
                         'value' => (new \DateTime('now'))->modify('-10 years'),
                         'message' => 'Votre date de naissance est invalide',

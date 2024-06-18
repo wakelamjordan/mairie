@@ -1,7 +1,8 @@
 <!-- Définition des macros -->
 {% macro hasSubCategories(category) %}
 	<li class="nav-item dropdown">
-		<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+<a class="nav-link dropdown-toggle text-light fs-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
 			{{ category.label }}
 		</a>
 		<ul class="dropdown-menu">
@@ -18,7 +19,8 @@
 
 {% macro noSubCategories(category) %}
 	<li class="nav-item">
-		<a class="nav-link" href="{{ category.route ? path(category.route) : '#' }}">
+<a class="nav-link text-light fs-bold" href="{{ category.route ? path(category.route) : '#' }}">
+
 			{{ category.label }}
 		</a>
 	</li>

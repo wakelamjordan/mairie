@@ -10,7 +10,9 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
 
 class UserType extends AbstractType
 {
@@ -26,13 +28,39 @@ class UserType extends AbstractType
             ])
             ->add('password')
             ->add('isVerified')
-            ->add('lastname')
-            ->add('firstname')
+            ->add('lastname', TextType::class, [
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Le prénom ne doit pas être vide.',
+                    ]),
+                    new Length([
+                        'max' => 255,
+                        'maxMessage' => 'Le prénom ne peut pas contenir plus de {{ limit }} caractères.',
+                    ]),
+                ],
+            ])
+            ->add('firstname', TextType::class, [
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Le prénom ne doit pas être vide.',
+                    ]),
+                    new Length([
+                        'max' => 255,
+                        'maxMessage' => 'Le prénom ne peut pas contenir plus de {{ limit }} caractères.',
+                    ]),
+                ],
+            ])
             ->add('createdAt', null, [
                 'widget' => 'single_text',
             ])
             ->add('birthAt', null, [
                 'widget' => 'single_text',
+                'constraints' => [
+                    new LessThanOrEqual([
+                        'value' => (new \DateTime('now'))->modify('-10 years'),
+                        'message' => 'Votre date de naissance est invalide',
+                    ]),
+                ],
             ])
             ->add('confirmationEmail', EntityType::class, [
                 'class' => ConfirmationEmail::class,
