@@ -1,73 +1,71 @@
 <table id="tableauProfil" class="table table-responsive table-borderless table-hover table-striped text-center">
-    <thead class="table-dark position-sticky top-0">
-        <tr class="">
-            <th scope="col" width="5%">
-                <input id='selectAll' class="form-check-input" type="checkbox" onclick="toggleSelectAll()"></th>
-                <th scope="col" width="5%">
-                    Email
-                </th>
-                <th scope="col" width="20%">
-                    Roles
-                </th>
-                <th scope="col" width="10%" class='d-none d-md-table-cell'>
-                    Email vérifié
-                </th>
-                <th scope="col" width="20%" class='d-none d-sm-table-cell'>
-                    Nom Prénom
-                </th>
-            </tr>
-        </thead>
-        <tbody id="tableauProfilTbody" class="">
-            {% for user in users %}
-                <tr id="row-{{ user.id }}" onclick="toggleCheckbox('checkBox-{{ user.id }}')">
-                    <td scope="row">
-                        <input id="checkBox-{{ user.id }}" class="form-check-input" type="checkbox" value="{{ user.id }}"></td>
-                        <td>
-                            {{ user.email }}
-                        </td>
-                        <td class='d-none d-md-table-cell'>
-                            {% if 'ROLE_ADMIN' in user.roles %}
-                                <span class="badge text-bg-warning">
-                                    Admin
-                                </span>
-                            {% else %}
-                                <span class="badge text-bg-success">
-                                    User
-                                </span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if user.isVerified %}
-                                <i class="fas fa-check text-success"></i>
-                            {% else %}
-                                <i class="fas fa-xmark text-danger"></i>
-                            {% endif %}
-                        </td>
-                        <td class='d-none d-sm-table-cell'>
-                            {{ user.firstname }}
-                            {{ user.lastname }}
-                        </td>
-                    </tr>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="7">
-                        No records found
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-        <tfoot class="position-sticky bottom-0">
-            <tr>
-                <td colspan="100">
-                    {% if users|length > 0 %}
-                        {{ users|length }}
-                        profils utilisateurs.
-                    {% else %}
-                        aucuns profils utilisateurs.
-                    {% endif %}
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-    
+	<thead class="table-dark position-sticky top-0">
+		<tr class="">
+			<th scope="col" width="5%">
+				<input id='selectAll' class="form-check-input" type="checkbox" onclick="toggleSelectAll()"></th>
+			<th scope="col" width="5%">
+				{{'email_label'|trans}}
+			</th>
+			<th scope="col" width="20%">
+				{{'roles_label'|trans}}
+			</th>
+			<th scope="col" width="10%" class='d-none d-md-table-cell'>
+				{{'email_verified_label'}}
+			</th>
+			<th scope="col" width="20%" class='d-none d-sm-table-cell'>
+				{{'lastname&firstname_label'}}
+			</th>
+		</tr>
+	</thead>
+	<tbody id="tableauProfilTbody" class="">
+		{% for user in users %}
+			<tr id="row-{{ user.id }}" onclick="toggleCheckbox('checkBox-{{ user.id }}')">
+				<td scope="row">
+					<input id="checkBox-{{ user.id }}" class="form-check-input" type="checkbox" value="{{ user.id }}"></td>
+				<td>
+					{{ user.email }}
+				</td>
+				<td class='d-none d-md-table-cell'>
+					{% if 'ROLE_ADMIN' in user.roles %}
+						<span class="badge text-bg-warning">
+							Admin
+						</span>
+					{% else %}
+						<span class="badge text-bg-success">
+							User
+						</span>
+					{% endif %}
+				</td>
+				<td>
+					{% if user.isVerified %}
+						<i class="fas fa-check text-success"></i>
+					{% else %}
+						<i class="fas fa-xmark text-danger"></i>
+					{% endif %}
+				</td>
+				<td class='d-none d-sm-table-cell'>
+					{{ user.firstname }}
+					{{ user.lastname }}
+				</td>
+			</tr>
+		</tr>
+	{% else %}
+		<tr>
+			<td colspan="7">
+				{{'no_content_found|trans'}}
+			</td>
+		</tr>
+	{% endfor %}
+</tbody>
+<tfoot class="position-sticky bottom-0">
+	<tr>
+		<td colspan="100">
+			{% if users|length > 0 %}
+				{{ users|length }}
+				{{'nb_profil_users|trans'}}
+			{% else %}
+				{{'no_profil_users'|trans}}
+			{% endif %}
+		</td>
+	</tr>
+</tfoot></table>

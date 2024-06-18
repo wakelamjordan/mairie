@@ -59,6 +59,18 @@ class TestController extends AbstractController
         return $filteredRoutes;
     }
 
+    // #[Route('/test', name: 'app_test')]
+    // public function index(): Response
+    // {
+    //     $routes = $this->listRoutes();
+
+    //     // dd($routes);
+    //     return $this->render('test/index.html.twig', [
+    //         'controller_name' => 'TestController',
+    //         'routes' => $routes,
+    //     ]);
+    // }
+
 
     // private function getRolesForRoute($route): array
     // {

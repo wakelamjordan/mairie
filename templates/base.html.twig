@@ -1,46 +1,57 @@
 <!doctype html>
 <html lang="en" data-bs-theme="light">
-    <head>
-        <title>
-            {% block title %}
-                {{ "Mairie-bienvenue"|trans }}
-            {% endblock %}
-        </title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        {% include './_part/_favicon.html.twig' %}
-        <!-- Bootstrap CSS v5.2.1 -->
-        {% include './_part/link.html.twig' %}
-        {{ encore_entry_link_tags('app') }}
-    {# {{ encore_entry_link_tags('custom') }} #}
-    </head>
-    <body class="bg-page#">
-        <div class="container">
-            <div class="bg-60">
-                <header class="bg-page">
-                    {% include './_part/header.html.twig' %}
-                </header>
-                <main class="min-vh-100 position-relative">
-                    {% include './_part/navbar.html.twig' %}
-                    {% include './_part/_flashbag.html.twig' %}
-                    {% block body %}{% endblock %}
-                    <div class=" position-fixed top-50 start-50 translate-middle">
 
-                        <div id="spinner" class="spinner-border text-primary" role="status" style="display:none">
-                            <span class="visually-hidden">
-                                Loading...
-                            </span>
-                        </div>
+	<head>
+		<!-- Required meta tags -->
+		<meta
+		charset="utf-8"/>
+		{# <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/> #}
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-                    </div>
-                </main>
-                <footer>
-                    {% include './_part/footer.html.twig' %}
-                </footer>
-            </div>
-        </div>
-        {{ encore_entry_script_tags('app') }}
-        {% block script_specifique %}{% endblock %}
-    </body>
+		<meta name="description" content="town hall website">
+		<meta name="author" content="Wakelam jordan">
+		<title>
+			{% block title %}
+				{{ "Mairie-bienvenue"|trans }}
+			{% endblock %}
+		</title>
+		{% include './_part/_favicon.html.twig' %}
+		<!-- Bootstrap CSS v5.2.1 -->
+		{% include './_part/link.html.twig' %}
+		{{ encore_entry_link_tags('app') }}
+		{# {{ encore_entry_link_tags('custom') }} #}
+		<style>
+			/* Styles par défaut */
+
+		</style>
+
+	</head>
+	<body class="bg-page#">
+		<div class="container">
+			<div class="bg-60">
+				<header class="bg-page">
+					{% include './_part/header.html.twig' %}
+				</header>
+				<main class="min-vh-100 position-relative">
+					{% include './_part/navbar.html.twig' %}
+					{% include './_part/_flashbag.html.twig' %}
+					{% block body %}{% endblock %}
+					<div class=" position-fixed top-50 start-50 translate-middle">
+
+						<div id="spinner" class="spinner-border text-primary" role="status" style="display:none">
+							<span class="visually-hidden">
+								Loading...
+							</span>
+						</div>
+
+					</div>
+				</main>
+				<footer>
+					{% include './_part/footer.html.twig' %}
+				</footer>
+			</div>
+		</div>
+		{{ encore_entry_script_tags('app') }}
+		{% block script_specifique %}{% endblock %}
+	</body>
 </html>

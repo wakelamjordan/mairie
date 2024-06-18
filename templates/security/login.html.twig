@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ 'Mairie-Connexion' }}
+    {{ 'Mairie-Connexion'|trans }}
 {% endblock %}
 
 {% block body %}
     <div class="d-flex justify-content-center h-100 min-vh-100 align-items-center position-relative">
         <div class="col-auto col-md-6 col-lg-4 p-5">
+            <h1>{{'connection_title'|trans}}</h1>
             <form method="post" class='d-grid gap-3'>
                 {% if error %}
                     <div class="alert alert-danger">
@@ -29,11 +30,11 @@
                     Please sign in
                 </h1> #}
                 <label for="username">
-                    Email
+                    {{'email_label'|trans}}
                 </label>
                 <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="false" required autofocus>
                     <label for="password">
-                        {{ 'Mot de passe'|trans }}
+                        {{ 'password_label'|trans }}
                     </label>
                     <input type="password" name="_password" id="password" class="form-control" autocomplete="false" required>
 

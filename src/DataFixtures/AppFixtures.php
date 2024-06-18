@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Role;
 use App\Entity\User;
+use App\Entity\Local;
 use App\Service\MyFct;
 use App\Entity\Category;
 use Doctrine\Persistence\ObjectManager;
@@ -26,6 +27,7 @@ class AppFixtures extends Fixture
         $this->users();
         $this->role();
         $this->categories();
+        $this->local();
     }
 
     public function users(): void
@@ -209,6 +211,35 @@ class AppFixtures extends Fixture
 
             $this->entityManagerInterface->persist($object);
         }
+        $this->entityManagerInterface->flush();
+    }
+
+    public function local(): void
+    {
+        $locals = [
+            [
+                'label' => 'fr',
+                'rank' => 0,
+            ],
+            [
+                'label' => 'en',
+                'rank' => 1,
+            ],
+            [
+                'label' => 'es',
+                'rank' => 2,
+            ],
+        ];
+
+        foreach ($locals as $item) {
+            $local = new Local;
+
+            $local
+                ->setLabel($item['label'])
+                ->setRank($item['rank']);
+            $this->entityManagerInterface->persist($local);
+        }
+
         $this->entityManagerInterface->flush();
     }
     // public function categories(): void

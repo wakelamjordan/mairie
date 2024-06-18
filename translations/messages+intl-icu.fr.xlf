@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="2E0Dd6O" resname="Vous n'avez pas accès">
+        <source>Vous n'avez pas accès</source>
+        <target>__Vous n'avez pas accès</target>
+      </trans-unit>
+      <trans-unit id="9EMRNeg" resname="Votre précédente demande date de' il y a moins de 30 minutes veuillez réitérer plus tard.">
+        <source>Votre précédente demande date de' il y a moins de 30 minutes veuillez réitérer plus tard.</source>
+        <target>__Votre précédente demande date de' il y a moins de 30 minutes veuillez réitérer plus tard.</target>
+      </trans-unit>
+      <trans-unit id="6EclFME" resname="Please Confirm your Email">
+        <source>Please Confirm your Email</source>
+        <target>__Please Confirm your Email</target>
+      </trans-unit>
+      <trans-unit id="NBdr8fa" resname="Un mail avec un lien vous a été envoyé pour accéder à la modification de vos informations.">
+        <source>Un mail avec un lien vous a été envoyé pour accéder à la modification de vos informations.</source>
+        <target>__Un mail avec un lien vous a été envoyé pour accéder à la modification de vos informations.</target>
+      </trans-unit>
+      <trans-unit id="7JLbqKr" resname="Veuillez confirmer votre courriel">
+        <source>Veuillez confirmer votre courriel</source>
+        <target>__Veuillez confirmer votre courriel</target>
+      </trans-unit>
+      <trans-unit id="PDbjP4u" resname="Mot de passe mis à jour.">
+        <source>Mot de passe mis à jour.</source>
+        <target>__Mot de passe mis à jour.</target>
+      </trans-unit>
+      <trans-unit id="W.X.YSH" resname="Valider">
+        <source>Valider</source>
+        <target>__Valider</target>
+      </trans-unit>
+      <trans-unit id="VLL1xFg" resname="Lien invalide.">
+        <source>Lien invalide.</source>
+        <target>__Lien invalide.</target>
+      </trans-unit>
+      <trans-unit id="QQVHxY3" resname="Email vérifié avec succès.">
+        <source>Email vérifié avec succès.</source>
+        <target>__Email vérifié avec succès.</target>
+      </trans-unit>
+      <trans-unit id="TT8pPTV" resname="Mail déjà utilisé!">
+        <source>Mail déjà utilisé!</source>
+        <target>__Mail déjà utilisé!</target>
+      </trans-unit>
+      <trans-unit id="rxXqT85" resname="Mail valide.">
+        <source>Mail valide.</source>
+        <target>__Mail valide.</target>
+      </trans-unit>
+      <trans-unit id="7A8p4Ak" resname="Confirmation de suppression">
+        <source>Confirmation de suppression</source>
+        <target>__Confirmation de suppression</target>
+      </trans-unit>
+      <trans-unit id="I.UvjHE" resname="Votre compte a bien été supprimé :'\(">
+        <source>Votre compte a bien été supprimé :'\(</source>
+        <target>__Votre compte a bien été supprimé :'\(</target>
+      </trans-unit>
+      <trans-unit id="FVPk_.a" resname="Confirmez votre inscription">
+        <source>Confirmez votre inscription</source>
+        <target>__Confirmez votre inscription</target>
+      </trans-unit>
+      <trans-unit id="UHyKJ_6" resname="Mail d'inscription envoyé à ">
+        <source>Mail d'inscription envoyé à </source>
+        <target>__Mail d'inscription envoyé à </target>
+      </trans-unit>
+      <trans-unit id="kAwigbG" resname="Inscription réussie. Vous pouvez vous connecter avec l'adresse mail ">
+        <source>Inscription réussie. Vous pouvez vous connecter avec l'adresse mail </source>
+        <target>__Inscription réussie. Vous pouvez vous connecter avec l'adresse mail </target>
+      </trans-unit>
+      <trans-unit id="LkCAYak" resname="Enregistrer">
+        <source>Enregistrer</source>
+        <target>__Enregistrer</target>
+      </trans-unit>
+      <trans-unit id="luHl1mo" resname="Réinitialisation de votre mot de passe">
+        <source>Réinitialisation de votre mot de passe</source>
+        <target>__Réinitialisation de votre mot de passe</target>
+      </trans-unit>
+      <trans-unit id="znGyRIK" resname="Aucun jeton de mot de passe de réinitialisation trouvé dans l’URL ou dans la session.">
+        <source>Aucun jeton de mot de passe de réinitialisation trouvé dans l’URL ou dans la session.</source>
+        <target>__Aucun jeton de mot de passe de réinitialisation trouvé dans l’URL ou dans la session.</target>
+      </trans-unit>
+      <trans-unit id="HAi6UdJ" resname="Mot de passe mis à jour. Vous pouvez maintenant vous connecter.">
+        <source>Mot de passe mis à jour. Vous pouvez maintenant vous connecter.</source>
+        <target>__Mot de passe mis à jour. Vous pouvez maintenant vous connecter.</target>
+      </trans-unit>
+      <trans-unit id="tI37t83" resname="Votre précédente demande date date de moins de 30 minutes veuillez réitérer plus tard.">
+        <source>Votre précédente demande date date de moins de 30 minutes veuillez réitérer plus tard.</source>
+        <target>__Votre précédente demande date date de moins de 30 minutes veuillez réitérer plus tard.</target>
+      </trans-unit>
+      <trans-unit id="dOVRvsS" resname="Mairie-bienvenue">
+        <source>Mairie-bienvenue</source>
+        <target>__Mairie-bienvenue</target>
+      </trans-unit>
+      <trans-unit id="ntGVCYL" resname="email_honorific_prefix">
+        <source>email_honorific_prefix</source>
+        <target>__email_honorific_prefix</target>
+      </trans-unit>
+      <trans-unit id="Mu8LJwy" resname="email_admin_password_raz">
+        <source>email_admin_password_raz</source>
+        <target>__email_admin_password_raz</target>
+      </trans-unit>
+      <trans-unit id="j1ZF75z" resname="email_link_confirmation">
+        <source>email_link_confirmation</source>
+        <target>__email_link_confirmation</target>
+      </trans-unit>
+      <trans-unit id="jaiLYS_" resname="email_message_link_expiration">
+        <source>email_message_link_expiration</source>
+        <target>__email_message_link_expiration</target>
+      </trans-unit>
+      <trans-unit id="4fXbnPh" resname="email_formule_politesse_fin">
+        <source>email_formule_politesse_fin</source>
+        <target>__email_formule_politesse_fin</target>
+      </trans-unit>
+      <trans-unit id="R_gbOiO" resname="email_signature">
+        <source>email_signature</source>
+        <target>__email_signature</target>
+      </trans-unit>
+      <trans-unit id="t4lIeba" resname="email_tout_droit_reserve">
+        <source>email_tout_droit_reserve</source>
+        <target>__email_tout_droit_reserve</target>
+      </trans-unit>
+      <trans-unit id="Y8qbWR4" resname="Demande de modification de mail">
+        <source>Demande de modification de mail</source>
+        <target>__Demande de modification de mail</target>
+      </trans-unit>
+      <trans-unit id="LbM.Zvy" resname="cher">
+        <source>cher</source>
+        <target>__cher</target>
+      </trans-unit>
+      <trans-unit id="Rp3DABL" resname="Vous avez demandé à mettre à jour votre addresse email, le lien suivant servira à la valider. Afin que la nouvelle addresse soit prise en compte veuillez clicker sur le lien et vous identifier avec votre ancienne addresse mail.">
+        <source>Vous avez demandé à mettre à jour votre addresse email, le lien suivant servira à la valider. Afin que la nouvelle addresse soit prise en compte veuillez clicker sur le lien et vous identifier avec votre ancienne addresse mail.</source>
+        <target>__Vous avez demandé à mettre à jour votre addresse email, le lien suivant servira à la valider. Afin que la nouvelle addresse soit prise en compte veuillez clicker sur le lien et vous identifier avec votre ancienne addresse mail.</target>
+      </trans-unit>
+      <trans-unit id="Oi67hIo" resname="Si vous n’avez pas fait cette demande, veuillez ignorer cet e-mail ou contacter notre équipe d’assistance pour obtenir de l’aide.">
+        <source>Si vous n’avez pas fait cette demande, veuillez ignorer cet e-mail ou contacter notre équipe d’assistance pour obtenir de l’aide.</source>
+        <target>__Si vous n’avez pas fait cette demande, veuillez ignorer cet e-mail ou contacter notre équipe d’assistance pour obtenir de l’aide.</target>
+      </trans-unit>
+      <trans-unit id="0qLnF3V" resname="Confirmer mon email pour modifier votre compte">
+        <source>Confirmer mon email pour modifier votre compte</source>
+        <target>__Confirmer mon email pour modifier votre compte</target>
+      </trans-unit>
+      <trans-unit id="x1eZk_s" resname="Ce lien expirera dans">
+        <source>Ce lien expirera dans</source>
+        <target>__Ce lien expirera dans</target>
+      </trans-unit>
+      <trans-unit id="5s0zy3f" resname="Bien cordialement,">
+        <source>Bien cordialement,</source>
+        <target>__Bien cordialement,</target>
+      </trans-unit>
+      <trans-unit id="Tb53MY5" resname="L’équipe de la municipalité">
+        <source>L’équipe de la municipalité</source>
+        <target>__L’équipe de la municipalité</target>
+      </trans-unit>
+      <trans-unit id="iYjNLk6" resname="Votre municipalité. Tous droits réservés.">
+        <source>Votre municipalité. Tous droits réservés.</source>
+        <target>__Votre municipalité. Tous droits réservés.</target>
+      </trans-unit>
+      <trans-unit id="xvUjrRR" resname="Chère">
+        <source>Chère</source>
+        <target>__Chère</target>
+      </trans-unit>
+      <trans-unit id="oUX044r" resname="Merci de vous inscrire. Veuillez confirmer votre adresse courriel en cliquant sur le bouton ci-dessous. Cela nous aidera à nous assurer que votre compte est sécurisé et vous permettra d’accéder à tous nos services.">
+        <source>Merci de vous inscrire. Veuillez confirmer votre adresse courriel en cliquant sur le bouton ci-dessous. Cela nous aidera à nous assurer que votre compte est sécurisé et vous permettra d’accéder à tous nos services.</source>
+        <target>__Merci de vous inscrire. Veuillez confirmer votre adresse courriel en cliquant sur le bouton ci-dessous. Cela nous aidera à nous assurer que votre compte est sécurisé et vous permettra d’accéder à tous nos services.</target>
+      </trans-unit>
+      <trans-unit id="ZfsNmEO" resname="Si vous n’avez pas créé ce compte, veuillez ignorer cet e-mail.">
+        <source>Si vous n’avez pas créé ce compte, veuillez ignorer cet e-mail.</source>
+        <target>__Si vous n’avez pas créé ce compte, veuillez ignorer cet e-mail.</target>
+      </trans-unit>
+      <trans-unit id="abml8Nj" resname="Confirmer mon courriel">
+        <source>Confirmer mon courriel</source>
+        <target>__Confirmer mon courriel</target>
+      </trans-unit>
+      <trans-unit id="2Bivvfz" resname="Demande de modification de compte">
+        <source>Demande de modification de compte</source>
+        <target>__Demande de modification de compte</target>
+      </trans-unit>
+      <trans-unit id="NriRQrr" resname="Vous avez demandé à modifier vos informations de compte. Pour procéder à cette demande, veuillez cliquer sur le bouton ci-dessous pour confirmer votre identité et mettre à jour vos coordonnées.">
+        <source>Vous avez demandé à modifier vos informations de compte. Pour procéder à cette demande, veuillez cliquer sur le bouton ci-dessous pour confirmer votre identité et mettre à jour vos coordonnées.</source>
+        <target>__Vous avez demandé à modifier vos informations de compte. Pour procéder à cette demande, veuillez cliquer sur le bouton ci-dessous pour confirmer votre identité et mettre à jour vos coordonnées.</target>
+      </trans-unit>
+      <trans-unit id="7PhR3Ra" resname="Réinitialiser votre mot de passe">
+        <source>Réinitialiser votre mot de passe</source>
+        <target>__Réinitialiser votre mot de passe</target>
+      </trans-unit>
+      <trans-unit id="3VMbBZE" resname="Cher">
+        <source>Cher</source>
+        <target>__Cher</target>
+      </trans-unit>
+      <trans-unit id="ExJBkp2" resname="Nous avons reçu une demande de réinitialisation du mot de passe pour votre compte.">
+        <source>Nous avons reçu une demande de réinitialisation du mot de passe pour votre compte.</source>
+        <target>__Nous avons reçu une demande de réinitialisation du mot de passe pour votre compte.</target>
+      </trans-unit>
+      <trans-unit id="8Q5tqdW" resname="Si vous avez fait cette demande, veuillez cliquer sur le bouton ci-dessous pour réinitialiser votre mot de passe :">
+        <source>Si vous avez fait cette demande, veuillez cliquer sur le bouton ci-dessous pour réinitialiser votre mot de passe :</source>
+        <target>__Si vous avez fait cette demande, veuillez cliquer sur le bouton ci-dessous pour réinitialiser votre mot de passe :</target>
+      </trans-unit>
+      <trans-unit id="FE_.Vb0" resname="Clickez ici">
+        <source>Clickez ici</source>
+        <target>__Clickez ici</target>
+      </trans-unit>
+      <trans-unit id="nx5P7hC" resname="Ce lien expirera dans.">
+        <source>Ce lien expirera dans.</source>
+        <target>__Ce lien expirera dans.</target>
+      </trans-unit>
+      <trans-unit id="Ml6no0e" resname="Si vous n'avez pas fait cette demande, vous pouvez ignorer cet e-mail en toute sécurité.">
+        <source>Si vous n'avez pas fait cette demande, vous pouvez ignorer cet e-mail en toute sécurité.</source>
+        <target>__Si vous n'avez pas fait cette demande, vous pouvez ignorer cet e-mail en toute sécurité.</target>
+      </trans-unit>
+      <trans-unit id="1I3xLOD" resname="Cordialement,">
+        <source>Cordialement,</source>
+        <target>__Cordialement,</target>
+      </trans-unit>
+      <trans-unit id="dwdCR8W" resname="L'équipe Municipale">
+        <source>L'équipe Municipale</source>
+        <target>__L'équipe Municipale</target>
+      </trans-unit>
+      <trans-unit id="BYkOp3y" resname="Votre Municipalité. Tous droits réservés.">
+        <source>Votre Municipalité. Tous droits réservés.</source>
+        <target>__Votre Municipalité. Tous droits réservés.</target>
+      </trans-unit>
+      <trans-unit id="WyIoAFu" resname="Mairie-Bienvenue sur notre site">
+        <source>Mairie-Bienvenue sur notre site</source>
+        <target>__Mairie-Bienvenue sur notre site</target>
+      </trans-unit>
+      <trans-unit id="iHRAo8z" resname="Agenda">
+        <source>Agenda</source>
+        <target>__Agenda</target>
+      </trans-unit>
+      <trans-unit id="gEM2FuQ" resname="Horaires">
+        <source>Horaires</source>
+        <target>__Horaires</target>
+      </trans-unit>
+      <trans-unit id="ElFGxr_" resname="Mairie-Edition du profil">
+        <source>Mairie-Edition du profil</source>
+        <target>__Mairie-Edition du profil</target>
+      </trans-unit>
+      <trans-unit id="yD4QKCF" resname="btn_annuler">
+        <source>btn_annuler</source>
+        <target>__btn_annuler</target>
+      </trans-unit>
+      <trans-unit id="VPQlRnt" resname="title_page_profil_edit">
+        <source>title_page_profil_edit</source>
+        <target>__title_page_profil_edit</target>
+      </trans-unit>
+      <trans-unit id="k9A6uXy" resname="btn_submit">
+        <source>btn_submit</source>
+        <target>__btn_submit</target>
+      </trans-unit>
+      <trans-unit id="f2jl4tD" resname="confirm_profil_delete">
+        <source>confirm_profil_delete</source>
+        <target>__confirm_profil_delete</target>
+      </trans-unit>
+      <trans-unit id="kXLEd2a" resname="btn_delete">
+        <source>btn_delete</source>
+        <target>__btn_delete</target>
+      </trans-unit>
+      <trans-unit id="WyATrCM" resname="Mairie-Profil utilisateur">
+        <source>Mairie-Profil utilisateur</source>
+        <target>__Mairie-Profil utilisateur</target>
+      </trans-unit>
+      <trans-unit id="3cLLSYL" resname="Votre profil">
+        <source>Votre profil</source>
+        <target>__Votre profil</target>
+      </trans-unit>
+      <trans-unit id="d2G1xIp" resname="Édition">
+        <source>Édition</source>
+        <target>__Édition</target>
+      </trans-unit>
+      <trans-unit id="7R7CpEQ" resname="Inscription">
+        <source>Inscription</source>
+        <target>__Inscription</target>
+      </trans-unit>
+      <trans-unit id="WNGBdpi" resname="Completez votre inscription.">
+        <source>Completez votre inscription.</source>
+        <target>__Completez votre inscription.</target>
+      </trans-unit>
+      <trans-unit id="OlokNTP" resname="Si un compte correspondant à votre adresse email existe, un email vient d'être envoyé. Ce dernier contient un lien que vous pouvez utiliser pour réinitialiser votre mot de passe.">
+        <source>Si un compte correspondant à votre adresse email existe, un email vient d'être envoyé. Ce dernier contient un lien que vous pouvez utiliser pour réinitialiser votre mot de passe.</source>
+        <target>__Si un compte correspondant à votre adresse email existe, un email vient d'être envoyé. Ce dernier contient un lien que vous pouvez utiliser pour réinitialiser votre mot de passe.</target>
+      </trans-unit>
+      <trans-unit id="I8WeFde" resname="Si vous ne recevez pas d'email, veuillez vérifier votre dossier spam ou">
+        <source>Si vous ne recevez pas d'email, veuillez vérifier votre dossier spam ou</source>
+        <target>__Si vous ne recevez pas d'email, veuillez vérifier votre dossier spam ou</target>
+      </trans-unit>
+      <trans-unit id="XjSsbzE" resname="réessayer">
+        <source>réessayer</source>
+        <target>__réessayer</target>
+      </trans-unit>
+      <trans-unit id="R1TaBvS" resname="raz_password_title">
+        <source>raz_password_title</source>
+        <target>__raz_password_title</target>
+      </trans-unit>
+      <trans-unit id="1SlPk2B" resname="raz_password_consigne">
+        <source>raz_password_consigne</source>
+        <target>__raz_password_consigne</target>
+      </trans-unit>
+      <trans-unit id="R4Il2Qi" resname="btn_send">
+        <source>btn_send</source>
+        <target>__btn_send</target>
+      </trans-unit>
+      <trans-unit id="Fws.VK." resname="Mairie-Nouveau mot de passe">
+        <source>Mairie-Nouveau mot de passe</source>
+        <target>__Mairie-Nouveau mot de passe</target>
+      </trans-unit>
+      <trans-unit id="Y4KfIxG" resname="set_new_password_title">
+        <source>set_new_password_title</source>
+        <target>__set_new_password_title</target>
+      </trans-unit>
+      <trans-unit id="3Zkxg2W" resname="set_new_password_description_text">
+        <source>set_new_password_description_text</source>
+        <target>__set_new_password_description_text</target>
+      </trans-unit>
+      <trans-unit id="rZpgHw." resname="Mairie-Connexion">
+        <source>Mairie-Connexion</source>
+        <target>__Mairie-Connexion</target>
+      </trans-unit>
+      <trans-unit id="DpXNTi1" resname="connection_title">
+        <source>connection_title</source>
+        <target>__connection_title</target>
+      </trans-unit>
+      <trans-unit id="c_Fk0EN" resname="email_label">
+        <source>email_label</source>
+        <target>__email_label</target>
+      </trans-unit>
+      <trans-unit id="yWssx5l" resname="password_label">
+        <source>password_label</source>
+        <target>__password_label</target>
+      </trans-unit>
+      <trans-unit id="F1trd9d" resname="Réinitialiser votre mot de passe.">
+        <source>Réinitialiser votre mot de passe.</source>
+        <target>__Réinitialiser votre mot de passe.</target>
+      </trans-unit>
+      <trans-unit id="5y6qpu5" resname="title_user_edit">
+        <source>title_user_edit</source>
+        <target>__title_user_edit</target>
+      </trans-unit>
+      <trans-unit id="kOsYVa5" resname="user_verified">
+        <source>user_verified</source>
+        <target>__user_verified</target>
+      </trans-unit>
+      <trans-unit id="GQ7e7AQ" resname="user_not_verified">
+        <source>user_not_verified</source>
+        <target>__user_not_verified</target>
+      </trans-unit>
+      <trans-unit id="Ik4YCxv" resname="btn_return">
+        <source>btn_return</source>
+        <target>__btn_return</target>
+      </trans-unit>
+      <trans-unit id="tw_toRD" resname="btn_edit_valide">
+        <source>btn_edit_valide</source>
+        <target>__btn_edit_valide</target>
+      </trans-unit>
+      <trans-unit id="mWrfF5a" resname="Mairie-Liste des Profiles">
+        <source>Mairie-Liste des Profiles</source>
+        <target>__Mairie-Liste des Profiles</target>
+      </trans-unit>
+      <trans-unit id="75s2KeA" resname="user_index_title">
+        <source>user_index_title</source>
+        <target>__user_index_title</target>
+      </trans-unit>
+      <trans-unit id=".PWV8Uy" resname="btn_reset_password">
+        <source>btn_reset_password</source>
+        <target>__btn_reset_password</target>
+      </trans-unit>
+      <trans-unit id="kYoI4qP" resname="btn_edit">
+        <source>btn_edit</source>
+        <target>__btn_edit</target>
+      </trans-unit>
+      <trans-unit id=".eiOlDu" resname="btn_inscription">
+        <source>btn_inscription</source>
+        <target>__btn_inscription</target>
+      </trans-unit>
+      <trans-unit id="XJOoXA8" resname="btn_show">
+        <source>btn_show</source>
+        <target>__btn_show</target>
+      </trans-unit>
+      <trans-unit id="5e0iAkA" resname="btn_modify">
+        <source>btn_modify</source>
+        <target>__btn_modify</target>
+      </trans-unit>
+      <trans-unit id="CBAifzQ" resname="message_delete_confirmation">
+        <source>message_delete_confirmation</source>
+        <target>__message_delete_confirmation</target>
+      </trans-unit>
+      <trans-unit id="pGeucQA" resname="roles_label">
+        <source>roles_label</source>
+        <target>__roles_label</target>
+      </trans-unit>
+      <trans-unit id="Ed8sb6n" resname="no_profil_users">
+        <source>no_profil_users</source>
+        <target>__no_profil_users</target>
+      </trans-unit>
+      <trans-unit id="dyX5G83" resname="Conditions d'utilisation">
+        <source>Conditions d'utilisation</source>
+        <target>__Conditions d'utilisation</target>
+      </trans-unit>
+      <trans-unit id="d7DUJC." resname="btn_terms_accept">
+        <source>btn_terms_accept</source>
+        <target>__btn_terms_accept</target>
+      </trans-unit>
+      <trans-unit id="VWqinZi" resname="Dernière mise à jour">
+        <source>Dernière mise à jour</source>
+        <target>__Dernière mise à jour</target>
+      </trans-unit>
+      <trans-unit id="yq0AfLW" resname="1. Acceptation des Conditions">
+        <source>1. Acceptation des Conditions</source>
+        <target>__1. Acceptation des Conditions</target>
+      </trans-unit>
+      <trans-unit id="zpm051r" resname="En accédant à notre site web et en vous inscrivant, vous acceptez d'être lié par les présentes conditions d'utilisation. Nous nous réservons le droit de modifier ces conditions à tout moment sans préavis. Il est de votre responsabilité de consulter régulièrement cette page pour prendre connaissance des éventuelles modifications.">
+        <source>En accédant à notre site web et en vous inscrivant, vous acceptez d'être lié par les présentes conditions d'utilisation. Nous nous réservons le droit de modifier ces conditions à tout moment sans préavis. Il est de votre responsabilité de consulter régulièrement cette page pour prendre connaissance des éventuelles modifications.</source>
+        <target>__En accédant à notre site web et en vous inscrivant, vous acceptez d'être lié par les présentes conditions d'utilisation. Nous nous réservons le droit de modifier ces conditions à tout moment sans préavis. Il est de votre responsabilité de consulter régulièrement cette page pour prendre connaissance des éventuelles modifications.</target>
+      </trans-unit>
+      <trans-unit id="Q4WwpKQ" resname="2. Utilisation du Site">
+        <source>2. Utilisation du Site</source>
+        <target>__2. Utilisation du Site</target>
+      </trans-unit>
+      <trans-unit id="tr0K8nE" resname="Vous acceptez d'utiliser ce site uniquement à des fins légales et conformément aux lois en vigueur. Il vous est interdit d'utiliser le site d'une manière qui pourrait endommager, désactiver, surcharger ou détériorer le site ou interférer avec l'utilisation et la jouissance du site par d'autres utilisateurs.">
+        <source>Vous acceptez d'utiliser ce site uniquement à des fins légales et conformément aux lois en vigueur. Il vous est interdit d'utiliser le site d'une manière qui pourrait endommager, désactiver, surcharger ou détériorer le site ou interférer avec l'utilisation et la jouissance du site par d'autres utilisateurs.</source>
+        <target>__Vous acceptez d'utiliser ce site uniquement à des fins légales et conformément aux lois en vigueur. Il vous est interdit d'utiliser le site d'une manière qui pourrait endommager, désactiver, surcharger ou détériorer le site ou interférer avec l'utilisation et la jouissance du site par d'autres utilisateurs.</target>
+      </trans-unit>
+      <trans-unit id="QXTJ8Lf" resname="3. Inscription et Sécurité du Compte">
+        <source>3. Inscription et Sécurité du Compte</source>
+        <target>__3. Inscription et Sécurité du Compte</target>
+      </trans-unit>
+      <trans-unit id="1pdV9SP" resname="Pour accéder à certaines fonctionnalités, vous devez vous inscrire en fournissant des informations précises, complètes et à jour. Vous êtes responsable de la sécurité de votre compte et des activités effectuées sous votre compte. Vous devez informer immédiatement l'administration du site de toute utilisation non autorisée de votre compte ou de toute autre violation de la sécurité.">
+        <source>Pour accéder à certaines fonctionnalités, vous devez vous inscrire en fournissant des informations précises, complètes et à jour. Vous êtes responsable de la sécurité de votre compte et des activités effectuées sous votre compte. Vous devez informer immédiatement l'administration du site de toute utilisation non autorisée de votre compte ou de toute autre violation de la sécurité.</source>
+        <target>__Pour accéder à certaines fonctionnalités, vous devez vous inscrire en fournissant des informations précises, complètes et à jour. Vous êtes responsable de la sécurité de votre compte et des activités effectuées sous votre compte. Vous devez informer immédiatement l'administration du site de toute utilisation non autorisée de votre compte ou de toute autre violation de la sécurité.</target>
+      </trans-unit>
+      <trans-unit id="P9gSjEZ" resname="4. Données Personnelles">
+        <source>4. Données Personnelles</source>
+        <target>__4. Données Personnelles</target>
+      </trans-unit>
+      <trans-unit id="RLLqv9B" resname="Nous respectons votre vie privée. Veuillez consulter notre Politique de confidentialité pour des informations détaillées sur la manière dont nous collectons, utilisons et protégeons vos données personnelles.">
+        <source>Nous respectons votre vie privée. Veuillez consulter notre Politique de confidentialité pour des informations détaillées sur la manière dont nous collectons, utilisons et protégeons vos données personnelles.</source>
+        <target>__Nous respectons votre vie privée. Veuillez consulter notre Politique de confidentialité pour des informations détaillées sur la manière dont nous collectons, utilisons et protégeons vos données personnelles.</target>
+      </trans-unit>
+      <trans-unit id="8OQvXhf" resname="5. Contenu Utilisateur">
+        <source>5. Contenu Utilisateur</source>
+        <target>__5. Contenu Utilisateur</target>
+      </trans-unit>
+      <trans-unit id="1_xgMSs" resname="En publiant ou en téléchargeant du contenu sur notre site, vous nous accordez une licence non exclusive, mondiale, gratuite et perpétuelle pour utiliser, reproduire, modifier, afficher et distribuer ce contenu dans le cadre de l'exploitation du site. Vous déclarez et garantissez que vous détenez tous les droits nécessaires pour accorder cette licence.">
+        <source>En publiant ou en téléchargeant du contenu sur notre site, vous nous accordez une licence non exclusive, mondiale, gratuite et perpétuelle pour utiliser, reproduire, modifier, afficher et distribuer ce contenu dans le cadre de l'exploitation du site. Vous déclarez et garantissez que vous détenez tous les droits nécessaires pour accorder cette licence.</source>
+        <target>__En publiant ou en téléchargeant du contenu sur notre site, vous nous accordez une licence non exclusive, mondiale, gratuite et perpétuelle pour utiliser, reproduire, modifier, afficher et distribuer ce contenu dans le cadre de l'exploitation du site. Vous déclarez et garantissez que vous détenez tous les droits nécessaires pour accorder cette licence.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

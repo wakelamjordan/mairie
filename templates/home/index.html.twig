@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ 'Mairie-Bienvenue sur notre site'|trans }}
+	{{ 'Mairie-Bienvenue sur notre site'|trans }}
 {% endblock %}
 
 {% block body %}
-    <div class="row mx-auto">
+	<div class="row mx-auto">
 
-        <div class="col ps-0 pe-0">
-            {% set slides=[
+		<div class="col ps-0 pe-0">
+			{% set slides=[
 
                 {
                         'image':asset("image/champ-arbres-herbe.jpg"),
@@ -33,38 +33,38 @@
             },
 
             ] %}
-            {% include 'home/_swiper.html.twig' with {'slides': slides} %}
-        </div>
-    </div>
-    <div class="row flex-row-reverse mx-auto">
+			{% include 'home/_swiper.html.twig' with {'slides': slides} %}
+		</div>
+	</div>
+	<div class="row flex-row-reverse mx-auto">
 
-        <div class="col-12 col-md-4 bg-warning#">
-            {% include 'home/_accordeon.html.twig' %}
-        </div>
-        <div class="col-12 col-md-8 bg-dark# p-2 d-flex flex-column justify-content-between">
-            <div class="row p-3">
-                <h1>
-                    Lorem, ipsum dolor.
-                </h1>
-                <div class="d-flex justify-content-between flex-column">
+		<div class="col-12 col-md-4 bg-warning#">
+			{% include 'home/_accordeon.html.twig' %}
+		</div>
+		<div class="col-12 col-md-8 bg-dark# p-2 d-flex flex-column justify-content-between">
+			<div class="row p-3">
+				<h1>
+					Lorem, ipsum dolor.
+				</h1>
+				<div class="d-flex justify-content-between flex-column">
 
-                    <p class="lead">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing.
-                    </p>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore quo veniam eligendi ducimus quos, repellendus animi sint molestiae harum odio amet optio accusantium earum, non ex aut neque est repudiandae inventore minima? Molestiae architecto inventore quaerat repellat voluptate at vero reiciendis ipsam assumenda provident rerum, explicabo officiis. Cupiditate dolorem, quas quisquam maxime similique nostrum voluptatem repellendus earum voluptatum tempore reiciendis inventore rerum fugit id? Odio quod labore reiciendis aliquid iure beatae quos necessitatibus suscipit voluptatibus a eveniet autem nemo, ea vel similique quas corporis voluptas, ratione rerum deleniti alias unde, debitis in? Quis, temporibus. Reiciendis facere iste omnis eaque s
-                    </p>
-                    <p class="">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis quod culpa illum porro. Obcaecati aliquam pariatur nam! Eos ut similique quaerat! Esse exercitationem quae fuga laboriosam accusantium deserunt adipisci rerum.
-                    </p>
-                </div>
-            </div>
-            <div class="row p-3 flex-grow-1">
+					<p class="lead">
+						{{'message_certif'|trans}}
+					</p>
+					<p>
+						Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore quo veniam eligendi ducimus quos, repellendus animi sint molestiae harum odio amet optio accusantium earum, non ex aut neque est repudiandae inventore minima? Molestiae architecto inventore quaerat repellat voluptate at vero reiciendis ipsam assumenda provident rerum, explicabo officiis. Cupiditate dolorem, quas quisquam maxime similique nostrum voluptatem repellendus earum voluptatum tempore reiciendis inventore rerum fugit id? Odio quod labore reiciendis aliquid iure beatae quos necessitatibus suscipit voluptatibus a eveniet autem nemo, ea vel similique quas corporis voluptas, ratione rerum deleniti alias unde, debitis in? Quis, temporibus. Reiciendis facere iste omnis eaque s
+					</p>
+					<p class="">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis quod culpa illum porro. Obcaecati aliquam pariatur nam! Eos ut similique quaerat! Esse exercitationem quae fuga laboriosam accusantium deserunt adipisci rerum.
+					</p>
+				</div>
+			</div>
+			<div class="row p-3 flex-grow-1">
 
-                <h2>
-                    Actualités
-                </h2>
-                {% set props=[
+				<h2>
+					Actualités
+				</h2>
+				{% set props=[
                     {
                     'image' : asset('image/image-ia-exemple.avif'),
                     'title': 'Lorem, ipsum.',
@@ -111,11 +111,11 @@
                     'content': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nihil ducimus impedit voluptas? Unde reprehenderit non provident nisi commodi voluptatem.'
                 },
                 ] %}
-                {% include 'home/news/_card.html.twig' with {'props':props} %}
-            </div>
-        </div>
-    </div>
+				{% include 'home/news/_card.html.twig' with {'props':props} %}
+			</div>
+		</div>
+	</div>
 {% endblock %}
 {% block script_specifique %}
-    <script src="{{ asset('js/ForResponsive.js') }}"></script>
+	 <script src="{{ asset('js/ForResponsive.js') }}"></script>
 {% endblock %}

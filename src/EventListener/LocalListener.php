@@ -21,6 +21,7 @@ final class LocalListener
     {
         $accepted = $this->parseStringLanguageToArrayLanguage();
         $available = $this->getLocalWebSite();
+        // dd($available);
         $localMatched = $this->findMatches($accepted, $available);
 
         reset($localMatched);
@@ -161,6 +162,7 @@ final class LocalListener
     {
         $locals = $this->entityManagerInterface->getRepository(Local::class)->findAll();
 
+        // dd($locals);
         // for
         $localsGoodFormatArray = [];
         foreach ($locals as $local) {

@@ -1,0 +1,1 @@
+message_certif: En este ejemplo, agregamos un atributo `data-mon-data` al botón HTML y le dimos el valor "valor". Luego, utilizamos `document.getElementById` para recuperar el botón utilizando su ID, y accedimos al valor del atributo `data-mon-data` utilizando la propiedad `dataset` del elemento botón. Finalmente, mostramos el valor en la consola utilizando `console.log`.

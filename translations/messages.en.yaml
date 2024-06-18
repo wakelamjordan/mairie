@@ -1,0 +1,1 @@
+message_certif: In this example, we added a `data-mon-data` attribute to the HTML button and gave it the value "valeur". Then, we used `document.getElementById` to retrieve the button using its ID, and accessed the value of the `data-mon-data` attribute using the `dataset` property of the button element. Finally, we displayed the value in the console using `console.log`.

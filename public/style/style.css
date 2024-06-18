@@ -72,31 +72,30 @@ a {
   object-fit: none;
 }
 
-
 body.theme-dark {
-    --bs-body-bg: #121212; /* Fond général en mode sombre */
-    --bs-body-color: #ffffff; /* Couleur du texte général en mode sombre */
-    
-    --bs-primary: #2980b9; /* Ajustez les couleurs pour le mode sombre */
-    --bs-secondary: #27ae60;
-    --bs-success: #218838;
-    --bs-info: #138496;
-    --bs-warning: #e0a800;
-    --bs-danger: #c82333;
-    --bs-light: #343a40;
-    --bs-dark: #f8f9fa;
+  --bs-body-bg: #121212; /* Fond général en mode sombre */
+  --bs-body-color: #ffffff; /* Couleur du texte général en mode sombre */
+
+  --bs-primary: #2980b9; /* Ajustez les couleurs pour le mode sombre */
+  --bs-secondary: #27ae60;
+  --bs-success: #218838;
+  --bs-info: #138496;
+  --bs-warning: #e0a800;
+  --bs-danger: #c82333;
+  --bs-light: #343a40;
+  --bs-dark: #f8f9fa;
 }
 
 .hidden {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
 .visible {
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 /* body{
   --bs-body-color: rgb(233, 0, 0);
@@ -136,3 +135,15 @@ ul li a:hover{
 ul li:hover ul.dropdown{
 display: block;
 } */
+			#test {
+				background-color: lightblue;
+				width: 100%;
+				height: 100px;
+			}
+
+			/* Media query pour les écrans de 1200px et plus */
+			@media screen and (min-width: 300px) {
+				#test {
+					background-color: pink;
+				}
+			}
