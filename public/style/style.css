@@ -142,7 +142,7 @@ display: block;
 			}
 
 			/* Media query pour les écrans de 1200px et plus */
-			@media screen and (min-width: 300px) {
+			@media screen and (min-width: 900px) {
 				#test {
 					background-color: pink;
 				}
