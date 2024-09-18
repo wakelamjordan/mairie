@@ -31,7 +31,7 @@ Clonez ce repository sur votre machine locale :
 
 bash
 Copier le code
-git clone https://github.com/votre-utilisateur/nom-du-repository.git
+git clone https://github.com/wakelamjordan/mairie.git
 Accédez au dossier du projet :
 
 bash
