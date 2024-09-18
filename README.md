@@ -25,7 +25,7 @@ Avant de pouvoir lancer ce projet localement, assurez-vous d’avoir installé l
 PHP version >= 8.2
 Composer pour la gestion des dépendances
 MySQL pour la base de données
-Node.js pour la gestion des assets (si applicable)
+
 Installation
 Clonez ce repository sur votre machine locale :
 
